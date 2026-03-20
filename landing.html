@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=1440" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Adam Males — Product Designer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,6 +11,15 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /*
+     * Type scale — 6 steps, used consistently throughout
+     * --t-xs:   11px  uppercase labels
+     * --t-sm:   13px  meta, dates, captions
+     * --t-base: 16px  body
+     * --t-md:   18px  project links, writing titles
+     * --t-lg:   32px  company names
+     * --t-hero: fluid hero name
+     */
     :root {
       --bg:    #F7F7F5;
       --ink:   #181818;
@@ -18,14 +27,28 @@
       --ink-3: #616161;
       --rule:  #E0E0DE;
       --f:     'Inter', system-ui, sans-serif;
-      --pad:   300px; /* ~840px content column within 1440px canvas */
+
+      --t-xs:   11px;
+      --t-sm:   13px;
+      --t-base: 16px;
+      --t-md:   18px;
+      --t-lg:   32px;
+      --t-hero: clamp(48px, 8vw, 80px);
+      --t-footer: clamp(28px, 3.5vw, 40px);
+
+      --pad: 300px;
     }
+
+    @media (max-width: 1140px) { :root { --pad: 80px; } }
+    @media (max-width: 720px)  { :root { --pad: 40px; } }
+    @media (max-width: 480px)  { :root { --pad: 24px; } }
 
     html, body {
       background: var(--bg);
       color: var(--ink);
       font-family: var(--f);
-      width: 1440px;
+      max-width: 1440px;
+      width: 100%;
       margin: 0 auto;
       -webkit-font-smoothing: antialiased;
       font-feature-settings: 'ss01' 1, 'cv05' 1;
@@ -34,7 +57,7 @@
     /* ─── NAV ──────────────────────────────────────────────── */
     nav {
       padding: 0 var(--pad);
-      height: 64px;
+      height: 60px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -42,21 +65,21 @@
     }
 
     .nav-name {
-      font-size: 14px;
+      font-size: var(--t-sm);
       font-weight: 600;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
       color: var(--ink);
       text-decoration: none;
     }
 
     .nav-links {
       display: flex;
-      gap: 40px;
+      gap: 32px;
       list-style: none;
     }
 
     .nav-links a {
-      font-size: 13px;
+      font-size: var(--t-sm);
       font-weight: 400;
       color: var(--ink-3);
       text-decoration: none;
@@ -64,31 +87,32 @@
 
     /* ─── HERO ─────────────────────────────────────────────── */
     .hero {
-      padding: 120px var(--pad) 104px;
+      padding: 96px var(--pad) 88px;
     }
 
-    .hero-eyebrow {
-      font-size: 13px;
+.hero-eyebrow {
+      font-size: var(--t-sm);
       font-weight: 400;
       color: var(--ink-3);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .hero-name {
-      font-size: 96px;
+      font-size: var(--t-hero);
       font-weight: 700;
       line-height: 0.92;
       letter-spacing: -0.04em;
       color: var(--ink);
-      margin-bottom: 40px;
+      margin-bottom: 32px;
     }
 
     .hero-statement {
-      font-size: 19px;
+      font-size: var(--t-base);
       font-weight: 300;
-      line-height: 1.65;
+      line-height: 1.7;
       color: var(--ink-2);
-      margin-bottom: 36px;
+      max-width: 520px;
+      margin-bottom: 28px;
     }
 
     .hero-statement strong {
@@ -103,26 +127,26 @@
     }
 
     .avail-dot {
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: #4A8C62;
       flex-shrink: 0;
     }
 
     .avail-text {
-      font-size: 13px;
+      font-size: var(--t-sm);
       font-weight: 400;
       color: var(--ink-3);
     }
 
     /* ─── SECTION LABEL ─────────────────────────────────────── */
     .sec-label {
-      padding: 72px var(--pad) 40px;
+      padding: 64px var(--pad) 32px;
     }
 
     .sec-name {
-      font-size: 11px;
+      font-size: var(--t-xs);
       font-weight: 500;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -131,11 +155,11 @@
 
     /* ─── TIMELINE ──────────────────────────────────────────── */
     .timeline {
-      padding: 0 var(--pad) 96px;
+      padding: 0 var(--pad) 80px;
     }
 
     .tl-entry {
-      padding: 48px 0;
+      padding: 40px 0;
     }
 
     .tl-entry + .tl-entry {
@@ -146,35 +170,37 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
+      gap: 16px;
       margin-bottom: 4px;
     }
 
     .tl-company {
-      font-size: 40px;
+      font-size: var(--t-lg);
       font-weight: 600;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.025em;
       color: var(--ink);
       line-height: 1;
     }
 
     .tl-dates {
-      font-size: 12px;
+      font-size: var(--t-sm);
       font-weight: 300;
       color: var(--ink-3);
       font-variant-numeric: tabular-nums;
+      white-space: nowrap;
     }
 
     .tl-meta {
-      font-size: 13px;
+      font-size: var(--t-sm);
       font-weight: 400;
       color: var(--ink-3);
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
     .tl-projects { list-style: none; }
 
     .tl-project {
-      padding: 16px 0;
+      padding: 14px 0;
     }
 
     .tl-project + .tl-project {
@@ -182,16 +208,16 @@
     }
 
     .tl-proj-link {
-      font-size: 20px;
+      font-size: var(--t-md);
       font-weight: 500;
       color: var(--ink);
       text-decoration: none;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.015em;
     }
 
     .tl-proj-link::after {
       content: ' ↗';
-      font-size: 13px;
+      font-size: var(--t-sm);
       color: var(--ink-3);
       font-weight: 400;
     }
@@ -201,103 +227,112 @@
     }
 
     .tl-proj-locked {
-      font-size: 20px;
+      font-size: var(--t-md);
       font-weight: 500;
       color: var(--ink);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.015em;
     }
 
     /* ─── ABOUT ─────────────────────────────────────────────── */
     .about-section {
-      padding: 0 var(--pad) 96px;
+      padding: 0 var(--pad) 80px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 64px;
+      gap: 56px;
+    }
+
+    @media (max-width: 720px) {
+      .about-section {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
     }
 
     .about-text {
-      font-size: 22px;
+      font-size: var(--t-md);
       font-weight: 500;
-      line-height: 1.5;
-      letter-spacing: -0.02em;
+      line-height: 1.55;
+      letter-spacing: -0.015em;
       color: var(--ink);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .about-body {
-      font-size: 16px;
+      font-size: var(--t-base);
       font-weight: 300;
       line-height: 1.75;
       color: var(--ink-2);
     }
 
     .cap-label {
-      font-size: 11px;
+      font-size: var(--t-xs);
       font-weight: 500;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--ink-3);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     .cap-list { list-style: none; }
 
     .cap-list li {
-      font-size: 14px;
+      font-size: var(--t-base);
       font-weight: 400;
       color: var(--ink-2);
-      padding: 12px 0;
+      padding: 10px 0;
     }
 
     /* ─── WRITING ───────────────────────────────────────────── */
     .writing-section {
-      padding: 0 var(--pad) 96px;
+      padding: 0 var(--pad) 80px;
     }
 
     .writing-entry {
       display: grid;
-      grid-template-columns: 44px 1fr;
-      gap: 32px;
+      grid-template-columns: 40px 1fr;
+      gap: 28px;
       align-items: baseline;
-      padding: 22px 0;
+      padding: 20px 0;
       border-bottom: 1px solid var(--rule);
       text-decoration: none;
     }
 
     .writing-entry:first-child { border-top: 1px solid var(--rule); }
 
-    .w-year  { font-size: 12px; font-weight: 300; color: var(--ink-3); }
-    .w-title { font-size: 18px; font-weight: 500; color: var(--ink); letter-spacing: -0.015em; }
+    .w-year  { font-size: var(--t-sm); font-weight: 300; color: var(--ink-3); }
+    .w-title { font-size: var(--t-md); font-weight: 500; color: var(--ink); letter-spacing: -0.015em; }
 
     /* ─── FOOTER ────────────────────────────────────────────── */
     footer {
-      padding: 72px var(--pad) 64px;
+      padding: 64px var(--pad) 56px;
       border-top: 1px solid var(--rule);
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
+      gap: 40px;
+      flex-wrap: wrap;
     }
 
     .footer-statement {
-      font-size: 44px;
+      font-size: var(--t-footer);
       font-weight: 600;
-      line-height: 1.0;
-      letter-spacing: -0.03em;
+      line-height: 1.05;
+      letter-spacing: -0.025em;
       color: var(--ink);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .footer-email {
-      font-size: 15px;
+      font-size: var(--t-base);
       font-weight: 400;
       color: var(--ink-2);
       text-decoration: none;
       display: block;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .footer-copy {
-      font-size: 12px;
+      font-size: var(--t-sm);
       font-weight: 300;
       color: var(--ink-3);
     }
@@ -306,11 +341,11 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 12px;
+      gap: 10px;
     }
 
     .footer-link {
-      font-size: 14px;
+      font-size: var(--t-sm);
       font-weight: 400;
       color: var(--ink-3);
       text-decoration: none;
@@ -318,15 +353,6 @@
   </style>
 </head>
 <body>
-
-  <!-- NAV -->
-  <nav>
-    <a class="nav-name" href="/">Adam Males</a>
-    <ul class="nav-links">
-      <li><a href="/resume.html">Resume</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </nav>
 
   <!-- HERO -->
   <section class="hero">
@@ -457,18 +483,6 @@
     </a>
   </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div>
-      <p class="footer-statement">Let's find<br>the right<br>next thing.</p>
-      <a class="footer-email" href="mailto:hello@adammales.com">hello@adammales.com</a>
-      <p class="footer-copy">© 2025 Adam Males</p>
-    </div>
-    <div class="footer-links">
-      <a class="footer-link" href="#">LinkedIn ↗</a>
-      <a class="footer-link" href="/resume.html">Resume ↗</a>
-    </div>
-  </footer>
 
 </body>
 </html>

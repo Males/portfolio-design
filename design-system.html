@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adam Males — Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:    #F7F7F5;
+      --ink:   #181818;
+      --ink-2: #525252;
+      --ink-3: #616161;
+      --rule:  #E0E0DE;
+      --f:     'Inter', system-ui, sans-serif;
+
+      --t-xs:   11px;
+      --t-sm:   13px;
+      --t-base: 16px;
+      --t-md:   18px;
+      --t-lg:   32px;
+      --t-hero: 80px;
+      --t-footer: 40px;
+
+      --pad: 80px;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--f);
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: 'ss01' 1, 'cv05' 1;
+    }
+
+    /* ─── PAGE HEADER ───────────────────────────────────────── */
+    .ds-header {
+      padding: 64px var(--pad) 56px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .ds-title {
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 12px;
+    }
+
+    .ds-name {
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: -0.035em;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .ds-desc {
+      font-size: var(--t-base);
+      font-weight: 300;
+      color: var(--ink-2);
+    }
+
+    /* ─── SECTION ───────────────────────────────────────────── */
+    .ds-section {
+      padding: 64px var(--pad);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .ds-section-title {
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 48px;
+    }
+
+    /* ─── COLOUR ────────────────────────────────────────────── */
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+    }
+
+    .color-swatch {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .swatch-block {
+      height: 80px;
+      border-radius: 4px;
+      border: 1px solid var(--rule);
+    }
+
+    .swatch-name {
+      font-size: var(--t-sm);
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .swatch-value {
+      font-size: var(--t-xs);
+      font-weight: 400;
+      color: var(--ink-3);
+      font-variant-numeric: tabular-nums;
+      margin-top: 2px;
+    }
+
+    .swatch-ratio {
+      font-size: var(--t-xs);
+      font-weight: 400;
+      color: var(--ink-3);
+    }
+
+    /* ─── TYPOGRAPHY ────────────────────────────────────────── */
+    .type-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .type-row {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 40px;
+      align-items: baseline;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .type-row:first-child { border-top: 1px solid var(--rule); }
+
+    .type-meta { display: flex; flex-direction: column; gap: 4px; }
+
+    .type-token {
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--ink-3);
+      text-transform: uppercase;
+    }
+
+    .type-spec {
+      font-size: var(--t-xs);
+      font-weight: 400;
+      color: var(--ink-3);
+    }
+
+    .type-sample-xs   { font-size: var(--t-xs);   font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+    .type-sample-sm   { font-size: var(--t-sm);   font-weight: 400; color: var(--ink-2); }
+    .type-sample-base { font-size: var(--t-base); font-weight: 300; color: var(--ink-2); line-height: 1.7; }
+    .type-sample-md   { font-size: var(--t-md);   font-weight: 500; color: var(--ink); letter-spacing: -0.015em; }
+    .type-sample-lg   { font-size: var(--t-lg);   font-weight: 600; color: var(--ink); letter-spacing: -0.025em; line-height: 1; }
+    .type-sample-hero { font-size: 56px;           font-weight: 700; color: var(--ink); letter-spacing: -0.04em;  line-height: 0.92; }
+
+    /* ─── SPACING ───────────────────────────────────────────── */
+    .spacing-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .spacing-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .spacing-label {
+      font-size: var(--t-xs);
+      font-weight: 500;
+      color: var(--ink-3);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      width: 80px;
+      flex-shrink: 0;
+    }
+
+    .spacing-bar {
+      background: var(--ink);
+      height: 4px;
+      border-radius: 2px;
+    }
+
+    .spacing-value {
+      font-size: var(--t-sm);
+      font-weight: 300;
+      color: var(--ink-3);
+      white-space: nowrap;
+    }
+
+    /* ─── COMPONENTS ────────────────────────────────────────── */
+    .component-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+
+    .component-block { display: flex; flex-direction: column; gap: 16px; }
+
+    .component-label {
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    /* Nav */
+    .demo-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+      height: 60px;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+    }
+
+    .demo-nav-name {
+      font-size: var(--t-sm);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+
+    .demo-nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .demo-nav-links a {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      text-decoration: none;
+    }
+
+    /* Timeline entry */
+    .demo-tl {
+      padding: 24px;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+    }
+
+    .demo-tl-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+
+    .demo-tl-company {
+      font-size: var(--t-lg);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+      line-height: 1;
+    }
+
+    .demo-tl-dates {
+      font-size: var(--t-sm);
+      font-weight: 300;
+      color: var(--ink-3);
+    }
+
+    .demo-tl-meta {
+      font-size: var(--t-sm);
+      color: var(--ink-3);
+      margin-bottom: 20px;
+    }
+
+    .demo-proj-link {
+      font-size: var(--t-md);
+      font-weight: 500;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.015em;
+    }
+
+    .demo-proj-link::after {
+      content: ' ↗';
+      font-size: var(--t-sm);
+      color: var(--ink-3);
+      font-weight: 400;
+    }
+
+    .demo-proj-locked {
+      font-size: var(--t-md);
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: -0.015em;
+      opacity: 0.35;
+      display: block;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--rule);
+    }
+
+    /* Section label */
+    .demo-sec-label {
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    /* Availability */
+    .demo-avail {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .demo-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4A8C62;
+    }
+
+    .demo-avail-text {
+      font-size: var(--t-sm);
+      color: var(--ink-3);
+    }
+
+    /* Writing entry */
+    .demo-writing {
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .demo-writing-entry {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 28px;
+      align-items: baseline;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+    }
+
+    .demo-writing-entry:last-child { border-bottom: none; }
+
+    .demo-w-year  { font-size: var(--t-sm); font-weight: 300; color: var(--ink-3); }
+    .demo-w-title { font-size: var(--t-md); font-weight: 500; color: var(--ink); letter-spacing: -0.015em; }
+
+    /* Divider */
+    .demo-rule {
+      height: 1px;
+      background: var(--rule);
+      width: 100%;
+    }
+
+    /* Rule usage note */
+    .rule-usage {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 32px;
+    }
+
+    .rule-item { display: flex; flex-direction: column; gap: 12px; }
+
+    .rule-label {
+      font-size: var(--t-xs);
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    .rule-note {
+      font-size: var(--t-sm);
+      font-weight: 300;
+      color: var(--ink-2);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="ds-header">
+    <p class="ds-title">Design System</p>
+    <h1 class="ds-name">Adam Males</h1>
+    <p class="ds-desc">Tokens, type scale, spacing, and components used across the portfolio.</p>
+  </div>
+
+  <!-- COLOUR -->
+  <div class="ds-section">
+    <p class="ds-section-title">Colour</p>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#F7F7F5;"></div>
+        <div>
+          <p class="swatch-name">Background</p>
+          <p class="swatch-value">--bg · #F7F7F5</p>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#181818;"></div>
+        <div>
+          <p class="swatch-name">Ink</p>
+          <p class="swatch-value">--ink · #181818</p>
+          <p class="swatch-ratio">16.55:1 — AA ✓</p>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#525252;"></div>
+        <div>
+          <p class="swatch-name">Ink 2</p>
+          <p class="swatch-value">--ink-2 · #525252</p>
+          <p class="swatch-ratio">7.28:1 — AA ✓</p>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#616161;"></div>
+        <div>
+          <p class="swatch-name">Ink 3</p>
+          <p class="swatch-value">--ink-3 · #616161</p>
+          <p class="swatch-ratio">5.77:1 — AA ✓</p>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-block" style="background:#E0E0DE;"></div>
+        <div>
+          <p class="swatch-name">Rule</p>
+          <p class="swatch-value">--rule · #E0E0DE</p>
+          <p class="swatch-ratio">Borders only</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="ds-section">
+    <p class="ds-section-title">Typography · Inter Variable</p>
+    <div class="type-rows">
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">--t-xs</span>
+          <span class="type-spec">11px · 500 · 0.1em tracking</span>
+        </div>
+        <span class="type-sample-xs">Section Label</span>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">--t-sm</span>
+          <span class="type-spec">13px · 400 · body small</span>
+        </div>
+        <span class="type-sample-sm">Meta, dates, captions, nav links</span>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">--t-base</span>
+          <span class="type-spec">16px · 300 · 1.7 leading</span>
+        </div>
+        <span class="type-sample-base">Body copy. Making technically complex systems feel simple and clear.</span>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">--t-md</span>
+          <span class="type-spec">18px · 500 · −0.015em</span>
+        </div>
+        <span class="type-sample-md">Project links, writing titles</span>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">--t-lg</span>
+          <span class="type-spec">32px · 600 · −0.025em</span>
+        </div>
+        <span class="type-sample-lg">Matillion</span>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">--t-hero</span>
+          <span class="type-spec">clamp(48px, 8vw, 80px) · 700 · −0.04em</span>
+        </div>
+        <span class="type-sample-hero">Adam<br>Males.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPACING -->
+  <div class="ds-section">
+    <p class="ds-section-title">Spacing</p>
+    <div class="spacing-rows">
+      <div class="spacing-row">
+        <span class="spacing-label">4px</span>
+        <div class="spacing-bar" style="width:4px;"></div>
+        <span class="spacing-value">Micro — eyebrow to company name</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">12px</span>
+        <div class="spacing-bar" style="width:12px;"></div>
+        <span class="spacing-value">Small — footer link gap</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">20px</span>
+        <div class="spacing-bar" style="width:20px;"></div>
+        <span class="spacing-value">Base — cap label to list</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">32px</span>
+        <div class="spacing-bar" style="width:32px;"></div>
+        <span class="spacing-value">Medium — hero name to statement</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">40px</span>
+        <div class="spacing-bar" style="width:40px;"></div>
+        <span class="spacing-value">Large — timeline entry padding</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">64px</span>
+        <div class="spacing-bar" style="width:64px;"></div>
+        <span class="spacing-value">XL — section label top padding</span>
+      </div>
+      <div class="spacing-row">
+        <span class="spacing-label">96px</span>
+        <div class="spacing-bar" style="width:96px;"></div>
+        <span class="spacing-value">Hero top/bottom padding</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="ds-section">
+    <p class="ds-section-title">Components</p>
+    <div class="component-grid">
+
+      <div class="component-block">
+        <p class="component-label">Nav</p>
+        <nav class="demo-nav">
+          <span class="demo-nav-name">Adam Males</span>
+          <ul class="demo-nav-links">
+            <li><a href="#">Resume</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <div class="component-block">
+        <p class="component-label">Section Label + Availability</p>
+        <div style="display:flex;flex-direction:column;gap:20px;padding:24px;border:1px solid var(--rule);border-radius:4px;">
+          <span class="demo-sec-label">Work</span>
+          <div class="demo-avail">
+            <span class="demo-dot"></span>
+            <span class="demo-avail-text">Open to Staff &amp; Principal roles</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="component-block">
+        <p class="component-label">Timeline Entry</p>
+        <div class="demo-tl">
+          <div class="demo-tl-header">
+            <span class="demo-tl-company">Matillion</span>
+            <span class="demo-tl-dates">2023 – 2025</span>
+          </div>
+          <p class="demo-tl-meta">Group Product Designer · B2B SaaS</p>
+          <a class="demo-proj-link" href="#">From VM to SaaS</a>
+          <span class="demo-proj-locked">AI Copilot</span>
+        </div>
+      </div>
+
+      <div class="component-block">
+        <p class="component-label">Writing Entry</p>
+        <div class="demo-writing">
+          <div class="demo-writing-entry">
+            <span class="demo-w-year">2024</span>
+            <span class="demo-w-title">Tall, dark &amp; slightly rounded</span>
+          </div>
+          <div class="demo-writing-entry">
+            <span class="demo-w-year">2023</span>
+            <span class="demo-w-title">Zencargo and the art of motorcycle maintenance</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RULES -->
+  <div class="ds-section" style="border-bottom:none;">
+    <p class="ds-section-title">Dividers — used sparingly</p>
+    <div class="rule-usage">
+      <div class="rule-item">
+        <div class="demo-rule"></div>
+        <p class="rule-label">Structural</p>
+        <p class="rule-note">Nav bottom, footer top. Marks the boundary between chrome and content.</p>
+      </div>
+      <div class="rule-item">
+        <div class="demo-rule"></div>
+        <p class="rule-label">Between entries</p>
+        <p class="rule-note">Separates timeline employers and project rows within a company. Applied only between siblings.</p>
+      </div>
+      <div class="rule-item">
+        <div class="demo-rule"></div>
+        <p class="rule-label">Content lists</p>
+        <p class="rule-note">Writing entries use top and bottom borders to frame the list as a unit.</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
