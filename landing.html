@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>Adam Males — Product Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:    #F7F7F5;
+      --ink:   #181818;
+      --ink-2: #525252;
+      --ink-3: #616161;
+      --rule:  #E0E0DE;
+      --f:     'Inter', system-ui, sans-serif;
+      --pad:   300px; /* ~840px content column within 1440px canvas */
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--f);
+      width: 1440px;
+      margin: 0 auto;
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: 'ss01' 1, 'cv05' 1;
+    }
+
+    /* ─── NAV ──────────────────────────────────────────────── */
+    nav {
+      padding: 0 var(--pad);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .nav-name {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink-3);
+      text-decoration: none;
+    }
+
+    /* ─── HERO ─────────────────────────────────────────────── */
+    .hero {
+      padding: 120px var(--pad) 104px;
+    }
+
+    .hero-eyebrow {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink-3);
+      margin-bottom: 24px;
+    }
+
+    .hero-name {
+      font-size: 96px;
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+      margin-bottom: 40px;
+    }
+
+    .hero-statement {
+      font-size: 19px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--ink-2);
+      margin-bottom: 36px;
+    }
+
+    .hero-statement strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .hero-avail {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .avail-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #4A8C62;
+      flex-shrink: 0;
+    }
+
+    .avail-text {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink-3);
+    }
+
+    /* ─── SECTION LABEL ─────────────────────────────────────── */
+    .sec-label {
+      padding: 72px var(--pad) 40px;
+    }
+
+    .sec-name {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+
+    /* ─── TIMELINE ──────────────────────────────────────────── */
+    .timeline {
+      padding: 0 var(--pad) 96px;
+    }
+
+    .tl-entry {
+      padding: 48px 0;
+    }
+
+    .tl-entry + .tl-entry {
+      border-top: 1px solid var(--rule);
+    }
+
+    .tl-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+
+    .tl-company {
+      font-size: 40px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      line-height: 1;
+    }
+
+    .tl-dates {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--ink-3);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tl-meta {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink-3);
+      margin-bottom: 28px;
+    }
+
+    .tl-projects { list-style: none; }
+
+    .tl-project {
+      padding: 16px 0;
+    }
+
+    .tl-project + .tl-project {
+      border-top: 1px solid var(--rule);
+    }
+
+    .tl-proj-link {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .tl-proj-link::after {
+      content: ' ↗';
+      font-size: 13px;
+      color: var(--ink-3);
+      font-weight: 400;
+    }
+
+    .tl-project.locked {
+      opacity: 0.35;
+    }
+
+    .tl-proj-locked {
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    /* ─── ABOUT ─────────────────────────────────────────────── */
+    .about-section {
+      padding: 0 var(--pad) 96px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+    }
+
+    .about-text {
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1.5;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 20px;
+    }
+
+    .about-body {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-2);
+    }
+
+    .cap-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 20px;
+    }
+
+    .cap-list { list-style: none; }
+
+    .cap-list li {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--ink-2);
+      padding: 12px 0;
+    }
+
+    /* ─── WRITING ───────────────────────────────────────────── */
+    .writing-section {
+      padding: 0 var(--pad) 96px;
+    }
+
+    .writing-entry {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 32px;
+      align-items: baseline;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+    }
+
+    .writing-entry:first-child { border-top: 1px solid var(--rule); }
+
+    .w-year  { font-size: 12px; font-weight: 300; color: var(--ink-3); }
+    .w-title { font-size: 18px; font-weight: 500; color: var(--ink); letter-spacing: -0.015em; }
+
+    /* ─── FOOTER ────────────────────────────────────────────── */
+    footer {
+      padding: 72px var(--pad) 64px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .footer-statement {
+      font-size: 44px;
+      font-weight: 600;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+
+    .footer-email {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--ink-2);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 24px;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--ink-3);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .footer-link {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--ink-3);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-name" href="/">Adam Males</a>
+    <ul class="nav-links">
+      <li><a href="/resume.html">Resume</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow">Product Designer — Staff / Principal</p>
+    <h1 class="hero-name">Adam<br>Males.</h1>
+    <p class="hero-statement">
+      <strong>10+ years designing products people use to do serious work.</strong> I specialise in making technically complex systems — data pipelines, logistics platforms, e-commerce — feel simple and clear. IC and player-coach, depending on what the problem needs.
+    </p>
+    <div class="hero-avail">
+      <span class="avail-dot"></span>
+      <span class="avail-text">Open to Staff &amp; Principal roles</span>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <div class="sec-label">
+    <span class="sec-name">Work</span>
+  </div>
+
+  <section class="timeline">
+
+    <div class="tl-entry">
+      <div class="tl-header">
+        <span class="tl-company">Algolia</span>
+        <span class="tl-dates">2025 – Present</span>
+      </div>
+      <p class="tl-meta">Product Designer · Search &amp; Discovery</p>
+      <ul class="tl-projects">
+        <li class="tl-project locked">
+          <span class="tl-proj-locked">Case study in preparation</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tl-entry">
+      <div class="tl-header">
+        <span class="tl-company">Matillion</span>
+        <span class="tl-dates">2023 – 2025</span>
+      </div>
+      <p class="tl-meta">Group Product Designer · B2B SaaS · Data Integration</p>
+      <ul class="tl-projects">
+        <li class="tl-project">
+          <a class="tl-proj-link" href="#">From VM to SaaS</a>
+        </li>
+        <li class="tl-project locked">
+          <span class="tl-proj-locked">AI Copilot</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tl-entry">
+      <div class="tl-header">
+        <span class="tl-company">Zencargo</span>
+        <span class="tl-dates">2019 – 2023</span>
+      </div>
+      <p class="tl-meta">Lead Product Designer · B2B SaaS · Supply Chain</p>
+      <ul class="tl-projects">
+        <li class="tl-project">
+          <a class="tl-proj-link" href="#">Streamlining the Enigma</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tl-entry">
+      <div class="tl-header">
+        <span class="tl-company">Intu</span>
+        <span class="tl-dates">2018 – 2019</span>
+      </div>
+      <p class="tl-meta">Senior UX Designer · B2C · Retail &amp; E-commerce</p>
+      <ul class="tl-projects">
+        <li class="tl-project locked">
+          <span class="tl-proj-locked">Search &amp; Discovery Redesign</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tl-entry">
+      <div class="tl-header">
+        <span class="tl-company">Swoon</span>
+        <span class="tl-dates">2014 – 2018</span>
+      </div>
+      <p class="tl-meta">UX &amp; UI Designer · B2C · Furniture E-commerce</p>
+      <ul class="tl-projects">
+        <li class="tl-project">
+          <a class="tl-proj-link" href="#">Selling Without Walls</a>
+        </li>
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- ABOUT -->
+  <div class="sec-label">
+    <span class="sec-name">About</span>
+  </div>
+
+  <section class="about-section">
+    <div>
+      <p class="about-text">I design at the intersection of product complexity and human clarity.</p>
+      <p class="about-body">I've worked across logistics, data infrastructure, retail, and e-commerce for 10+ years. The domain changes; the problem stays the same — understand what's genuinely hard, find the simplest design that holds up, help the team ship it. I work at the detail level and the strategy level, switching based on what the problem needs.</p>
+    </div>
+    <div>
+      <p class="cap-label">Where I operate</p>
+      <ul class="cap-list">
+        <li>Complex B2B SaaS &amp; data products</li>
+        <li>AI-assisted product experiences</li>
+        <li>Design systems &amp; infrastructure</li>
+        <li>E-commerce &amp; consumer</li>
+        <li>IC &amp; player-coach leadership</li>
+        <li>Research &amp; strategic alignment</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- WRITING -->
+  <div class="sec-label">
+    <span class="sec-name">Writing</span>
+  </div>
+
+  <section class="writing-section">
+    <a class="writing-entry" href="#">
+      <span class="w-year">2024</span>
+      <span class="w-title">Tall, dark &amp; slightly rounded</span>
+    </a>
+    <a class="writing-entry" href="#">
+      <span class="w-year">2023</span>
+      <span class="w-title">Zencargo and the art of motorcycle maintenance</span>
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>
+      <p class="footer-statement">Let's find<br>the right<br>next thing.</p>
+      <a class="footer-email" href="mailto:hello@adammales.com">hello@adammales.com</a>
+      <p class="footer-copy">© 2025 Adam Males</p>
+    </div>
+    <div class="footer-links">
+      <a class="footer-link" href="#">LinkedIn ↗</a>
+      <a class="footer-link" href="/resume.html">Resume ↗</a>
+    </div>
+  </footer>
+
+</body>
+</html>

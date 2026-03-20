@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1440" />
+  <title>Adam Males — Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:    #F7F7F5;
+      --ink:   #181818;   /* 16.55:1 — AA ✓ */
+      --ink-2: #525252;   /*  7.28:1 — AA ✓ */
+      --ink-3: #616161;   /*  5.77:1 — AA ✓ */
+      --rule:  #E0E0DE;
+      --f:     'Inter', system-ui, sans-serif;
+      --pad:   80px;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--f);
+      width: 1440px;
+      margin: 0 auto;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── NAV ──────────────────────────────────────────────── */
+    nav {
+      padding: 0 var(--pad);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .nav-name {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink-3);
+      text-decoration: none;
+    }
+
+    .nav-links a.active {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    /* ─── HEADER ─────────────────────────────────────────────── */
+    .resume-header {
+      padding: 80px var(--pad) 80px;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 80px;
+      align-items: end;
+    }
+
+    .rh-eyebrow {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink-3);
+      margin-bottom: 24px;
+    }
+
+    .rh-name {
+      font-size: 88px;
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -0.045em;
+      color: var(--ink);
+      margin-bottom: 36px;
+    }
+
+    .rh-statement {
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--ink-2);
+      max-width: 600px;
+    }
+
+    .rh-statement strong { color: var(--ink); font-weight: 500; }
+
+    .rh-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: flex-end;
+      gap: 10px;
+      height: 100%;
+    }
+
+    .rh-contact {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink-3);
+      text-align: right;
+      text-decoration: none;
+    }
+
+    .rh-contact:hover { color: var(--ink-2); }
+
+    .rh-download {
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .rh-download::after { content: '↓'; }
+
+    /* ─── BODY GRID ─────────────────────────────────────────── */
+    .resume-body {
+      padding: 0 var(--pad) 96px;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 80px;
+    }
+
+    /* ─── EXPERIENCE ─────────────────────────────────────────── */
+    .exp-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 56px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .exp-entry {
+      margin-bottom: 56px;
+      padding-bottom: 56px;
+    }
+
+    /* Use a rule only to separate experience entries */
+    .exp-entry + .exp-entry {
+      border-top: 1px solid var(--rule);
+      padding-top: 0;
+      margin-top: 0;
+    }
+
+    .exp-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .exp-company {
+      font-size: 36px;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      color: var(--ink);
+    }
+
+    .exp-dates {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--ink-3);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .exp-role {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink-2);
+      margin-bottom: 4px;
+      letter-spacing: 0.01em;
+    }
+
+    .exp-context {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--ink-3);
+      font-style: italic;
+      margin-bottom: 28px;
+    }
+
+    /* Bullets — no borders, spacing only */
+    .exp-bullets { list-style: none; }
+
+    .exp-bullets li {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-2);
+      padding: 7px 0 7px 20px;
+      position: relative;
+    }
+
+    .exp-bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      font-size: 11px;
+      color: var(--ink-3);
+      top: 9px;
+    }
+
+    .exp-bullets li strong { color: var(--ink); font-weight: 500; }
+
+    /* ─── ASIDE ─────────────────────────────────────────────── */
+    .aside-block { margin-bottom: 48px; }
+    .aside-block:last-child { margin-bottom: 0; }
+
+    .aside-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    /* No borders between aside items — spacing only */
+    .aside-list { list-style: none; }
+
+    .aside-list li {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--ink-2);
+      padding: 8px 0;
+    }
+
+    .aside-list li em {
+      font-style: normal;
+      font-size: 12px;
+      color: var(--ink-3);
+    }
+
+    .edu-item { padding: 8px 0; }
+
+    .edu-school {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+
+    .edu-degree {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--ink-3);
+    }
+
+    /* ─── FOOTER ────────────────────────────────────────────── */
+    footer {
+      padding: 40px var(--pad);
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-back {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink-3);
+      text-decoration: none;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--ink-3);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-name" href="/landing.html">Adam Males</a>
+    <ul class="nav-links">
+      <li><a class="active" href="#">Resume</a></li>
+      <li><a href="/landing.html">Work</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HEADER -->
+  <div class="resume-header">
+    <div>
+      <p class="rh-eyebrow">Product Designer — Staff / Principal</p>
+      <h1 class="rh-name">Adam<br>Males.</h1>
+      <p class="rh-statement">
+        <strong>10+ years designing products that do hard things simply.</strong> B2B SaaS, data infrastructure, e-commerce, consumer. I've led design teams, shipped AI features, and launched SaaS products from scratch. IC and player-coach — whatever the team needs.
+      </p>
+    </div>
+    <div class="rh-right">
+      <a class="rh-contact" href="mailto:hello@adammales.com">hello@adammales.com</a>
+      <a class="rh-contact" href="#">linkedin.com/in/adam-males</a>
+      <span class="rh-contact">England, United Kingdom</span>
+      <a class="rh-download" href="#">Download PDF</a>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="resume-body">
+
+    <div>
+      <p class="exp-label">Experience — 2014 to 2025</p>
+
+      <div class="exp-entry">
+        <div class="exp-top">
+          <span class="exp-company">Matillion</span>
+          <span class="exp-dates">Jan 2023 – Mar 2025</span>
+        </div>
+        <p class="exp-role">Group Product Designer</p>
+        <p class="exp-context">B2B SaaS · Data integration &amp; ETL platform · Remote</p>
+        <ul class="exp-bullets">
+          <li><strong>Led the design of Matillion's transition from a VM product to a unified SaaS platform</strong> — a company-defining initiative improving adoption and retention.</li>
+          <li><strong>Shipped the AI Copilot feature</strong>, reducing the learning curve on a technically demanding ETL product and improving daily user productivity.</li>
+          <li>Unified fragmented tools into a single platform — the primary interface for customers' data pipeline work.</li>
+          <li>Built and led the design team, setting standards and embedding a user-first culture across product development.</li>
+        </ul>
+      </div>
+
+      <div class="exp-entry">
+        <div class="exp-top">
+          <span class="exp-company">Zencargo</span>
+          <span class="exp-dates">Mar 2019 – Jan 2023</span>
+        </div>
+        <p class="exp-role">Lead Product Designer</p>
+        <p class="exp-context">B2B SaaS · Supply chain visibility · London / Remote</p>
+        <ul class="exp-bullets">
+          <li><strong>Directed design of the core supply chain visibility platform</strong>, turning a complex freight data model into a tool operators could navigate without training.</li>
+          <li>Managed and mentored a team of designers, raising output quality and supporting professional growth.</li>
+          <li>Balanced customer needs with business objectives through continuous research and stakeholder alignment.</li>
+          <li>Defined design processes that improved cross-functional collaboration across product, engineering, and commercial.</li>
+        </ul>
+      </div>
+
+      <div class="exp-entry">
+        <div class="exp-top">
+          <span class="exp-company">Intu</span>
+          <span class="exp-dates">Jun 2018 – Mar 2019</span>
+        </div>
+        <p class="exp-role">Senior UX Designer</p>
+        <p class="exp-context">B2C · Retail &amp; e-commerce platform · London</p>
+        <ul class="exp-bullets">
+          <li><strong>Redesigned search across multiple domains</strong>, increasing usability and engagement through research-informed information architecture.</li>
+          <li>Ran user testing, interviews, and guerrilla testing to validate decisions rapidly.</li>
+          <li>Improved navigation and taxonomy using card sorting and tree testing, reducing friction platform-wide.</li>
+        </ul>
+      </div>
+
+      <div class="exp-entry">
+        <div class="exp-top">
+          <span class="exp-company">Swoon</span>
+          <span class="exp-dates">Apr 2014 – Jun 2018</span>
+        </div>
+        <p class="exp-role">UX &amp; UI Designer</p>
+        <p class="exp-context">B2C · Furniture e-commerce · London</p>
+        <ul class="exp-bullets">
+          <li><strong>Redesigned the product page, improving conversion</strong> through fabric selection functionality informed by data analytics.</li>
+          <li>Managed a team of 3 designers across imagery, marketing, and branding alongside core design work.</li>
+          <li>Delivered campaigns for major publications and large-scale London Underground advertisements.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ASIDE -->
+    <div>
+      <div class="aside-block">
+        <p class="aside-label">Domains</p>
+        <ul class="aside-list">
+          <li>B2B SaaS &amp; data products</li>
+          <li>AI-assisted experiences</li>
+          <li>Design systems</li>
+          <li>E-commerce &amp; consumer</li>
+          <li>Supply chain &amp; logistics</li>
+        </ul>
+      </div>
+
+      <div class="aside-block">
+        <p class="aside-label">Capabilities</p>
+        <ul class="aside-list">
+          <li>Product strategy &amp; direction</li>
+          <li>IC &amp; player-coach leadership</li>
+          <li>Design team building</li>
+          <li>User research &amp; synthesis</li>
+          <li>Stakeholder alignment</li>
+          <li>Systems &amp; prototyping</li>
+        </ul>
+      </div>
+
+      <div class="aside-block">
+        <p class="aside-label">Tools</p>
+        <ul class="aside-list">
+          <li>Figma <em>— primary</em></li>
+          <li>Prototyping &amp; interaction</li>
+          <li>Design system tooling</li>
+          <li>Analytics-informed design</li>
+        </ul>
+      </div>
+
+      <div class="aside-block">
+        <p class="aside-label">Education</p>
+        <div class="edu-item">
+          <p class="edu-school">Your University</p>
+          <p class="edu-degree">Degree · Subject · Year</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <a class="footer-back" href="/landing.html">← Back to work</a>
+    <p class="footer-copy">© 2025 Adam Males</p>
+  </footer>
+
+</body>
+</html>
