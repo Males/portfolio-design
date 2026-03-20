@@ -11,30 +11,27 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /*
-     * Type scale — 6 steps, used consistently throughout
-     * --t-xs:   11px  uppercase labels
-     * --t-sm:   13px  meta, dates, captions
-     * --t-base: 16px  body
-     * --t-md:   18px  project links, writing titles
-     * --t-lg:   32px  company names
-     * --t-hero: fluid hero name
-     */
     :root {
       --bg:    #F7F7F5;
       --ink:   #181818;
       --ink-2: #525252;
       --ink-3: #616161;
-      --rule:  #E0E0DE;
       --f:     'Inter', system-ui, sans-serif;
 
-      --t-xs:   11px;
-      --t-sm:   13px;
+      /* spacing */
+      --micro: 4px;
+      --sml:   12px;
+      --base:  20px;
+      --med:   32px;
+      --xl:    64px;
+      --hero:  96px;
+
+      /* type */
+      --t-sm:   12px;
+      --t-body: 13px;
       --t-base: 16px;
       --t-md:   18px;
-      --t-lg:   32px;
-      --t-hero: clamp(48px, 8vw, 80px);
-      --t-footer: clamp(28px, 3.5vw, 40px);
+      --t-name: clamp(48px, 8vw, 80px);
 
       --pad: 300px;
     }
@@ -54,56 +51,26 @@
       font-feature-settings: 'ss01' 1, 'cv05' 1;
     }
 
-    /* ─── NAV ──────────────────────────────────────────────── */
-    nav {
-      padding: 0 var(--pad);
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--rule);
-    }
-
-    .nav-name {
-      font-size: var(--t-sm);
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      color: var(--ink);
-      text-decoration: none;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
-      text-decoration: none;
-    }
-
     /* ─── HERO ─────────────────────────────────────────────── */
     .hero {
-      padding: 96px var(--pad) 88px;
+      padding: var(--hero) var(--pad) var(--xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--med);
     }
 
-.hero-eyebrow {
-      font-size: var(--t-sm);
+    .hero-eyebrow {
+      font-size: var(--t-body);
       font-weight: 400;
       color: var(--ink-3);
-      margin-bottom: 20px;
     }
 
     .hero-name {
-      font-size: var(--t-hero);
+      font-size: var(--t-name);
       font-weight: 700;
       line-height: 0.92;
       letter-spacing: -0.04em;
       color: var(--ink);
-      margin-bottom: 32px;
     }
 
     .hero-statement {
@@ -111,8 +78,7 @@
       font-weight: 300;
       line-height: 1.7;
       color: var(--ink-2);
-      max-width: 520px;
-      margin-bottom: 28px;
+      max-width: 480px;
     }
 
     .hero-statement strong {
@@ -120,235 +86,121 @@
       color: var(--ink);
     }
 
-    .hero-avail {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .avail-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: #4A8C62;
-      flex-shrink: 0;
-    }
-
-    .avail-text {
-      font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
-    }
-
     /* ─── SECTION LABEL ─────────────────────────────────────── */
     .sec-label {
-      padding: 64px var(--pad) 32px;
+      padding: var(--sml) var(--pad);
     }
 
     .sec-name {
-      font-size: var(--t-xs);
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ink-3);
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink);
     }
 
-    /* ─── TIMELINE ──────────────────────────────────────────── */
-    .timeline {
-      padding: 0 var(--pad) 80px;
+    /* ─── WORK LIST ─────────────────────────────────────────── */
+    .work-list {
+      padding: var(--base) var(--pad) var(--xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--med);
+      list-style: none;
     }
 
-    .tl-entry {
-      padding: 40px 0;
-    }
-
-    .tl-entry + .tl-entry {
-      border-top: 1px solid var(--rule);
-    }
-
-    .tl-header {
+    .work-item {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
-      gap: 16px;
-      margin-bottom: 4px;
+      align-items: flex-end;
+      gap: var(--med);
     }
 
-    .tl-company {
-      font-size: var(--t-lg);
-      font-weight: 600;
-      letter-spacing: -0.025em;
-      color: var(--ink);
-      line-height: 1;
-    }
 
-    .tl-dates {
-      font-size: var(--t-sm);
-      font-weight: 300;
-      color: var(--ink-3);
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
-    }
-
-    .tl-meta {
-      font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
-      margin-bottom: 24px;
-    }
-
-    .tl-projects { list-style: none; }
-
-    .tl-project {
-      padding: 14px 0;
-    }
-
-    .tl-project + .tl-project {
-      border-top: 1px solid var(--rule);
-    }
-
-    .tl-proj-link {
+    .work-title {
       font-size: var(--t-md);
       font-weight: 500;
       color: var(--ink);
+      letter-spacing: -0.015em;
       text-decoration: none;
-      letter-spacing: -0.015em;
     }
 
-    .tl-proj-link::after {
-      content: ' ↗';
-      font-size: var(--t-sm);
+    .work-title::after {
+      content: ' (coming soon)';
+      font-size: var(--t-body);
       color: var(--ink-3);
-      font-weight: 400;
+      font-weight: 300;
     }
 
-    .tl-project.locked {
-      opacity: 0.35;
+    .work-meta {
+      display: flex;
+      align-items: center;
+      gap: var(--sml);
+      flex-shrink: 0;
     }
 
-    .tl-proj-locked {
-      font-size: var(--t-md);
-      font-weight: 500;
-      color: var(--ink);
-      letter-spacing: -0.015em;
-    }
-
-    /* ─── ABOUT ─────────────────────────────────────────────── */
-    .about-section {
-      padding: 0 var(--pad) 80px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 56px;
-    }
-
-    @media (max-width: 720px) {
-      .about-section {
-        grid-template-columns: 1fr;
-        gap: 40px;
-      }
-    }
-
-    .about-text {
-      font-size: var(--t-md);
-      font-weight: 500;
-      line-height: 1.55;
-      letter-spacing: -0.015em;
-      color: var(--ink);
-      margin-bottom: 16px;
-    }
-
-    .about-body {
+    .work-company {
       font-size: var(--t-base);
       font-weight: 300;
-      line-height: 1.75;
-      color: var(--ink-2);
+      color: var(--ink);
     }
 
-    .cap-label {
-      font-size: var(--t-xs);
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-      margin-bottom: 16px;
-    }
-
-    .cap-list { list-style: none; }
-
-    .cap-list li {
+    .work-year {
       font-size: var(--t-base);
+      font-weight: 300;
+      color: var(--ink-2);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ─── TESTIMONIALS ──────────────────────────────────────── */
+    .testimonials {
+      padding: var(--base) var(--pad) var(--xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--med);
+    }
+
+    .testimonial-quote {
+      font-size: var(--t-md);
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: -0.015em;
+      margin-bottom: var(--micro);
+    }
+
+    .testimonial-attr {
+      font-size: var(--t-sm);
       font-weight: 400;
       color: var(--ink-2);
-      padding: 10px 0;
     }
 
     /* ─── WRITING ───────────────────────────────────────────── */
-    .writing-section {
-      padding: 0 var(--pad) 80px;
-    }
-
-    .writing-entry {
-      display: grid;
-      grid-template-columns: 40px 1fr;
-      gap: 28px;
-      align-items: baseline;
-      padding: 20px 0;
-      border-bottom: 1px solid var(--rule);
-      text-decoration: none;
-    }
-
-    .writing-entry:first-child { border-top: 1px solid var(--rule); }
-
-    .w-year  { font-size: var(--t-sm); font-weight: 300; color: var(--ink-3); }
-    .w-title { font-size: var(--t-md); font-weight: 500; color: var(--ink); letter-spacing: -0.015em; }
-
-    /* ─── FOOTER ────────────────────────────────────────────── */
-    footer {
-      padding: 64px var(--pad) 56px;
-      border-top: 1px solid var(--rule);
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-
-    .footer-statement {
-      font-size: var(--t-footer);
-      font-weight: 600;
-      line-height: 1.05;
-      letter-spacing: -0.025em;
-      color: var(--ink);
-      margin-bottom: 20px;
-    }
-
-    .footer-email {
-      font-size: var(--t-base);
-      font-weight: 400;
-      color: var(--ink-2);
-      text-decoration: none;
-      display: block;
-      margin-bottom: 20px;
-    }
-
-    .footer-copy {
-      font-size: var(--t-sm);
-      font-weight: 300;
-      color: var(--ink-3);
-    }
-
-    .footer-links {
+    .writing-list {
+      padding: var(--base) var(--pad) var(--hero);
       display: flex;
       flex-direction: column;
-      align-items: flex-end;
-      gap: 10px;
+      gap: var(--med);
+      list-style: none;
     }
 
-    .footer-link {
-      font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
+    .writing-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--med);
       text-decoration: none;
+    }
+
+    .writing-title {
+      font-size: var(--t-md);
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: -0.015em;
+    }
+
+    .writing-year {
+      font-size: var(--t-base);
+      font-weight: 300;
+      color: var(--ink-2);
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
     }
   </style>
 </head>
@@ -356,133 +208,92 @@
 
   <!-- HERO -->
   <section class="hero">
-    <p class="hero-eyebrow">Product Designer — Staff / Principal</p>
+    <p class="hero-eyebrow">Product Designer, Staff / Principal</p>
     <h1 class="hero-name">Adam<br>Males.</h1>
     <p class="hero-statement">
-      <strong>10+ years designing products people use to do serious work.</strong> I specialise in making technically complex systems — data pipelines, logistics platforms, e-commerce — feel simple and clear. IC and player-coach, depending on what the problem needs.
+      <strong>10+ years designing products people use to do serious work.</strong> Data pipelines, logistics platforms, e-commerce. The domain changes; the problem stays the same. Understand what's genuinely hard, find the simplest design that holds up, help the team ship it. IC and player-coach, depending on what the problem needs.
     </p>
-    <div class="hero-avail">
-      <span class="avail-dot"></span>
-      <span class="avail-text">Open to Staff &amp; Principal roles</span>
-    </div>
   </section>
 
-  <!-- TIMELINE -->
-  <div class="sec-label">
-    <span class="sec-name">Work</span>
-  </div>
+  <!-- WORK -->
+  <div class="sec-label"><span class="sec-name">Work</span></div>
 
-  <section class="timeline">
-
-    <div class="tl-entry">
-      <div class="tl-header">
-        <span class="tl-company">Algolia</span>
-        <span class="tl-dates">2025 – Present</span>
+  <ul class="work-list">
+    <li class="work-item locked">
+      <span class="work-title">Case study in preparation</span>
+      <div class="work-meta">
+        <span class="work-company">Algolia</span>
+        <span class="work-year">2025</span>
       </div>
-      <p class="tl-meta">Product Designer · Search &amp; Discovery</p>
-      <ul class="tl-projects">
-        <li class="tl-project locked">
-          <span class="tl-proj-locked">Case study in preparation</span>
-        </li>
-      </ul>
-    </div>
-
-    <div class="tl-entry">
-      <div class="tl-header">
-        <span class="tl-company">Matillion</span>
-        <span class="tl-dates">2023 – 2025</span>
+    </li>
+    <li class="work-item">
+      <a class="work-title" href="#">From VM to SaaS</a>
+      <div class="work-meta">
+        <span class="work-company">Matillion</span>
+        <span class="work-year">2023</span>
       </div>
-      <p class="tl-meta">Group Product Designer · B2B SaaS · Data Integration</p>
-      <ul class="tl-projects">
-        <li class="tl-project">
-          <a class="tl-proj-link" href="#">From VM to SaaS</a>
-        </li>
-        <li class="tl-project locked">
-          <span class="tl-proj-locked">AI Copilot</span>
-        </li>
-      </ul>
-    </div>
-
-    <div class="tl-entry">
-      <div class="tl-header">
-        <span class="tl-company">Zencargo</span>
-        <span class="tl-dates">2019 – 2023</span>
+    </li>
+    <li class="work-item locked">
+      <span class="work-title">AI Copilot</span>
+      <div class="work-meta">
+        <span class="work-company">Matillion</span>
+        <span class="work-year">2023</span>
       </div>
-      <p class="tl-meta">Lead Product Designer · B2B SaaS · Supply Chain</p>
-      <ul class="tl-projects">
-        <li class="tl-project">
-          <a class="tl-proj-link" href="#">Streamlining the Enigma</a>
-        </li>
-      </ul>
-    </div>
-
-    <div class="tl-entry">
-      <div class="tl-header">
-        <span class="tl-company">Intu</span>
-        <span class="tl-dates">2018 – 2019</span>
+    </li>
+    <li class="work-item">
+      <a class="work-title" href="#">Streamlining the Enigma</a>
+      <div class="work-meta">
+        <span class="work-company">Zencargo</span>
+        <span class="work-year">2019</span>
       </div>
-      <p class="tl-meta">Senior UX Designer · B2C · Retail &amp; E-commerce</p>
-      <ul class="tl-projects">
-        <li class="tl-project locked">
-          <span class="tl-proj-locked">Search &amp; Discovery Redesign</span>
-        </li>
-      </ul>
-    </div>
-
-    <div class="tl-entry">
-      <div class="tl-header">
-        <span class="tl-company">Swoon</span>
-        <span class="tl-dates">2014 – 2018</span>
+    </li>
+    <li class="work-item locked">
+      <span class="work-title">Search &amp; Discovery Redesign</span>
+      <div class="work-meta">
+        <span class="work-company">Intu</span>
+        <span class="work-year">2018</span>
       </div>
-      <p class="tl-meta">UX &amp; UI Designer · B2C · Furniture E-commerce</p>
-      <ul class="tl-projects">
-        <li class="tl-project">
-          <a class="tl-proj-link" href="#">Selling Without Walls</a>
-        </li>
-      </ul>
-    </div>
+    </li>
+    <li class="work-item">
+      <a class="work-title" href="#">Selling Without Walls</a>
+      <div class="work-meta">
+        <span class="work-company">Swoon</span>
+        <span class="work-year">2014</span>
+      </div>
+    </li>
+  </ul>
 
-  </section>
+  <!-- TESTIMONIALS -->
+  <div class="sec-label"><span class="sec-name">Testimonials</span></div>
 
-  <!-- ABOUT -->
-  <div class="sec-label">
-    <span class="sec-name">About</span>
-  </div>
-
-  <section class="about-section">
+  <div class="testimonials">
     <div>
-      <p class="about-text">I design at the intersection of product complexity and human clarity.</p>
-      <p class="about-body">I've worked across logistics, data infrastructure, retail, and e-commerce for 10+ years. The domain changes; the problem stays the same — understand what's genuinely hard, find the simplest design that holds up, help the team ship it. I work at the detail level and the strategy level, switching based on what the problem needs.</p>
+      <p class="testimonial-quote">"Simple, pragmatic and based on research."</p>
+      <p class="testimonial-attr">Szymon Baranowski, Senior Director of Engineering, Zencargo</p>
     </div>
     <div>
-      <p class="cap-label">Where I operate</p>
-      <ul class="cap-list">
-        <li>Complex B2B SaaS &amp; data products</li>
-        <li>AI-assisted product experiences</li>
-        <li>Design systems &amp; infrastructure</li>
-        <li>E-commerce &amp; consumer</li>
-        <li>IC &amp; player-coach leadership</li>
-        <li>Research &amp; strategic alignment</li>
-      </ul>
+      <p class="testimonial-quote">"Always providing support when needed but never taking over, allowing each of us to grow."</p>
+      <p class="testimonial-attr">Amie Wilson, Senior Product Designer, Matillion</p>
     </div>
-  </section>
+    <div>
+      <p class="testimonial-quote">"A great knack for helping to simplify complex problems."</p>
+      <p class="testimonial-attr">Ellen Fogarty, Senior Product Designer, dbt Labs</p>
+    </div>
+  </div>
 
   <!-- WRITING -->
-  <div class="sec-label">
-    <span class="sec-name">Writing</span>
-  </div>
+  <div class="sec-label"><span class="sec-name">Writing</span></div>
 
-  <section class="writing-section">
-    <a class="writing-entry" href="#">
-      <span class="w-year">2024</span>
-      <span class="w-title">Tall, dark &amp; slightly rounded</span>
-    </a>
-    <a class="writing-entry" href="#">
-      <span class="w-year">2023</span>
-      <span class="w-title">Zencargo and the art of motorcycle maintenance</span>
-    </a>
-  </section>
-
+  <ul class="writing-list">
+    <li><a class="writing-item" href="#">
+      <span class="writing-title">Tall, dark &amp; slightly rounded</span>
+      <span class="writing-year">2024</span>
+    </a></li>
+    <li><a class="writing-item" href="#">
+      <span class="writing-title">Zencargo and the art of motorcycle maintenance</span>
+      <span class="writing-year">2023</span>
+    </a></li>
+  </ul>
 
 </body>
 </html>
