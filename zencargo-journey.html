@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Redefining shipment visibility — Adam Males</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:    #F7F7F5;
+      --ink:   #181818;
+      --ink-2: #525252;
+      --ink-3: #616161;
+      --rule:  #E0E0DE;
+      --f:     'Inter', system-ui, sans-serif;
+
+      /* spacing */
+      --micro: 4px;
+      --sml:   12px;
+      --base:  20px;
+      --med:   32px;
+      --xl:    64px;
+      --hero:  96px;
+
+      /* type */
+      --t-sm:    12px;
+      --t-body:  13px;
+      --t-base:  16px;
+      --t-md:    18px;
+      --t-title: clamp(36px, 5vw, 52px);
+
+      --pad: 300px;
+      --content: 680px;
+    }
+
+    @media (max-width: 1140px) { :root { --pad: 80px; } }
+    @media (max-width: 720px)  { :root { --pad: 40px; } }
+    @media (max-width: 480px)  { :root { --pad: 24px; } }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--f);
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: 'ss01' 1, 'cv05' 1;
+    }
+
+    /* ─── BACK NAV ─────────────────────────────────────────── */
+    .cs-nav {
+      padding: var(--med) var(--pad);
+    }
+
+    .cs-back {
+      font-size: var(--t-body);
+      font-weight: 400;
+      color: var(--ink-3);
+      text-decoration: none;
+    }
+
+    .cs-back:hover { color: var(--ink-2); }
+
+    /* ─── HEADER ───────────────────────────────────────────── */
+    .cs-header {
+      padding: var(--xl) var(--pad) var(--med);
+      max-width: calc(var(--content) + var(--pad) * 2);
+    }
+
+    .cs-eyebrow {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      margin-bottom: var(--base);
+    }
+
+    .cs-title {
+      font-size: var(--t-title);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      color: var(--ink);
+      margin-bottom: var(--med);
+    }
+
+    .cs-overview {
+      font-size: var(--t-md);
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+
+    .cs-overview strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    /* ─── METADATA ─────────────────────────────────────────── */
+    .cs-meta {
+      padding: var(--med) var(--pad);
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      gap: var(--xl);
+      justify-content: start;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: var(--xl);
+    }
+
+    @media (max-width: 720px) {
+      .cs-meta {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--med);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cs-meta {
+        grid-template-columns: 1fr;
+        gap: var(--base);
+      }
+    }
+
+    .meta-item {}
+
+    .meta-label {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      margin-bottom: var(--micro);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .meta-value {
+      font-size: var(--t-body);
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    /* ─── BODY ─────────────────────────────────────────────── */
+    .cs-body {
+      padding: 0 var(--pad) var(--hero);
+      max-width: calc(var(--content) + var(--pad) * 2);
+    }
+
+    .cs-section {
+      margin-bottom: var(--xl);
+    }
+
+    .cs-section-label {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      margin-bottom: var(--med);
+    }
+
+    .cs-h2 {
+      font-size: var(--t-md);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: var(--base);
+    }
+
+    .cs-h3 {
+      font-size: var(--t-base);
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: var(--sml);
+    }
+
+    .cs-p {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-2);
+      margin-bottom: var(--base);
+    }
+
+    .cs-p:last-child { margin-bottom: 0; }
+
+    .cs-p strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .cs-list {
+      list-style: none;
+      margin-bottom: var(--base);
+    }
+
+    .cs-list li {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-2);
+      padding: 3px 0 3px 16px;
+      position: relative;
+    }
+
+    .cs-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 13px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--ink-3);
+    }
+
+    /* ─── NOTE ─────────────────────────────────────────────── */
+    .cs-note {
+      padding: var(--base);
+      border-left: 2px solid var(--rule);
+      margin-bottom: var(--xl);
+    }
+
+    .cs-note p {
+      font-size: var(--t-body);
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-3);
+      font-style: italic;
+    }
+
+    /* ─── OUTCOME CALLOUT ──────────────────────────────────── */
+    .cs-outcome {
+      margin-top: var(--base);
+      margin-bottom: var(--med);
+      padding: var(--base);
+      background: rgba(24,24,24,0.03);
+    }
+
+    .cs-outcome-label {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: var(--micro);
+    }
+
+    .cs-outcome p {
+      font-size: var(--t-body);
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--ink-2);
+    }
+
+    /* ─── DIVIDER ───────────────────────────────────────────── */
+    .cs-divider {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: var(--xl) 0;
+    }
+
+    /* ─── DECISION ─────────────────────────────────────────── */
+    .cs-decision {
+      margin-bottom: var(--xl);
+    }
+
+    .cs-decision-num {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      margin-bottom: var(--sml);
+    }
+
+    /* ─── OUTCOMES GRID ────────────────────────────────────── */
+    .cs-outcomes-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--med);
+    }
+
+    .outcome-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: var(--med);
+      align-items: start;
+    }
+
+    @media (max-width: 600px) {
+      .outcome-row {
+        grid-template-columns: 1fr;
+        gap: var(--sml);
+      }
+    }
+
+    .outcome-type {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding-top: 3px;
+    }
+
+    .outcome-text {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="cs-nav">
+    <a class="cs-back" href="/">← Work</a>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="cs-header">
+    <p class="cs-eyebrow">Zencargo · 2019 – 2023</p>
+    <h1 class="cs-title">Redefining<br>shipment visibility.</h1>
+    <p class="cs-overview">
+      Zencargo customers were frustrated by poor shipment visibility. In a fragmented logistics environment shaped by manual handoffs, changing routes, and incomplete data, customers often could not tell where cargo was, what had happened, or whether they needed to act.
+    </p>
+    <br>
+    <p class="cs-overview">
+      What looked like a page-level UX problem was actually a deeper issue with how cargo journeys were modelled, structured, and communicated. <strong>I led the design direction for a new visibility experience that shifted the team from incremental UI fixes to a more scalable, cargo-centred model</strong>, helping create an early foundation for Zencargo's broader digital twin strategy.
+    </p>
+  </header>
+
+  <!-- METADATA -->
+  <div class="cs-meta">
+    <div class="meta-item">
+      <p class="meta-label">My role</p>
+      <p class="meta-value">Design lead</p>
+    </div>
+    <div class="meta-item">
+      <p class="meta-label">Scope</p>
+      <p class="meta-value">UX direction<br>Research strategy<br>Stakeholder alignment<br>Launch readiness</p>
+    </div>
+    <div class="meta-item">
+      <p class="meta-label">Influenced</p>
+      <p class="meta-value">Product direction<br>Success criteria<br>Service model<br>Cross-team governance</p>
+    </div>
+    <div class="meta-item">
+      <p class="meta-label">Timeline</p>
+      <p class="meta-value">5 months</p>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="cs-body">
+
+    <!-- NOTE -->
+    <div class="cs-note">
+      <p>I left Zencargo before full rollout, so this case study focuses on the strategic decisions, cross-functional influence, and foundational outcomes that shaped the work.</p>
+    </div>
+
+    <!-- THE PROBLEM -->
+    <div class="cs-section">
+      <p class="cs-section-label">The problem</p>
+      <p class="cs-p">Customers were complaining because they lacked reliable visibility into shipment progress. The existing experience made it difficult to understand where cargo was, what stage it had reached, and whether there was a problem worth investigating.</p>
+      <p class="cs-p">This was not just frustrating for customers. It also created pressure internally:</p>
+      <ul class="cs-list">
+        <li>Operational teams were filling information gaps manually</li>
+        <li>Support teams were dealing with avoidable queries</li>
+        <li>The business risked losing customer trust in a high-stakes area of the product</li>
+      </ul>
+      <p class="cs-p">Leadership initially pushed for smaller improvements, but those would only have improved presentation, not the underlying quality of visibility.</p>
+    </div>
+
+    <hr class="cs-divider">
+
+    <!-- WHY HARDER -->
+    <div class="cs-section">
+      <p class="cs-section-label">Why this was harder than it looked</p>
+      <p class="cs-p">Supply chains are messy. Cargo moves through multiple handoffs, documents are often exchanged manually, and routes change in ways the system does not always capture cleanly.</p>
+      <p class="cs-p">At the same time, Zencargo was moving from a monolith toward microservices. That exposed a bigger constraint. The existing data model and information architecture could not accurately represent the complexity of real cargo journeys, especially around transshipments, exceptions, and partial confirmations.</p>
+      <p class="cs-p">The challenge was not just to redesign a page. It was to create a model that was:</p>
+      <ul class="cs-list">
+        <li>Trustworthy enough for customers to act on</li>
+        <li>Flexible enough to handle real-world variability</li>
+        <li>Structured enough to support future platform capabilities</li>
+      </ul>
+    </div>
+
+    <hr class="cs-divider">
+
+    <!-- ROLE -->
+    <div class="cs-section">
+      <p class="cs-section-label">My role and level of ownership</p>
+      <p class="cs-p">I led the design work across discovery, framing, concept development, testing, and stakeholder alignment.</p>
+      <p class="cs-p">I owned:</p>
+      <ul class="cs-list">
+        <li>UX direction</li>
+        <li>Research plan and synthesis</li>
+        <li>Decision-making on the customer experience</li>
+        <li>Launch readiness from a design perspective</li>
+      </ul>
+      <p class="cs-p">I also influenced product direction, success criteria, the service model and information structure, and cross-team alignment as the scope expanded.</p>
+      <p class="cs-p">This was not limited to interface design. I helped shape how the team understood the problem, what we prioritised, and what foundation we needed to build before the experience could genuinely improve.</p>
+    </div>
+
+    <hr class="cs-divider">
+
+    <!-- REFRAMING -->
+    <div class="cs-section">
+      <p class="cs-section-label">Reframing the problem</p>
+      <p class="cs-p">Early research showed the issue was not simply clutter. The deeper problem was that the product was organised around the wrong unit of understanding.</p>
+      <p class="cs-p">Shipment and purchase order information was difficult to scan because the information architecture did not reflect how users actually reasoned about cargo movement and exceptions. Through research, journey mapping, and collaboration with domain experts, I identified that <strong>cargo, not shipments or orders, needed to become the primary organising model.</strong></p>
+      <p class="cs-p">That changed the direction of the work. Instead of forcing transshipment handling into the existing structure, I helped the team shift toward a cargo-centred model that could better represent route progress, milestones, and exceptions.</p>
+      <div class="cs-outcome">
+        <p class="cs-outcome-label">Strategic outcome</p>
+        <p>The team moved from local UI fixes to a more foundational redesign based on a clearer mental model.</p>
+      </div>
+    </div>
+
+    <hr class="cs-divider">
+
+    <!-- KEY DECISIONS -->
+    <div class="cs-section">
+      <p class="cs-section-label">Key decisions I drove</p>
+
+      <div class="cs-decision">
+        <p class="cs-decision-num">1</p>
+        <h2 class="cs-h2">Shifted the team away from cosmetic fixes</h2>
+        <p class="cs-p">The PM initially wanted to keep the scope small and work within the existing model. I pushed back, using research and service mapping to show that this would still leave customers with partial and misleading visibility.</p>
+        <div class="cs-outcome">
+          <p class="cs-outcome-label">Outcome</p>
+          <p>The team invested in a broader redesign that addressed the root problem rather than patching symptoms.</p>
+        </div>
+      </div>
+
+      <div class="cs-decision">
+        <p class="cs-decision-num">2</p>
+        <h2 class="cs-h2">Set the trust model for the experience</h2>
+        <p class="cs-p">One of the most important trade-offs was choosing data confidence over apparent visibility.</p>
+        <p class="cs-p">We decided not to imply that cargo had progressed unless that event had been confirmed. Instead, the experience distinguished between what had been confirmed, what was expected next, and where uncertainty remained.</p>
+        <p class="cs-p">This mattered because false certainty in logistics creates downstream risk.</p>
+        <div class="cs-outcome">
+          <p class="cs-outcome-label">Outcome</p>
+          <p>The experience became more honest, more actionable, and more defensible in a high-consequence environment.</p>
+        </div>
+      </div>
+
+      <div class="cs-decision">
+        <p class="cs-decision-num">3</p>
+        <h2 class="cs-h2">Protected focus by cutting lower-value ideas</h2>
+        <p class="cs-p">Customers who bought the product often asked for a map. Research showed that day-to-day users found route status, exceptions, and scannable text updates more useful than map-based visualisation.</p>
+        <p class="cs-p">I used that evidence to deprioritise the map and protect the team's focus on information that genuinely helped users make decisions.</p>
+        <div class="cs-outcome">
+          <p class="cs-outcome-label">Outcome</p>
+          <p>We avoided spending time on a visually appealing but lower-value solution.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="cs-divider">
+
+    <!-- CROSS-FUNCTIONAL -->
+    <div class="cs-section">
+      <p class="cs-section-label">Leading through cross-functional complexity</p>
+      <p class="cs-p">As the work developed, we realised the impact reached beyond one team. Multiple product teams were working on the same page and adjacent workflows, creating overlap, rework, and conflicting changes.</p>
+      <p class="cs-p">We had to stop and restart several times as new dependencies surfaced. To stabilise progress, I helped introduce a review mechanism so impacted teams could be consulted and sign off on direction as the work evolved.</p>
+      <div class="cs-outcome">
+        <p class="cs-outcome-label">Organisational outcome</p>
+        <p>The project exposed ownership and coordination gaps, and the governance approach helped reduce overlap and improve decision quality on a shared surface.</p>
+      </div>
+    </div>
+
+    <hr class="cs-divider">
+
+    <!-- WHAT I CREATED -->
+    <div class="cs-section">
+      <p class="cs-section-label">What I created</p>
+      <p class="cs-p">This project produced more than a redesigned page.</p>
+      <ul class="cs-list">
+        <li>A cargo-centred information model</li>
+        <li>A clearer milestone taxonomy</li>
+        <li>A stronger logic for route progress and exceptions</li>
+        <li>Clearer service definitions for engineering</li>
+        <li>A foundation that could support future digital twin capabilities</li>
+      </ul>
+      <p class="cs-p">That was the real value of the work. Not just a better interface, but a better model underneath it.</p>
+    </div>
+
+    <hr class="cs-divider">
+
+    <!-- OUTCOMES -->
+    <div class="cs-section">
+      <p class="cs-section-label">Outcomes</p>
+      <p class="cs-p">Because I left Zencargo before the work was fully rolled out, I am not claiming shipped performance metrics. The outcomes I can credibly stand behind are the decisions, alignment, and foundations the work created.</p>
+
+      <div class="cs-outcomes-grid">
+        <div class="outcome-row">
+          <p class="outcome-type">Customer</p>
+          <p class="outcome-text">The proposed experience made cargo status easier to scan, easier to interpret, and more trustworthy in ambiguous situations. Testing showed users responded better to clear status updates, route progression, and exception signalling than to more decorative concepts like map-based tracking.</p>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-type">Product</p>
+          <p class="outcome-text">The team shifted from solving for transshipments as an isolated feature problem to solving for visibility as a broader modelling and information architecture problem.</p>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-type">Engineering</p>
+          <p class="outcome-text">The work gave engineering a clearer service definition and a more scalable model for representing real-world cargo movement.</p>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-type">Organisational</p>
+          <p class="outcome-text">The initiative aligned PM, engineering, and domain experts around a shared cargo-centred model and exposed the need for stronger cross-team governance on shared surfaces.</p>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-type">Strategic</p>
+          <p class="outcome-text">This became an early foundation for Zencargo's digital twin direction by establishing a more reusable structure for milestones, route progress, and operational visibility.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="cs-divider">
+
+    <!-- WHY THIS MATTERS -->
+    <div class="cs-section">
+      <p class="cs-section-label">Why this matters</p>
+      <p class="cs-p">This project demonstrates how I work at a broader level than feature delivery alone. I did not just redesign a page. I identified the deeper problem beneath the interface, influenced the team to invest in a more durable direction, shaped a key product principle around trust and visibility, and helped create a reusable foundation that extended beyond one release.</p>
+      <p class="cs-p"><strong>That is the kind of work I want to do more of, connecting user needs, product direction, and systems-level thinking to create value that lasts.</strong></p>
+    </div>
+
+  </div>
+
+</body>
+</html>
