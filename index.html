@@ -120,9 +120,23 @@
       color: var(--ink);
       letter-spacing: -0.015em;
       text-decoration: none;
+      transition: color 0.15s ease, background-color 0.15s ease;
+      border-radius: 3px;
+      padding: 2px 5px;
+      margin: -2px -5px;
     }
 
-    .work-title::after {
+    a.work-title:hover {
+      color: var(--bg);
+      background-color: var(--ink);
+    }
+
+    a.work-title:active {
+      color: var(--bg);
+      background-color: var(--ink-2);
+    }
+
+    span.work-title::after {
       content: ' (coming soon)';
       font-size: var(--t-body);
       color: var(--ink-3);
@@ -234,7 +248,7 @@
       </div>
     </li>
     <li class="work-item">
-      <a class="work-title" href="#">Streamlining the Enigma</a>
+      <a class="work-title" href="zencargo-journey.html">Redefining shipment visibility.</a>
       <div class="work-meta">
         <span class="work-company">Zencargo</span>
         <span class="work-year">2019</span>
