@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=1440" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Adam Males — Resume</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,283 +13,284 @@
 
     :root {
       --bg:    #F7F7F5;
-      --ink:   #181818;   /* 16.55:1 — AA ✓ */
-      --ink-2: #525252;   /*  7.28:1 — AA ✓ */
-      --ink-3: #616161;   /*  5.77:1 — AA ✓ */
+      --ink:   #181818;
+      --ink-2: #525252;
+      --ink-3: #616161;
       --rule:  #E0E0DE;
       --f:     'Inter', system-ui, sans-serif;
-      --pad:   80px;
+
+      /* spacing */
+      --micro: 4px;
+      --sml:   12px;
+      --base:  20px;
+      --med:   32px;
+      --xl:    64px;
+      --hero:  96px;
+
+      /* type */
+      --t-sm:   12px;
+      --t-body: 13px;
+      --t-base: 16px;
+      --t-md:   18px;
+      --t-name: clamp(48px, 8vw, 80px);
+
+      --pad: 300px;
     }
+
+    @media (max-width: 1140px) { :root { --pad: 80px; } }
+    @media (max-width: 720px)  { :root { --pad: 40px; } }
+    @media (max-width: 480px)  { :root { --pad: 24px; } }
 
     html, body {
       background: var(--bg);
       color: var(--ink);
       font-family: var(--f);
-      width: 1440px;
+      max-width: 1440px;
+      width: 100%;
       margin: 0 auto;
       -webkit-font-smoothing: antialiased;
+      font-feature-settings: 'ss01' 1, 'cv05' 1;
     }
 
-    /* ─── NAV ──────────────────────────────────────────────── */
-    nav {
-      padding: 0 var(--pad);
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--rule);
+    /* ─── BACK NAV ─────────────────────────────────────────── */
+    .cs-nav {
+      padding: var(--med) var(--pad);
     }
 
-    .nav-name {
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-      text-decoration: none;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 40px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 13px;
+    .cs-back {
+      font-size: var(--t-body);
       font-weight: 400;
       color: var(--ink-3);
       text-decoration: none;
+      transition: color 0.15s ease, background-color 0.15s ease;
+      border-radius: 3px;
+      padding: 2px 5px;
+      margin: -2px -5px;
     }
 
-    .nav-links a.active {
-      color: var(--ink);
-      font-weight: 500;
+    .cs-back:hover {
+      color: var(--bg);
+      background-color: var(--ink);
     }
 
-    /* ─── HEADER ─────────────────────────────────────────────── */
+    .cs-back:active {
+      color: var(--bg);
+      background-color: var(--ink-2);
+    }
+
+    /* ─── HEADER ───────────────────────────────────────────── */
     .resume-header {
-      padding: 80px var(--pad) 80px;
+      padding: var(--xl) var(--pad) var(--med);
       display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 80px;
+      grid-template-columns: 1fr auto;
+      gap: var(--xl);
       align-items: end;
     }
 
+    @media (max-width: 900px) {
+      .resume-header {
+        grid-template-columns: 1fr;
+      }
+
+      .rh-contact-block {
+        align-items: flex-start !important;
+      }
+    }
+
     .rh-eyebrow {
-      font-size: 13px;
+      font-size: var(--t-body);
       font-weight: 400;
       color: var(--ink-3);
-      margin-bottom: 24px;
+      margin-bottom: var(--base);
     }
 
     .rh-name {
-      font-size: 88px;
+      font-size: var(--t-name);
       font-weight: 700;
-      line-height: 0.9;
-      letter-spacing: -0.045em;
+      line-height: 0.92;
+      letter-spacing: -0.04em;
       color: var(--ink);
-      margin-bottom: 36px;
+      margin-bottom: var(--med);
     }
 
     .rh-statement {
-      font-size: 18px;
+      font-size: var(--t-base);
       font-weight: 300;
-      line-height: 1.65;
+      line-height: 1.7;
       color: var(--ink-2);
-      max-width: 600px;
+      max-width: 480px;
     }
 
-    .rh-statement strong { color: var(--ink); font-weight: 500; }
+    .rh-statement strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
 
-    .rh-right {
+    .rh-contact-block {
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
       align-items: flex-end;
-      gap: 10px;
-      height: 100%;
+      gap: var(--sml);
     }
 
     .rh-contact {
-      font-size: 13px;
+      font-size: var(--t-body);
       font-weight: 400;
       color: var(--ink-3);
-      text-align: right;
       text-decoration: none;
+      transition: color 0.15s ease, background-color 0.15s ease;
+      border-radius: 3px;
+      padding: 2px 5px;
+      margin: -2px -5px;
     }
 
-    .rh-contact:hover { color: var(--ink-2); }
-
-    .rh-download {
-      margin-top: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--ink);
-      text-decoration: none;
-      letter-spacing: -0.01em;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+    .rh-contact:hover {
+      color: var(--bg);
+      background-color: var(--ink);
     }
 
-    .rh-download::after { content: '↓'; }
+    .rh-contact:active {
+      color: var(--bg);
+      background-color: var(--ink-2);
+    }
 
-    /* ─── BODY GRID ─────────────────────────────────────────── */
+    /* ─── BODY ─────────────────────────────────────────────── */
     .resume-body {
-      padding: 0 var(--pad) 96px;
+      padding: var(--xl) var(--pad) var(--hero);
       display: grid;
-      grid-template-columns: 1fr 300px;
-      gap: 80px;
+      grid-template-columns: 1fr 260px;
+      gap: var(--xl);
+      border-top: 1px solid var(--rule);
+    }
+
+    @media (max-width: 900px) {
+      .resume-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ─── SECTION LABEL ─────────────────────────────────────── */
+    .section-label {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      margin-bottom: var(--med);
     }
 
     /* ─── EXPERIENCE ─────────────────────────────────────────── */
-    .exp-label {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ink-3);
-      margin-bottom: 56px;
-      padding-bottom: 16px;
-      border-bottom: 1px solid var(--rule);
-    }
-
     .exp-entry {
-      margin-bottom: 56px;
-      padding-bottom: 56px;
+      padding-bottom: var(--xl);
+      margin-bottom: var(--xl);
     }
 
-    /* Use a rule only to separate experience entries */
     .exp-entry + .exp-entry {
       border-top: 1px solid var(--rule);
-      padding-top: 0;
+      padding-top: var(--xl);
       margin-top: 0;
     }
 
     .exp-top {
       display: flex;
-      justify-content: space-between;
       align-items: baseline;
-      margin-bottom: 6px;
+      gap: var(--base);
+      margin-bottom: var(--sml);
     }
 
     .exp-company {
-      font-size: 36px;
-      font-weight: 600;
-      letter-spacing: -0.025em;
+      font-size: var(--t-md);
+      font-weight: 500;
+      letter-spacing: -0.015em;
       color: var(--ink);
     }
 
     .exp-dates {
-      font-size: 12px;
+      font-size: var(--t-sm);
       font-weight: 300;
       color: var(--ink-3);
       font-variant-numeric: tabular-nums;
     }
 
     .exp-role {
-      font-size: 13px;
-      font-weight: 500;
+      font-size: var(--t-body);
+      font-weight: 400;
       color: var(--ink-2);
-      margin-bottom: 4px;
-      letter-spacing: 0.01em;
+      margin-bottom: var(--micro);
     }
 
     .exp-context {
-      font-size: 12px;
+      font-size: var(--t-body);
       font-weight: 300;
       color: var(--ink-3);
       font-style: italic;
-      margin-bottom: 28px;
+      margin-bottom: var(--base);
     }
 
-    /* Bullets — no borders, spacing only */
     .exp-bullets { list-style: none; }
 
     .exp-bullets li {
-      font-size: 15px;
+      font-size: var(--t-base);
       font-weight: 300;
-      line-height: 1.7;
+      line-height: 1.75;
       color: var(--ink-2);
-      padding: 7px 0 7px 20px;
+      padding: 3px 0 3px 16px;
       position: relative;
     }
 
     .exp-bullets li::before {
-      content: '—';
+      content: '';
       position: absolute;
       left: 0;
-      font-size: 11px;
-      color: var(--ink-3);
-      top: 9px;
+      top: 13px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--ink-3);
     }
 
-    .exp-bullets li strong { color: var(--ink); font-weight: 500; }
+    .exp-bullets li strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
 
     /* ─── ASIDE ─────────────────────────────────────────────── */
-    .aside-block { margin-bottom: 48px; }
+    .aside-block { margin-bottom: var(--med); }
     .aside-block:last-child { margin-bottom: 0; }
 
     .aside-label {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
+      font-size: var(--t-sm);
+      font-weight: 400;
       color: var(--ink-3);
-      margin-bottom: 20px;
-      padding-bottom: 12px;
+      margin-bottom: var(--base);
+      padding-bottom: var(--sml);
       border-bottom: 1px solid var(--rule);
     }
 
-    /* No borders between aside items — spacing only */
     .aside-list { list-style: none; }
 
     .aside-list li {
-      font-size: 14px;
+      font-size: var(--t-body);
       font-weight: 300;
       color: var(--ink-2);
-      padding: 8px 0;
+      padding: 6px 0;
     }
 
     .aside-list li em {
       font-style: normal;
-      font-size: 12px;
+      font-size: var(--t-sm);
       color: var(--ink-3);
     }
 
-    .edu-item { padding: 8px 0; }
+    .edu-item { padding: 6px 0; }
 
     .edu-school {
-      font-size: 14px;
+      font-size: var(--t-body);
       font-weight: 500;
       color: var(--ink);
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
 
     .edu-degree {
-      font-size: 12px;
-      font-weight: 300;
-      color: var(--ink-3);
-    }
-
-    /* ─── FOOTER ────────────────────────────────────────────── */
-    footer {
-      padding: 40px var(--pad);
-      border-top: 1px solid var(--rule);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .footer-back {
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--ink-3);
-      text-decoration: none;
-    }
-
-    .footer-copy {
-      font-size: 12px;
+      font-size: var(--t-sm);
       font-weight: 300;
       color: var(--ink-3);
     }
@@ -298,29 +299,23 @@
 <body>
 
   <!-- NAV -->
-  <nav>
-    <a class="nav-name" href="/">Adam Males</a>
-    <ul class="nav-links">
-      <li><a class="active" href="#">Resume</a></li>
-      <li><a href="/">Work</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
+  <nav class="cs-nav">
+    <a class="cs-back" href="/">← Back</a>
   </nav>
 
   <!-- HEADER -->
   <div class="resume-header">
     <div>
-      <p class="rh-eyebrow">Product Designer — Staff / Principal</p>
+      <p class="rh-eyebrow">Product Designer, Staff / Principal</p>
       <h1 class="rh-name">Adam<br>Males.</h1>
       <p class="rh-statement">
-        <strong>10+ years designing products that do hard things simply.</strong> B2B SaaS, data infrastructure, e-commerce, consumer. I've led design teams, shipped AI features, and launched SaaS products from scratch. IC and player-coach — whatever the team needs.
+        <strong>Staff product designer with 12 years experience</strong> across data pipelines, logistics platforms, and e-commerce. The work is always the same underneath, understand what's genuinely hard, find the simplest design that holds up, and help the team ship it.
       </p>
     </div>
-    <div class="rh-right">
-      <a class="rh-contact" href="mailto:hello@adammales.com">hello@adammales.com</a>
+    <div class="rh-contact-block">
+      <a class="rh-contact" href="mailto:adammales@me.com">adammales@me.com</a>
       <a class="rh-contact" href="#">linkedin.com/in/adam-males</a>
       <span class="rh-contact">England, United Kingdom</span>
-      <a class="rh-download" href="#">Download PDF</a>
     </div>
   </div>
 
@@ -328,7 +323,22 @@
   <div class="resume-body">
 
     <div>
-      <p class="exp-label">Experience — 2014 to 2025</p>
+      <p class="section-label">Experience — 2014 to present</p>
+
+      <div class="exp-entry">
+        <div class="exp-top">
+          <span class="exp-company">Algolia</span>
+          <span class="exp-dates">Mar 2025 – Present</span>
+        </div>
+        <p class="exp-role">Staff Product Designer</p>
+        <p class="exp-context">B2B SaaS · AI search &amp; developer tooling · Remote</p>
+        <ul class="exp-bullets">
+          <li><strong>Led design of AskAI</strong>, Algolia's agentic search product, enabling conversational, intent-driven search powered by large language models.</li>
+          <li><strong>Designed DocSearch</strong>, a widely used developer-facing search tool, improving the experience for thousands of technical users.</li>
+          <li>Defining Algolia's approach to agentic UX, establishing design patterns, guardrails, and interaction models for trustworthy AI-driven experiences.</li>
+          <li>Leading design across the core product, working cross-functionally to shape strategy, define direction, and ship high-quality outcomes.</li>
+        </ul>
+      </div>
 
       <div class="exp-entry">
         <div class="exp-top">
@@ -338,9 +348,9 @@
         <p class="exp-role">Group Product Designer</p>
         <p class="exp-context">B2B SaaS · Data integration &amp; ETL platform · Remote</p>
         <ul class="exp-bullets">
-          <li><strong>Led the design of Matillion's transition from a VM product to a unified SaaS platform</strong> — a company-defining initiative improving adoption and retention.</li>
+          <li><strong>Led the design of Matillion's transition from a VM product to a unified SaaS platform</strong>, a company-defining initiative improving adoption and retention.</li>
           <li><strong>Shipped the AI Copilot feature</strong>, reducing the learning curve on a technically demanding ETL product and improving daily user productivity.</li>
-          <li>Unified fragmented tools into a single platform — the primary interface for customers' data pipeline work.</li>
+          <li>Unified fragmented tools into a single platform, the primary interface for customers' data pipeline work.</li>
           <li>Built and led the design team, setting standards and embedding a user-first culture across product development.</li>
         </ul>
       </div>
@@ -427,19 +437,13 @@
       <div class="aside-block">
         <p class="aside-label">Education</p>
         <div class="edu-item">
-          <p class="edu-school">Your University</p>
-          <p class="edu-degree">Degree · Subject · Year</p>
+          <p class="edu-school">York St. John University</p>
+          <p class="edu-degree">BA, Art &amp; Design · 2:1 · 2005–2008</p>
         </div>
       </div>
     </div>
 
   </div>
-
-  <!-- FOOTER -->
-  <footer>
-    <a class="footer-back" href="/">← Back to work</a>
-    <p class="footer-copy">© 2025 Adam Males</p>
-  </footer>
 
 </body>
 </html>

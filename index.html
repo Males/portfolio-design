@@ -59,10 +59,37 @@
       gap: var(--med);
     }
 
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
     .hero-eyebrow {
       font-size: var(--t-body);
       font-weight: 400;
       color: var(--ink-3);
+    }
+
+    .hero-nav-link {
+      font-size: var(--t-body);
+      font-weight: 400;
+      color: var(--ink-3);
+      text-decoration: none;
+      transition: color 0.15s ease, background-color 0.15s ease;
+      border-radius: 3px;
+      padding: 2px 5px;
+      margin: -2px -5px;
+    }
+
+    .hero-nav-link:hover {
+      color: var(--bg);
+      background-color: var(--ink);
+    }
+
+    .hero-nav-link:active {
+      color: var(--bg);
+      background-color: var(--ink-2);
     }
 
     .hero-name {
@@ -106,10 +133,16 @@
       list-style: none;
     }
 
+    @media (min-width: 721px) {
+      .work-list {
+        padding-right: 300px;
+      }
+    }
+
     .work-item {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
+      align-items: baseline;
       gap: var(--med);
     }
 
@@ -222,7 +255,10 @@
 
   <!-- HERO -->
   <section class="hero">
-    <p class="hero-eyebrow">Product Designer, Staff / Principal</p>
+    <div class="hero-top">
+      <p class="hero-eyebrow">Product Designer, Staff / Principal</p>
+      <nav><a class="hero-nav-link" href="resume.html">Resume</a></nav>
+    </div>
     <h1 class="hero-name">Adam<br>Males.</h1>
     <p class="hero-statement">
 <strong>Staff product designer with 12 years experience</strong> across data pipelines, logistics platforms, and e-commerce. The work is always the same underneath, understand what's genuinely hard, find the simplest design that holds up, and help the team ship it. IC or player-coach depending on what the problem calls for.
@@ -234,7 +270,7 @@
 
   <ul class="work-list">
     <li class="work-item locked">
-      <span class="work-title">Case study in preparation</span>
+      <span class="work-title">AskAI</span>
       <div class="work-meta">
         <span class="work-company">Algolia</span>
         <span class="work-year">2025</span>
