@@ -62,9 +62,21 @@
       font-weight: 400;
       color: var(--ink-3);
       text-decoration: none;
+      transition: color 0.15s ease, background-color 0.15s ease;
+      border-radius: 3px;
+      padding: 2px 5px;
+      margin: -2px -5px;
     }
 
-    .cs-back:hover { color: var(--ink-2); }
+    .cs-back:hover {
+      color: var(--bg);
+      background-color: var(--ink);
+    }
+
+    .cs-back:active {
+      color: var(--bg);
+      background-color: var(--ink-2);
+    }
 
     /* ─── HEADER ───────────────────────────────────────────── */
     .cs-header {
@@ -316,7 +328,7 @@
 
   <!-- NAV -->
   <nav class="cs-nav">
-    <a class="cs-back" href="/">← Work</a>
+    <a class="cs-back" href="/">← Back</a>
   </nav>
 
   <!-- HEADER -->
