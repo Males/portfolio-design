@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ask AI: from fragmented setup to guided product experience — Adam Males</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:    #F7F7F5;
+      --ink:   #181818;
+      --ink-2: #525252;
+      --ink-3: #616161;
+      --rule:  #E0E0DE;
+      --f:     'Inter', system-ui, sans-serif;
+
+      /* spacing */
+      --micro: 4px;
+      --sml:   12px;
+      --base:  20px;
+      --med:   32px;
+      --xl:    64px;
+      --hero:  96px;
+
+      /* type */
+      --t-sm:    12px;
+      --t-body:  13px;
+      --t-base:  16px;
+      --t-md:    18px;
+      --t-title: clamp(36px, 5vw, 52px);
+
+      --pad: 300px;
+      --content: 680px;
+    }
+
+    @media (max-width: 1140px) { :root { --pad: 80px; } }
+    @media (max-width: 720px)  { :root { --pad: 40px; } }
+    @media (max-width: 480px)  { :root { --pad: 24px; } }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--f);
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: 'ss01' 1, 'cv05' 1;
+    }
+
+    /* ─── BACK NAV ─────────────────────────────────────────── */
+    .cs-nav {
+      padding: var(--med) var(--pad);
+    }
+
+    .cs-back {
+      font-size: var(--t-body);
+      font-weight: 400;
+      color: var(--ink-3);
+      text-decoration: none;
+      transition: color 0.15s ease, background-color 0.15s ease;
+      border-radius: 3px;
+      padding: 2px 5px;
+      margin: -2px -5px;
+    }
+
+    .cs-back:hover {
+      color: var(--bg);
+      background-color: var(--ink);
+    }
+
+    .cs-back:active {
+      color: var(--bg);
+      background-color: var(--ink-2);
+    }
+
+    /* ─── HEADER ───────────────────────────────────────────── */
+    .cs-header {
+      padding: var(--xl) var(--pad) var(--med);
+      max-width: calc(var(--content) + var(--pad) * 2);
+    }
+
+    .cs-eyebrow {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      margin-bottom: var(--base);
+    }
+
+    .cs-title {
+      font-size: var(--t-title);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      color: var(--ink);
+      margin-bottom: var(--med);
+    }
+
+    .cs-overview {
+      font-size: var(--t-md);
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+
+    .cs-overview strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    /* ─── METADATA ─────────────────────────────────────────── */
+    .cs-meta {
+      padding: var(--med) var(--pad);
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      gap: var(--xl);
+      justify-content: start;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: var(--xl);
+    }
+
+    @media (max-width: 720px) {
+      .cs-meta {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--med);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cs-meta {
+        grid-template-columns: 1fr;
+        gap: var(--base);
+      }
+    }
+
+    .meta-item {}
+
+    .meta-label {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      margin-bottom: var(--micro);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .meta-value {
+      font-size: var(--t-body);
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    /* ─── BODY ─────────────────────────────────────────────── */
+    .cs-body {
+      padding: 0 var(--pad) var(--hero);
+      max-width: calc(var(--content) + var(--pad) * 2);
+    }
+
+    .cs-section {
+      margin-bottom: var(--xl);
+    }
+
+    .cs-section-label {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      margin-bottom: var(--med);
+    }
+
+    .cs-h2 {
+      font-size: var(--t-md);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: var(--base);
+    }
+
+    .cs-h3 {
+      font-size: var(--t-base);
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: var(--sml);
+    }
+
+    .cs-p {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-2);
+      margin-bottom: var(--base);
+    }
+
+    .cs-p:last-child { margin-bottom: 0; }
+
+    .cs-p strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .cs-list {
+      list-style: none;
+      margin-bottom: var(--base);
+    }
+
+    .cs-list li {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-2);
+      padding: 3px 0 3px 16px;
+      position: relative;
+    }
+
+    .cs-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 13px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--ink-3);
+    }
+
+    /* ─── NOTE ─────────────────────────────────────────────── */
+    .cs-note {
+      padding: var(--base);
+      border-left: 2px solid var(--rule);
+      margin-bottom: var(--xl);
+    }
+
+    .cs-note p {
+      font-size: var(--t-body);
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-3);
+      font-style: italic;
+    }
+
+    /* ─── OUTCOME CALLOUT ──────────────────────────────────── */
+    .cs-outcome {
+      margin-top: var(--base);
+      margin-bottom: var(--med);
+      padding: var(--base);
+      background: rgba(24,24,24,0.03);
+    }
+
+    .cs-outcome-label {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: var(--micro);
+    }
+
+    .cs-outcome p {
+      font-size: var(--t-body);
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--ink-2);
+    }
+
+    /* ─── DIVIDER ───────────────────────────────────────────── */
+    .cs-divider {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: var(--xl) 0;
+    }
+
+    /* ─── DECISION ─────────────────────────────────────────── */
+    .cs-decision {
+      margin-bottom: var(--xl);
+    }
+
+    .cs-decision-num {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      margin-bottom: var(--sml);
+    }
+
+    /* ─── OUTCOMES GRID ────────────────────────────────────── */
+    .cs-outcomes-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--med);
+    }
+
+    .outcome-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: var(--med);
+      align-items: start;
+    }
+
+    @media (max-width: 600px) {
+      .outcome-row {
+        grid-template-columns: 1fr;
+        gap: var(--sml);
+      }
+    }
+
+    .outcome-type {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding-top: 3px;
+    }
+
+    .outcome-text {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="cs-nav">
+    <a class="cs-back" href="/">← Back</a>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="cs-header">
+    <p class="cs-eyebrow">Algolia · 2025</p>
+    <h1 class="cs-title">Turning a fragmented<br>developer setup into a<br>guided product experience.</h1>
+    <p class="cs-overview">
+      Ask AI launched inside DocSearch at a time when AI features were quickly becoming table stakes. The pressure was to move fast and keep pace with competitors, but the most likely outcome was a minimal setup split between code and the Algolia UI.
+    </p>
+    <br>
+    <p class="cs-overview">
+      <strong>I led the design of a guided onboarding model that kept configuration inside the product, reduced friction during setup, and created a more scalable foundation for future AI experiences.</strong> In the first 30 days, the flow drove 86 completed assistant setups, a 26.7% completion rate, and zero support tickets tied to configuration errors. It also went on to influence broader onboarding patterns in Agent Studio.
+    </p>
+  </header>
+
+  <!-- METADATA -->
+  <div class="cs-meta">
+    <div class="meta-item">
+      <p class="meta-label">My role</p>
+      <p class="meta-value">Design lead</p>
+    </div>
+    <div class="meta-item">
+      <p class="meta-label">Scope</p>
+      <p class="meta-value">Onboarding model<br>Setup flow design<br>Analytics presentation<br>Stakeholder influence</p>
+    </div>
+    <div class="meta-item">
+      <p class="meta-label">Influenced</p>
+      <p class="meta-value">Product direction<br>Scope decisions<br>Engineering architecture<br>Agent Studio patterns</p>
+    </div>
+    <div class="meta-item">
+      <p class="meta-label">Outcome</p>
+      <p class="meta-value">86 setups in 30 days<br>26.7% completion rate<br>Zero config errors</p>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="cs-body">
+
+    <!-- WHY THIS MATTERED -->
+    <div class="cs-section">
+      <p class="cs-section-label">Why this mattered</p>
+      <p class="cs-p">Ask AI was introduced as part of DocSearch to help Algolia keep pace as competing products started shipping AI features. The immediate business pressure was simple: move quickly and stay relevant.</p>
+      <p class="cs-p">But speed alone was not the real challenge.</p>
+      <p class="cs-p">The bigger risk was shipping an experience that only worked if users were willing to stitch setup together across multiple places. The early direction leaned toward a thin implementation, with some configuration handled in the UI and other parts pushed into code. That may have been faster to release, but it would also have created a fragmented workflow, made setup harder to follow, and limited the product's ability to stand on its own inside the platform.</p>
+      <p class="cs-p">I believed the real problem was not how to expose the functionality quickly. It was how to make Ask AI usable as a product, not just available as technical capability.</p>
+    </div>
+
+    <hr class="cs-divider">
+
+    <!-- THE PROBLEM -->
+    <div class="cs-section">
+      <p class="cs-section-label">The problem I chose to solve</p>
+      <p class="cs-p">On the surface, this looked like an onboarding problem.</p>
+      <p class="cs-p">In reality, it was a product coherence problem.</p>
+      <p class="cs-p">Without intervention, Ask AI would likely have launched as a minimal interface with key parts of setup split between the codebase and the product UI. That would have pushed more of the burden onto users, created a disjointed experience, and made configuration harder to understand and complete.</p>
+      <p class="cs-p">I reframed the work around jobs to be done. Instead of asking "What is the fastest way to expose this feature?", I pushed the team to ask "What is the clearest and most coherent way to help someone configure this successfully inside the product?"</p>
+      <p class="cs-p">That shift mattered. It changed the conversation from implementation speed to adoption risk, and it changed the shape of the solution.</p>
+    </div>
+
+    <hr class="cs-divider">
+
+    <!-- ROLE -->
+    <div class="cs-section">
+      <p class="cs-section-label">My role and scope</p>
+      <p class="cs-p">I did not invent Ask AI as a product concept. My role was to define how users would configure and experience it inside the product.</p>
+      <p class="cs-p">I owned the onboarding model, the sequence of setup decisions, the way the agent was presented to users, and how analytics were surfaced after setup. I also worked to remove the split between code-based and in-product configuration, so the feature felt cohesive rather than stitched together.</p>
+      <p class="cs-p">My scope included:</p>
+      <ul class="cs-list">
+        <li>Defining the onboarding approach</li>
+        <li>Shaping what steps users saw, in what order, and why</li>
+        <li>Designing a guided setup flow with opinionated defaults</li>
+        <li>Presenting the assistant and its analytics in a coherent way</li>
+        <li>Influencing PM and engineering stakeholders on scope and direction</li>
+        <li>Creating patterns that were later reused by engineers, PMs, and other designers</li>
+      </ul>
+      <p class="cs-p">This was not just interface design. It was a product direction decision about how Ask AI should work, who it could realistically serve, and how much burden the product placed on the user.</p>
+    </div>
+
+    <hr class="cs-divider">
+
+    <!-- CONSTRAINTS -->
+    <div class="cs-section">
+      <p class="cs-section-label">The constraints and tension</p>
+      <p class="cs-p">This was not a neat project with a settled plan.</p>
+      <p class="cs-p">There was pressure to ship quickly, the wider strategy was still moving, and the upgrade path beyond the MVP had not been thought through clearly enough. At the same time, there was a long-standing belief from engineering and wider leadership that developer products should optimise for speed first, and that richer UI often got in the way.</p>
+      <p class="cs-p">That created a real tension.</p>
+      <p class="cs-p">One path prioritised speed of implementation. It would have shipped faster, but at the cost of a fragmented experience and a narrower product. The other path required more design discipline and stronger alignment, but had a better chance of producing something coherent and scalable.</p>
+      <p class="cs-p">I had to navigate that tension while working lean, often keeping pace with features that were already moving toward code. Part of the challenge was not just defining the right experience. It was keeping the product coherent while the team was shipping in motion.</p>
+    </div>
+
+    <hr class="cs-divider">
+
+    <!-- KEY DECISIONS -->
+    <div class="cs-section">
+      <p class="cs-section-label">Key decisions I drove</p>
+
+      <div class="cs-decision">
+        <p class="cs-decision-num">1</p>
+        <h2 class="cs-h2">Shifted from fragmented setup to a guided product flow</h2>
+        <p class="cs-p">The most important contribution I made was changing the setup model. Without my involvement, Ask AI would likely have launched as a much more minimal experience, with functionality split between code and the Algolia platform.</p>
+        <p class="cs-p">I challenged that direction and pushed for a guided, in-product setup flow that kept users in one place and focused them on one decision at a time. For the first version, I prioritised simplicity and speed to value over maximum flexibility. We used opinionated defaults, reduced distractions, and structured the experience as a step-by-step wizard.</p>
+        <div class="cs-outcome">
+          <p class="cs-outcome-label">Outcome</p>
+          <p>That choice was not about making the UI feel friendlier. It was about reducing the burden of configuration and turning a complex capability into a usable product experience.</p>
+        </div>
+      </div>
+
+      <div class="cs-decision">
+        <p class="cs-decision-num">2</p>
+        <h2 class="cs-h2">Kept setup inside the product</h2>
+        <p class="cs-p">I removed the need for users to bounce between code and the UI during configuration. This made setup feel more cohesive and gave the feature a clearer product shape.</p>
+        <div class="cs-outcome">
+          <p class="cs-outcome-label">Outcome</p>
+          <p>The experience became something users could complete entirely inside the platform, rather than a partial UI backed by code they had to manage separately.</p>
+        </div>
+      </div>
+
+      <div class="cs-decision">
+        <p class="cs-decision-num">3</p>
+        <h2 class="cs-h2">Presented the assistant and its analytics as one experience</h2>
+        <p class="cs-p">My scope included how the configured assistant and its analytics were presented after setup. That mattered because the product needed to feel coherent beyond onboarding, not like a collection of disconnected screens.</p>
+        <div class="cs-outcome">
+          <p class="cs-outcome-label">Outcome</p>
+          <p>The result was a more legible product experience from setup through to use, rather than a handoff between separate surfaces.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="cs-divider">
+
+    <!-- HOW I INFLUENCED -->
+    <div class="cs-section">
+      <p class="cs-section-label">How I influenced direction</p>
+      <p class="cs-p">This work required more than producing screens.</p>
+      <p class="cs-p">I had to challenge a default product assumption: that speed of implementation was the primary success metric. I used jobs to be done framing to shift the conversation toward user burden, product coherence, and adoption risk. That framing gave PMs a stronger way to align leadership and helped move the team away from a thinner, more fragmented setup model.</p>
+      <p class="cs-p">The influence extended beyond the initial design review. PMs used the framing to align leadership. Engineers reused the architecture. Other designers adopted the onboarding model.</p>
+      <p class="cs-p">That mattered because it meant the work created leverage beyond the original feature, rather than staying trapped as a one-off solution.</p>
+      <div class="cs-outcome">
+        <p class="cs-outcome-label">Strategic outcome</p>
+        <p>The value was not just in getting a flow out of the door. It was in changing the shape of the product and giving the organisation a stronger pattern for similar work.</p>
+      </div>
+    </div>
+
+    <hr class="cs-divider">
+
+    <!-- OUTCOMES -->
+    <div class="cs-section">
+      <p class="cs-section-label">Outcomes</p>
+      <p class="cs-p">In the first 30 days, Ask AI reached:</p>
+      <ul class="cs-list">
+        <li>86 completed assistant setups</li>
+        <li>26.7% completion rate</li>
+        <li>Zero support tickets tied to configuration errors</li>
+      </ul>
+      <p class="cs-p">The strongest signal for me was not just the number of completions. It was the absence of configuration-related support tickets. That suggests the guided setup reduced confusion rather than adding friction, which was important given the concern that a richer flow might slow users down.</p>
+
+      <div class="cs-outcomes-grid">
+        <div class="outcome-row">
+          <p class="outcome-type">Product</p>
+          <p class="outcome-text">PMs used the framing to align leadership on scope and direction. The product coherence argument replaced implementation speed as the primary decision criterion.</p>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-type">Engineering</p>
+          <p class="outcome-text">Engineers reused the architecture established during this work, reducing rework on adjacent features.</p>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-type">Design</p>
+          <p class="outcome-text">Other designers adopted the onboarding model. The patterns from Ask AI later informed the revamp of Agent Studio.</p>
+        </div>
+        <div class="outcome-row">
+          <p class="outcome-type">Organisational</p>
+          <p class="outcome-text">The approach created a reusable pattern for AI configuration onboarding that extended well beyond the original feature launch.</p>
+        </div>
+      </div>
+
+      <br>
+      <div class="cs-note">
+        <p>I can credibly say this work improved product coherence, created a guided onboarding model that performed well, and influenced future AI onboarding patterns inside Algolia. I cannot credibly claim direct revenue impact, support cost savings, or proven adoption by non-technical personas from the evidence I have today, so I do not. That honesty makes the story stronger, not weaker.</p>
+      </div>
+    </div>
+
+    <hr class="cs-divider">
+
+    <!-- WHY THIS MATTERS -->
+    <div class="cs-section">
+      <p class="cs-section-label">Why this demonstrates principal level capability</p>
+      <p class="cs-p">The principal signal in this work is not that I designed a wizard.</p>
+      <p class="cs-p">It is that I identified that the default delivery path solved the wrong problem. The obvious path was to ship fast and expose the capability. I pushed the team to solve for product coherence and adoption instead. That changed the setup model, shaped what shipped, influenced how stakeholders thought about the problem, and created a reusable pattern that later informed Agent Studio.</p>
+      <p class="cs-p">This project shows that I can:</p>
+      <ul class="cs-list">
+        <li>Recognise when a team is optimising for the wrong thing</li>
+        <li>Reframe the work around a more strategic problem</li>
+        <li>Influence direction across design, product, and engineering</li>
+        <li>Make deliberate trade-offs between speed, simplicity, and flexibility</li>
+        <li>Create patterns that extend beyond a single launch</li>
+      </ul>
+      <p class="cs-p"><strong>The outcome was not just a better onboarding flow. It was a stronger product model and a more scalable approach to AI configuration.</strong></p>
+    </div>
+
+    <hr class="cs-divider">
+
+    <!-- REFLECTION -->
+    <div class="cs-section">
+      <p class="cs-section-label">Reflection</p>
+      <p class="cs-p">Looking back, the most important lesson was that in fast-moving spaces like AI, the first risk is not always shipping too slowly. Sometimes the bigger risk is shipping something technically possible but structurally hard to adopt.</p>
+      <p class="cs-p">Ask AI reinforced for me that design has the most leverage when it shapes the product model early, not just the interface late. By changing the setup from a fragmented implementation pattern into a guided in-product experience, I helped turn a feature into something that could behave more like a product.</p>
+      <p class="cs-p">It also showed how much value comes from creating work that others can reuse. The fact that this approach influenced Agent Studio, and was adopted more broadly by PMs, engineers, and other designers, is what makes the story meaningful beyond the original launch.</p>
+    </div>
+
+  </div>
+
+</body>
+</html>
