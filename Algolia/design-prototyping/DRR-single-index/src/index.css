@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #23263B;
+  --color-ink-light: #36395A;
+  --color-subdued: #5A5E9A;
+  --color-primary: #003DFF;
+  --color-primary-hover: #0035E0;
+  --color-border-subtle: #D6D6E7;
+  --color-border-subtler: #F5F5FA;
+  --color-bg-default: #FCFCFD;
+  --color-bg-surface: #FFFFFF;
+  --color-bg-sidebar: #F5F5FA;
+  --color-cyan-800: #00769B;
+  --color-blue-100: #E8FAFF;
+  --color-orange-100: #FFF9EC;
+  --color-pink-100: #FFEAF6;
+  --color-green-100: #E6FAF0;
+  --color-green-600: #059669;
+  --color-green-700: #047857;
+  --color-avatar-secondary: #B9EFFF;
+  --color-purple-500: #8B5CF6;
+  --color-purple-100: #F3EEFF;
+  --color-red-500: #EF4444;
+  --color-red-100: #FEF2F2;
+  --color-orange-500: #F59E0B;
+  --font-family-display: "SF Pro Display", system-ui, -apple-system, sans-serif;
+  --font-family-body: "SF Pro Text", system-ui, -apple-system, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
