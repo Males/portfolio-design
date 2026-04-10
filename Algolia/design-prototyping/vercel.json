@@ -1,0 +1,9 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/agent-studio/(.*)", "destination": "/agent-studio/index.html" },
+    { "source": "/mcp-flows/(.*)", "destination": "/mcp-flows/index.html" },
+    { "source": "/DRR-single-index/(.*)", "destination": "/DRR-single-index/index.html" }
+  ]
+}

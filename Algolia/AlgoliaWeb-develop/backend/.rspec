@@ -1,0 +1,4 @@
+--color
+--require rails_helper
+--require packs/rails/rspec
+--order random

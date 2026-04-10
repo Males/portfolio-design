@@ -1,0 +1,13 @@
+{
+  "name": "design-prototyping",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:agent-studio && npm run build:mcp-flows && npm run build:drr-single-index && npm run build:neuralsearch && npm run build:landing",
+    "build:drr-single-index": "cd DRR-single-index && npm ci && npm run build",
+    "build:agent-studio": "cd agent-studio && npm ci && npm run build",
+    "build:mcp-flows": "cd mcp-flows && npm ci && npm run build",
+    "build:neuralsearch": "mkdir -p dist/NeuralSearch && cp NeuralSearch/index.html dist/NeuralSearch/index.html && cp NeuralSearch/algolia-mark.png dist/NeuralSearch/algolia-mark.png && cp NeuralSearch/capture-analytics.html dist/NeuralSearch/capture-analytics.html",
+    "build:landing": "mkdir -p dist && cp landing/index.html dist/index.html && cp landing/algolia-mark.png dist/algolia-mark.png",
+    "deploy": "sh deploy.sh"
+  }
+}

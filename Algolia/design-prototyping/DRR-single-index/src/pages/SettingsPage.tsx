@@ -1,58 +1,43 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../components/PageHeader";
+import ExploreConfigureTabs from "../components/ExploreConfigureTabs";
 import ConfirmModal from "../components/ConfirmModal";
 import SaveLiveFlowModal from "../components/SaveLiveFlowModal";
 import DeactivateModal from "../components/DeactivateModal";
-import PostPreviewActionBar from "../components/PostPreviewActionBar";
 import PaneSegmentControl from "../components/PaneSegmentControl";
 import SettingsCompareForm from "../components/SettingsCompareForm";
-import SettingsFormColumn from "../components/SettingsFormColumn";
-import ConfigureColumnDiffBanner from "../components/ConfigureColumnDiffBanner";
-import ConfigureVariantEmptyPanel from "../components/ConfigureVariantEmptyPanel";
+import {
+  BuildingColumnAside,
+  CreateNewVariantCard,
+  DrrOffColumnAside,
+} from "../components/GeneralColumnAside";
 import { useDRR } from "../context/DRRContext";
 import type { ComparisonPaneMode, DRRSettingsSnapshot } from "../types/drrSettings";
-import type { VariantBuildStatus } from "../context/DRRContext";
+import {
+  configureCompareColumnTitle,
+  resolveConfigureColumn,
+  toCompareColumn,
+  type ColumnResolved,
+} from "../lib/configureColumnResolve";
 
-type ColumnResolved =
-  | { kind: "form"; config: DRRSettingsSnapshot; editable: boolean }
-  | { kind: "empty-variant"; slot: "A" | "B" }
-  | { kind: "building-variant"; slot: "A" | "B" };
-
-function resolveConfigureColumn(
-  mode: ComparisonPaneMode,
-  ctx: {
-    productionConfig: DRRSettingsSnapshot;
-    localConfig: DRRSettingsSnapshot;
-    variantAConfig: DRRSettingsSnapshot;
-    variantBConfig: DRRSettingsSnapshot;
-    hasVariantA: boolean;
-    hasVariantB: boolean;
-    variantABuildStatus: VariantBuildStatus;
-    variantBBuildStatus: VariantBuildStatus;
-  },
-): ColumnResolved {
-  if (mode === "control") {
-    return { kind: "form", config: ctx.localConfig, editable: true };
+function generalAsideFor(
+  resolved: ColumnResolved,
+  onCreate: (slot: "A" | "B") => void,
+  createDisabled: boolean,
+): ReactNode | null {
+  if (resolved.kind === "empty-variant") {
+    return (
+      <CreateNewVariantCard onCreate={() => onCreate(resolved.slot)} disabled={createDisabled} />
+    );
   }
-  if (mode === "variant-a") {
-    if (ctx.variantABuildStatus === "building") return { kind: "building-variant", slot: "A" };
-    if (!ctx.hasVariantA) return { kind: "empty-variant", slot: "A" };
-    return { kind: "form", config: ctx.variantAConfig, editable: true };
+  if (resolved.kind === "building-variant") {
+    return <BuildingColumnAside slot={resolved.slot} />;
   }
-  if (mode === "variant-b") {
-    if (ctx.variantBBuildStatus === "building") return { kind: "building-variant", slot: "B" };
-    if (!ctx.hasVariantB) return { kind: "empty-variant", slot: "B" };
-    return { kind: "form", config: ctx.variantBConfig, editable: true };
+  if (resolved.kind === "drr-off") {
+    return <DrrOffColumnAside />;
   }
-  return { kind: "form", config: ctx.localConfig, editable: true };
-}
-
-function configureModeLabel(mode: ComparisonPaneMode): string {
-  if (mode === "control") return "Control";
-  if (mode === "variant-a") return "Variation A";
-  if (mode === "variant-b") return "Variation B";
-  return "DRR off";
+  return null;
 }
 
 export default function SettingsPage() {
@@ -100,13 +85,6 @@ export default function SettingsPage() {
       setSettingsPreferredBuildTarget(null);
     }
   }, [settingsPreferredBuildTarget, setSettingsPreferredBuildTarget]);
-
-  useEffect(() => {
-    if (leftMode === "drr-off") setLeftMode("control");
-  }, [leftMode]);
-  useEffect(() => {
-    if (rightMode === "drr-off") setRightMode("control");
-  }, [rightMode]);
 
   const updateLocal = useCallback((patch: Partial<DRRSettingsSnapshot>) => {
     setLocalConfig((prev) => ({
@@ -198,8 +176,8 @@ export default function SettingsPage() {
   const leftResolved = resolveConfigureColumn(leftMode, ctx);
   const rightResolved = resolveConfigureColumn(rightMode, ctx);
 
-  const showExploreStyleDiff =
-    leftResolved.kind === "form" && rightResolved.kind === "form";
+  const leftCompare = toCompareColumn(leftResolved, localConfig);
+  const rightCompare = toCompareColumn(rightResolved, localConfig);
 
   const patchFor = (side: "left" | "right"): ((p: Partial<DRRSettingsSnapshot>) => void) => {
     const mode = side === "left" ? leftMode : rightMode;
@@ -209,6 +187,24 @@ export default function SettingsPage() {
     if (mode === "variant-b") return patchVariantB;
     return noop;
   };
+
+  const twinCreate =
+    leftResolved.kind === "empty-variant" && rightResolved.kind === "empty-variant";
+
+  const leftGeneralAside = twinCreate
+    ? undefined
+    : generalAsideFor(leftResolved, handleCreateSlotPreview, building);
+  const rightGeneralAside = twinCreate
+    ? undefined
+    : generalAsideFor(rightResolved, handleCreateSlotPreview, building);
+
+  const generalTwinCreate = twinCreate
+    ? {
+        onCreateLeft: () => handleCreateSlotPreview(leftResolved.slot),
+        onCreateRight: () => handleCreateSlotPreview(rightResolved.slot),
+        createDisabled: building,
+      }
+    : undefined;
 
   return (
     <div className="p-8" style={{ animation: "fadeSlideIn 0.3s ease-out" }}>
@@ -221,48 +217,15 @@ export default function SettingsPage() {
         }}
       />
 
-      <div className="flex gap-8 mt-6 mb-6 border-b border-border-subtle">
-        <button
-          type="button"
-          onClick={() => navigate("/")}
-          className="text-sm font-medium text-subdued pb-3 hover:text-ink cursor-pointer"
-        >
-          Explore
-        </button>
-        <button
-          type="button"
-          className="text-sm font-medium text-primary border-b-2 border-primary -mb-px pb-3 cursor-pointer"
-        >
-          Configure
-        </button>
-      </div>
+      <ExploreConfigureTabs active="configure" />
 
       <div className="max-w-[1320px] flex flex-col gap-6">
-        <div>
-          <h2 className="text-xl font-semibold text-ink tracking-tight">Configure dynamic re-ranking</h2>
-          <p className="text-sm text-subdued mt-1 max-w-3xl leading-relaxed">
-            Pick <span className="text-ink font-medium">Control</span> or a variation in each column (same choices as
-            Explore, without DRR off — there are no DRR settings when re-ranking is off). Control is your live draft; Save
-            updates production. Empty variations show a short setup — then use{" "}
-            <button
-              type="button"
-              onClick={() => navigate("/")}
-              className="text-primary font-medium hover:underline cursor-pointer"
-            >
-              Explore
-            </button>{" "}
-            to preview ranking output.
-          </p>
-        </div>
-
-        {showExploreStyleDiff && (
-          <ConfigureColumnDiffBanner left={leftResolved.config} right={rightResolved.config} />
-        )}
-
-        <div className="flex flex-col gap-6">
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
+        <div className="flex flex-col gap-6 min-w-0">
+          {/* Same 3-col grid as SettingsCompareForm header so segments sit above the correct data columns */}
+          <div className="hidden lg:grid grid-cols-[minmax(200px,26%)_minmax(0,1fr)_minmax(0,1fr)] gap-4 items-start px-1 pt-4">
+            <div aria-hidden className="min-h-px" />
             <div className="flex flex-col gap-1 min-w-0">
-              <span className="text-[11px] font-semibold uppercase tracking-wide text-subdued">Left column</span>
+              <span className="text-xs font-semibold uppercase leading-4 text-subdued">Left column</span>
               <PaneSegmentControl
                 value={leftMode}
                 onChange={setLeftMode}
@@ -270,11 +233,13 @@ export default function SettingsPage() {
                 showVariantA={hasVariantA || variantABuildStatus === "building"}
                 showVariantB={hasVariantB || variantBBuildStatus === "building"}
                 alwaysShowVariants
-                hideDrrOff
+                visualVariant="ds"
+                fullWidth
+                variantSlotLabels={{ a: "Variant B", b: "Variant C" }}
               />
             </div>
             <div className="flex flex-col gap-1 min-w-0">
-              <span className="text-[11px] font-semibold uppercase tracking-wide text-subdued">Right column</span>
+              <span className="text-xs font-semibold uppercase leading-4 text-subdued">Right column</span>
               <PaneSegmentControl
                 value={rightMode}
                 onChange={setRightMode}
@@ -282,81 +247,59 @@ export default function SettingsPage() {
                 showVariantA={hasVariantA || variantABuildStatus === "building"}
                 showVariantB={hasVariantB || variantBBuildStatus === "building"}
                 alwaysShowVariants
-                hideDrrOff
+                visualVariant="ds"
+                fullWidth
+                variantSlotLabels={{ a: "Variant B", b: "Variant C" }}
+              />
+            </div>
+          </div>
+          <div className="lg:hidden flex flex-col gap-6">
+            <div className="flex flex-col gap-1 min-w-0">
+              <span className="text-xs font-semibold uppercase leading-4 text-subdued">Left column</span>
+              <PaneSegmentControl
+                value={leftMode}
+                onChange={setLeftMode}
+                ariaLabel="Left configure column source"
+                showVariantA={hasVariantA || variantABuildStatus === "building"}
+                showVariantB={hasVariantB || variantBBuildStatus === "building"}
+                alwaysShowVariants
+                visualVariant="ds"
+                fullWidth
+                variantSlotLabels={{ a: "Variant B", b: "Variant C" }}
+              />
+            </div>
+            <div className="flex flex-col gap-1 min-w-0">
+              <span className="text-xs font-semibold uppercase leading-4 text-subdued">Right column</span>
+              <PaneSegmentControl
+                value={rightMode}
+                onChange={setRightMode}
+                ariaLabel="Right configure column source"
+                showVariantA={hasVariantA || variantABuildStatus === "building"}
+                showVariantB={hasVariantB || variantBBuildStatus === "building"}
+                alwaysShowVariants
+                visualVariant="ds"
+                fullWidth
+                variantSlotLabels={{ a: "Variant B", b: "Variant C" }}
               />
             </div>
           </div>
 
-          {showExploreStyleDiff ? (
-            <SettingsCompareForm
-              leftPaneId="configure-left"
-              rightPaneId="configure-right"
-              leftLabel={configureModeLabel(leftMode)}
-              rightLabel={configureModeLabel(rightMode)}
-              leftConfig={leftResolved.config}
-              rightConfig={rightResolved.config}
-              leftEditable={leftResolved.editable}
-              rightEditable={rightResolved.editable}
-              onPatchLeft={patchFor("left")}
-              onPatchRight={patchFor("right")}
-            />
-          ) : (
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
-              <div className="flex flex-col gap-3 min-w-0">
-                {leftResolved.kind === "form" && (
-                  <SettingsFormColumn
-                    paneId="configure-left"
-                    config={leftResolved.config}
-                    editable={leftResolved.editable}
-                    onPatch={patchFor("left")}
-                  />
-                )}
-                {leftResolved.kind === "empty-variant" && (
-                  <ConfigureVariantEmptyPanel
-                    slot={leftResolved.slot}
-                    onCreatePreview={() => handleCreateSlotPreview(leftResolved.slot)}
-                    building={false}
-                    disabled={building}
-                  />
-                )}
-                {leftResolved.kind === "building-variant" && (
-                  <ConfigureVariantEmptyPanel
-                    slot={leftResolved.slot}
-                    onCreatePreview={() => {}}
-                    building
-                  />
-                )}
-              </div>
-              <div className="flex flex-col gap-3 min-w-0">
-                {rightResolved.kind === "form" && (
-                  <SettingsFormColumn
-                    paneId="configure-right"
-                    config={rightResolved.config}
-                    editable={rightResolved.editable}
-                    onPatch={patchFor("right")}
-                  />
-                )}
-                {rightResolved.kind === "empty-variant" && (
-                  <ConfigureVariantEmptyPanel
-                    slot={rightResolved.slot}
-                    onCreatePreview={() => handleCreateSlotPreview(rightResolved.slot)}
-                    building={false}
-                    disabled={building}
-                  />
-                )}
-                {rightResolved.kind === "building-variant" && (
-                  <ConfigureVariantEmptyPanel
-                    slot={rightResolved.slot}
-                    onCreatePreview={() => {}}
-                    building
-                  />
-                )}
-              </div>
-            </div>
-          )}
+          <SettingsCompareForm
+            leftPaneId="configure-left"
+            rightPaneId="configure-right"
+            leftLabel={configureCompareColumnTitle(leftMode)}
+            rightLabel={configureCompareColumnTitle(rightMode)}
+            leftConfig={leftCompare.config}
+            rightConfig={rightCompare.config}
+            leftColumnMode={leftCompare.mode}
+            rightColumnMode={rightCompare.mode}
+            onPatchLeft={patchFor("left")}
+            onPatchRight={patchFor("right")}
+            leftGeneralAside={leftGeneralAside ?? undefined}
+            rightGeneralAside={rightGeneralAside ?? undefined}
+            generalTwinCreate={generalTwinCreate}
+          />
         </div>
-
-        <PostPreviewActionBar />
 
         <div className="flex items-center justify-end gap-3 pb-8">
           <button

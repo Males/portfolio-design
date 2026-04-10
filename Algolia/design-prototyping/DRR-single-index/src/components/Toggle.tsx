@@ -22,9 +22,9 @@ export default function Toggle({
       onClick={() => !disabled && onChange(!checked)}
       className={[
         "relative inline-flex h-7 w-12 shrink-0 items-center rounded-full p-1 transition-colors",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nebula-600/40 focus-visible:ring-offset-2",
         disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer",
-        checked ? "bg-primary" : "bg-border-subtle",
+        checked ? "bg-nebula-600" : "bg-toggle-off",
       ].join(" ")}
     >
       <span

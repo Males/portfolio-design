@@ -19,36 +19,38 @@ export default function PageHeader({
   return (
     <div className="flex items-start justify-between">
       <div className="flex flex-col gap-2">
-        <h1 className="text-[28px] font-semibold text-ink leading-tight">Dynamic re-ranking</h1>
-        <div className="flex items-center gap-2 text-sm flex-wrap">
+        <h1 className="text-[28px] font-semibold text-ink leading-8 [font-family:var(--font-family-display)]">
+          Dynamic re-ranking
+        </h1>
+        <div className="flex items-center gap-2 text-xs flex-wrap">
           <span className="flex items-center gap-1 text-primary">
-            <Sparkles size={12} />
+            <Sparkles size={12} strokeWidth={2} />
             197 queries re-ranked — 0 browsing facets re-ranked
           </span>
           <span className="text-subdued">•</span>
           <span className="flex items-center gap-1 text-subdued">
-            <Clock size={12} />
+            <Clock size={12} strokeWidth={2} />
             Last update: March 12th, at 01:44
           </span>
           {isDRRActivated ? (
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
-              <Sparkles size={10} />
+            <span className="inline-flex items-center gap-2 px-2 py-0.5 rounded-full text-sm font-normal border border-success-border bg-success-bg text-success-ink">
+              <Sparkles size={12} strokeWidth={2} className="text-success-ink" />
               Activated
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-600">
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-bg-sidebar text-subdued border border-border-subtle">
               Deactivated
             </span>
           )}
         </div>
       </div>
 
-      <div className="flex items-center gap-3 shrink-0">
+      <div className="flex items-center gap-2 shrink-0">
         {showActivate ? (
           <button
             type="button"
             onClick={onActivate}
-            className="px-4 py-2 text-sm font-medium text-ink border border-border-subtle rounded-lg hover:bg-bg-sidebar cursor-pointer"
+            className="h-10 px-3 text-sm font-normal text-ink bg-bg-surface border border-border-subtle rounded hover:bg-bg-sidebar cursor-pointer"
           >
             Activate re-ranking
           </button>
@@ -56,18 +58,17 @@ export default function PageHeader({
           <button
             type="button"
             onClick={onDeactivate}
-            className="px-4 py-2 text-sm font-medium text-ink border border-border-subtle rounded-lg hover:bg-bg-sidebar cursor-pointer"
+            className="h-10 px-3 text-sm font-normal text-ink bg-bg-surface border border-border-subtle rounded hover:bg-bg-sidebar cursor-pointer"
           >
             Deactivate
           </button>
         )}
         <button
+          type="button"
           onClick={onCreateTest}
           disabled={hasRunningTest}
-          className={`px-4 py-2 text-sm font-medium rounded-lg cursor-pointer ${
-            hasRunningTest
-              ? "bg-primary/50 text-white/70 cursor-not-allowed"
-              : "bg-primary text-white hover:bg-primary-hover"
+          className={`h-10 px-3 text-sm font-normal rounded border border-border-subtle bg-bg-surface text-ink hover:bg-bg-sidebar cursor-pointer ${
+            hasRunningTest ? "opacity-50 cursor-not-allowed hover:bg-bg-surface" : ""
           }`}
         >
           Create A/B test

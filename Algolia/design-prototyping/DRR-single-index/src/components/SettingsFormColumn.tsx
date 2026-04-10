@@ -19,7 +19,7 @@ export function SelectInput({
         value={value}
         disabled={disabled}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full px-3 py-2.5 text-sm text-ink bg-bg-surface border border-border-subtle rounded-lg appearance-none cursor-pointer pr-8 disabled:opacity-60 disabled:cursor-not-allowed"
+        className="w-full h-10 pl-4 pr-9 text-sm text-ink bg-bg-surface border border-border-strong rounded appearance-none cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {options.map((o) => (
           <option key={o} value={o}>
@@ -56,8 +56,10 @@ export default function SettingsFormColumn({ paneId, config, editable, onPatch }
 
   return (
     <div className="flex flex-col gap-6 min-w-0">
-      <div className="bg-bg-surface border border-border-subtle rounded-xl p-5 sm:p-6">
-        <h3 className="text-lg font-semibold text-ink mb-5">General</h3>
+      <div className="bg-bg-surface border border-border-subtle rounded-xl px-4 pt-6 pb-10 sm:px-4">
+        <h3 className="text-xl font-semibold text-ink leading-7 mb-4 [font-family:var(--font-family-display)]">
+          General
+        </h3>
 
         <div className="flex flex-col gap-1.5 mb-5">
           <label className="text-sm font-medium text-ink">Goal</label>
@@ -105,8 +107,10 @@ export default function SettingsFormColumn({ paneId, config, editable, onPatch }
         </div>
       </div>
 
-      <div className="bg-bg-surface border border-border-subtle rounded-xl p-5 sm:p-6">
-        <h3 className="text-lg font-semibold text-ink mb-5">Coverage</h3>
+      <div className="bg-bg-surface border border-border-subtle rounded-xl px-4 pt-6 pb-10 sm:px-4">
+        <h3 className="text-xl font-semibold text-ink leading-7 mb-4 [font-family:var(--font-family-display)]">
+          Coverage
+        </h3>
 
         <div className="flex flex-col gap-1.5 mb-5">
           <label className="text-sm font-medium text-ink">Multi-signal ranking</label>
@@ -187,25 +191,26 @@ export default function SettingsFormColumn({ paneId, config, editable, onPatch }
         </div>
 
         {config.rerankedEmptyQueries && (
-          <div className="flex items-start gap-2 p-3 bg-bg-sidebar rounded-lg mb-5">
-            <Info size={14} className="text-subdued mt-0.5 shrink-0" />
-            <p className="text-xs text-subdued leading-relaxed">
-              Re-ranked empty queries is temporarily unavailable if you have at least one browsing facet set.
+          <div className="flex items-start gap-2 p-3 bg-blue-100 rounded mb-5">
+            <Info size={14} className="text-cyan-800 mt-0.5 shrink-0" />
+            <p className="text-xs text-ink leading-relaxed">
+              Re-ranked empty queries is temporarily unavailable if you have at least one browsing facet set. Your empty
+              query will not be re-ranked.
             </p>
           </div>
         )}
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-ink">Browsing facets</label>
+          <label className="text-sm font-semibold text-ink">Number of re-ranked hits</label>
           <input
             type="number"
             value={config.browsingFacetsCount}
             disabled={d}
             onChange={(e) => update({ browsingFacetsCount: Number(e.target.value) })}
-            className="w-[120px] px-3 py-2.5 text-sm text-ink bg-bg-surface border border-border-subtle rounded-lg disabled:opacity-60"
+            className="w-full max-w-[336px] h-10 px-4 text-sm text-ink bg-bg-surface border border-border-strong rounded disabled:opacity-60"
           />
-          <p className="text-xs text-subdued">
-            Maximum number of hits pushed by re-ranking to the top at most.{" "}
+          <p className="text-xs text-subdued leading-relaxed">
+            Maximum number of hits affected by re-ranking (up to 100).{" "}
             <a href="#" className="text-primary hover:underline inline-flex items-center gap-0.5">
               Learn more <ExternalLink size={10} />
             </a>
@@ -213,8 +218,10 @@ export default function SettingsFormColumn({ paneId, config, editable, onPatch }
         </div>
       </div>
 
-      <div className="bg-bg-surface border border-border-subtle rounded-xl p-5 sm:p-6">
-        <h3 className="text-lg font-semibold text-ink mb-5">Ordering</h3>
+      <div className="bg-bg-surface border border-border-subtle rounded-xl px-4 pt-6 pb-10 sm:px-4">
+        <h3 className="text-xl font-semibold text-ink leading-7 mb-4 [font-family:var(--font-family-display)]">
+          Ordering
+        </h3>
 
         <div className="flex flex-col gap-1.5 mb-5">
           <div className="flex items-center justify-between gap-3 min-h-[28px]">
@@ -246,13 +253,23 @@ export default function SettingsFormColumn({ paneId, config, editable, onPatch }
               disabled={d}
             />
           )}
-          <p className="text-xs text-subdued">
-            Turn on to take seasonality into account.{" "}
+          <p className="text-xs text-subdued leading-relaxed">
+            Apply the same ordering to similar queries when clustering is enabled.{" "}
             <a href="#" className="text-primary hover:underline inline-flex items-center gap-0.5">
               Learn more <ExternalLink size={10} />
             </a>
           </p>
         </div>
+
+        {config.rerankedEmptyQueries && (
+          <div className="flex items-start gap-2 p-3 bg-blue-100 rounded mb-5">
+            <Info size={14} className="text-cyan-800 mt-0.5 shrink-0" />
+            <p className="text-xs text-ink leading-relaxed">
+              Re-ranked empty queries is temporarily unavailable if you have at least one browsing facet set. Your empty
+              query will not be re-ranked.
+            </p>
+          </div>
+        )}
 
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-medium text-ink">Re-ranking filter</label>

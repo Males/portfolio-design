@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../components/PageHeader";
+import ExploreConfigureTabs from "../components/ExploreConfigureTabs";
 import ComparisonQueryToolbar from "../components/ComparisonQueryToolbar";
 import ComparisonView from "../components/ComparisonView";
 import TestBanner from "../components/TestBanner";
@@ -67,24 +68,10 @@ export default function PreviewPage() {
         onCreateTest={handleCreateTest}
       />
 
-      <div className="flex gap-8 mt-6 mb-6 border-b border-border-subtle">
-        <button
-          type="button"
-          className="text-sm font-medium text-primary border-b-2 border-primary -mb-px pb-3 cursor-pointer"
-        >
-          Explore
-        </button>
-        <button
-          type="button"
-          onClick={() => navigate("/settings")}
-          className="text-sm font-medium text-subdued pb-3 hover:text-ink cursor-pointer"
-        >
-          Configure
-        </button>
-      </div>
+      <ExploreConfigureTabs active="explore" />
 
       <div className="flex flex-col gap-6">
-        <section className="rounded-xl border border-border-subtle bg-bg-surface p-4">
+        <section className="mt-6 rounded-xl border border-border-subtle bg-bg-surface p-4">
           <div className="space-y-4">
             <header>
               <h2 className="text-lg font-semibold text-ink tracking-tight">Preview a query</h2>
