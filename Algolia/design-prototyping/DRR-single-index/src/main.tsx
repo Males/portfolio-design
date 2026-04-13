@@ -6,9 +6,13 @@ import PasswordGate from "./components/PasswordGate";
 import App from "./App";
 import "./index.css";
 
+const baseUrl = import.meta.env.BASE_URL;
+const routerBasename =
+  baseUrl === "/" ? undefined : baseUrl.replace(/\/$/, "");
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter basename="/DRR-single-index">
+    <BrowserRouter basename={routerBasename}>
       <PasswordGate>
         <DRRProvider>
           <App />

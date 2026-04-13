@@ -2,10 +2,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./components/AppLayout";
 import PreviewPage from "./pages/PreviewPage";
 import SettingsPage from "./pages/SettingsPage";
-import CreateVariantPage from "./pages/CreateVariantPage";
-import PreviewVariantPage from "./pages/PreviewVariantPage";
-import SetParametersPage from "./pages/SetParametersPage";
-import TestRunningPage from "./pages/TestRunningPage";
+import AbTestSelectVariationsPage from "./pages/AbTestSelectVariationsPage";
+import AbTestTrafficDurationPage from "./pages/AbTestTrafficDurationPage";
 
 export default function App() {
   return (
@@ -14,10 +12,8 @@ export default function App() {
         <Route index element={<PreviewPage />} />
         <Route path="preview" element={<PreviewPage />} />
         <Route path="settings" element={<SettingsPage />} />
-        <Route path="create-variant" element={<CreateVariantPage />} />
-        <Route path="preview-variant" element={<PreviewVariantPage />} />
-        <Route path="set-parameters" element={<SetParametersPage />} />
-        <Route path="test-running" element={<TestRunningPage />} />
+        <Route path="ab-test/variations" element={<AbTestSelectVariationsPage />} />
+        <Route path="ab-test/traffic" element={<AbTestTrafficDurationPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

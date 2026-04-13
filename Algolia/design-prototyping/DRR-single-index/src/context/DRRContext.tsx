@@ -1,59 +1,14 @@
 import { createContext, useContext, useState, useCallback, useRef, type ReactNode } from "react";
 import type { ComparisonPaneMode, DRRSettingsSnapshot } from "../types/drrSettings";
+import type { AbTestVariationId, ActiveAbTest } from "../types/abTest";
 
 export type { ComparisonPaneMode, DRRSettingsSnapshot };
 
-export type FlowType = "first-time" | "ab" | "abc" | null;
-export type TestStatus = "idle" | "running" | "completed";
 export type VariantBuildStatus = "idle" | "building" | "ready";
-
-export interface VariantConfig {
-  name: string;
-  drrEnabled: boolean;
-  goal: string;
-  eventSourceIndex: string;
-  hourlyRefresh: boolean;
-  multiSignalRanking: "head-only" | "augmented" | "combined";
-  rerankedEmptyQueries: boolean;
-  browsingFacetsCount: number;
-  eventFreshness: boolean;
-  groupSimilarQueries: boolean;
-  groupSimilarQueriesLang: string;
-  reRankingFilter: { attribute: string; operator: string; value: string };
-}
-
-export interface TestConfig {
-  name: string;
-  controlIndex: string;
-  variants: { name: string; config: VariantConfig }[];
-  trafficSplit: number[];
-  duration: number;
-}
-
-export interface TestResult {
-  name: string;
-  id: string;
-  status: TestStatus;
-  startDate: string;
-  endDate: string;
-  splits: { label: string; percentage: number }[];
-  variants: {
-    label: string;
-    type: "control" | "variant";
-    trackedSearches: number;
-    trackedUsers: number;
-    ctr: number;
-    cvr: number | string;
-  }[];
-}
 
 interface DRRState {
   isFirstTimeUser: boolean;
   isDRRActivated: boolean;
-  activeFlow: FlowType;
-  testStatus: TestStatus;
-  testConfig: TestConfig;
-  testResult: TestResult | null;
   productionConfig: DRRSettingsSnapshot;
   variantAConfig: DRRSettingsSnapshot;
   variantBConfig: DRRSettingsSnapshot;
@@ -69,11 +24,6 @@ interface DRRState {
 
   setIsFirstTimeUser: (v: boolean) => void;
   setIsDRRActivated: (v: boolean) => void;
-  setActiveFlow: (f: FlowType) => void;
-  setTestStatus: (s: TestStatus) => void;
-  setTestConfig: (c: TestConfig) => void;
-  startTest: () => void;
-  resetFlow: () => void;
   updateProductionConfig: (c: Partial<DRRSettingsSnapshot>) => void;
   /** Replaces live Control entirely (use when saving the full form). */
   replaceProductionConfig: (c: DRRSettingsSnapshot) => void;
@@ -87,30 +37,23 @@ interface DRRState {
   deleteVariantDraft: (target: "A" | "B") => void;
   applyVariantToLive: (target: "A" | "B") => void;
   setSettingsPreferredBuildTarget: (target: "A" | "B" | null) => void;
+
+  abTestSelectedVariations: AbTestVariationId[];
+  setAbTestSelectedVariations: (ids: AbTestVariationId[]) => void;
+  abTestTrafficSplit: number[];
+  setAbTestTrafficSplit: (pct: number[]) => void;
+  abTestDurationDays: number;
+  setAbTestDurationDays: (d: number) => void;
+  beginAbTestWizard: () => void;
+
+  activeAbTest: ActiveAbTest | null;
+  setActiveAbTest: (t: ActiveAbTest | null) => void;
+  dismissActiveAbTest: () => void;
+  /** Mark the current test ended (prototype) so results / apply are available without waiting. */
+  completeActiveAbTest: () => void;
+  /** Copy the selected test arm’s settings to live Control (and DRR on/off where relevant). */
+  applyAbTestVariationToLive: (id: AbTestVariationId) => void;
 }
-
-const defaultVariant: VariantConfig = {
-  name: "",
-  drrEnabled: true,
-  goal: "Conversion rate",
-  eventSourceIndex: "Adam_Test_2000",
-  hourlyRefresh: true,
-  multiSignalRanking: "head-only",
-  rerankedEmptyQueries: true,
-  browsingFacetsCount: 20,
-  eventFreshness: true,
-  groupSimilarQueries: true,
-  groupSimilarQueriesLang: "English",
-  reRankingFilter: { attribute: "", operator: "is", value: "" },
-};
-
-const defaultTestConfig: TestConfig = {
-  name: "",
-  controlIndex: "Adam_test_2000",
-  variants: [{ name: "Variant_B", config: { ...defaultVariant } }],
-  trafficSplit: [50, 50],
-  duration: 30,
-};
 
 const defaultProductionConfig: DRRSettingsSnapshot = {
   goal: "Conversion rate",
@@ -132,10 +75,6 @@ const BUILD_MS = 2800;
 export function DRRProvider({ children }: { children: ReactNode }) {
   const [isFirstTimeUser, setIsFirstTimeUser] = useState(true);
   const [isDRRActivated, setIsDRRActivated] = useState(true);
-  const [activeFlow, setActiveFlow] = useState<FlowType>(null);
-  const [testStatus, setTestStatus] = useState<TestStatus>("idle");
-  const [testConfig, setTestConfig] = useState<TestConfig>({ ...defaultTestConfig });
-  const [testResult, setTestResult] = useState<TestResult | null>(null);
   const [productionConfig, setProductionConfig] = useState<DRRSettingsSnapshot>({
     ...defaultProductionConfig,
   });
@@ -153,6 +92,10 @@ export function DRRProvider({ children }: { children: ReactNode }) {
   const [comparisonLeftMode, setComparisonLeftMode] = useState<ComparisonPaneMode>("drr-off");
   const [comparisonRightMode, setComparisonRightMode] = useState<ComparisonPaneMode>("control");
   const [settingsPreferredBuildTarget, setSettingsPreferredBuildTarget] = useState<"A" | "B" | null>(null);
+  const [abTestSelectedVariations, setAbTestSelectedVariations] = useState<AbTestVariationId[]>([]);
+  const [abTestTrafficSplit, setAbTestTrafficSplit] = useState<number[]>([]);
+  const [abTestDurationDays, setAbTestDurationDays] = useState(14);
+  const [activeAbTest, setActiveAbTest] = useState<ActiveAbTest | null>(null);
 
   const productionConfigRef = useRef(productionConfig);
   productionConfigRef.current = productionConfig;
@@ -160,43 +103,6 @@ export function DRRProvider({ children }: { children: ReactNode }) {
   variantAConfigRef.current = variantAConfig;
   const variantBConfigRef = useRef(variantBConfig);
   variantBConfigRef.current = variantBConfig;
-
-  const startTest = () => {
-    setTestStatus("completed");
-    const splits = [
-      { label: "A", percentage: testConfig.trafficSplit[0] },
-      ...testConfig.variants.map((_v, i) => ({
-        label: String.fromCharCode(66 + i),
-        percentage: testConfig.trafficSplit[i + 1],
-      })),
-    ];
-    const variants: TestResult["variants"] = [
-      { label: "Control", type: "control" as const, trackedSearches: 139998, trackedUsers: 139998, ctr: 29.3, cvr: "Baseline" },
-      ...testConfig.variants.map((v, i) => ({
-        label: v.name || `Variant ${String.fromCharCode(66 + i)}`,
-        type: "variant" as const,
-        trackedSearches: 138287 - i * 1000,
-        trackedUsers: 138287 - i * 1000,
-        ctr: 29.0 - i * 0.2,
-        cvr: -(0.98 + i * 0.5) as number | string,
-      })),
-    ];
-    setTestResult({
-      name: testConfig.name || "Test name goes here",
-      id: `#${12345 + Math.floor(Math.random() * 1000)}`,
-      status: "completed",
-      startDate: "15 March 2026",
-      endDate: "29 March 2026",
-      splits,
-      variants,
-    });
-    setActiveFlow(null);
-  };
-
-  const resetFlow = () => {
-    setActiveFlow(null);
-    setTestConfig({ ...defaultTestConfig, variants: [{ name: "Variant_B", config: { ...defaultVariant } }] });
-  };
 
   const updateProductionConfig = (c: Partial<DRRSettingsSnapshot>) => {
     setProductionConfig((prev) => ({ ...prev, ...c }));
@@ -255,22 +161,78 @@ export function DRRProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const applyVariantToLive = useCallback((target: "A" | "B") => {
-    const snapshot = {
-      ...(target === "A" ? variantAConfigRef.current : variantBConfigRef.current),
-    };
+    const raw = target === "A" ? variantAConfigRef.current : variantBConfigRef.current;
+    const snapshot = { ...raw, reRankingFilter: { ...raw.reRankingFilter } };
     setProductionConfig(snapshot);
+    setIsDRRActivated(true);
     setToastMessage(`Control (live) now matches Variation ${target}.`);
   }, []);
+
+  const completeActiveAbTest = useCallback(() => {
+    setActiveAbTest((prev) => (prev ? { ...prev, endedAtMs: Date.now() } : null));
+    showToast("Test marked as completed.");
+  }, [showToast]);
+
+  const applyAbTestVariationToLive = useCallback(
+    (variationId: AbTestVariationId) => {
+      const markApplied = () =>
+        setActiveAbTest((prev) => (prev ? { ...prev, appliedVariationId: variationId } : null));
+
+      switch (variationId) {
+        case "control":
+          setIsDRRActivated(true);
+          showToast("Live ranking already matches Control.");
+          markApplied();
+          return;
+        case "drr-off":
+          setIsDRRActivated(false);
+          showToast("Live ranking updated: DRR is off.");
+          markApplied();
+          return;
+        case "variant-a": {
+          if (!hasVariantA) {
+            showToast("Variation A has no saved settings. Open Configure and build Variation A first.");
+            return;
+          }
+          const raw = variantAConfigRef.current;
+          setProductionConfig({ ...raw, reRankingFilter: { ...raw.reRankingFilter } });
+          setIsDRRActivated(true);
+          showToast("Live ranking now uses Variation A settings.");
+          markApplied();
+          return;
+        }
+        case "variant-b": {
+          if (!hasVariantB) {
+            showToast("Variation B has no saved settings. Open Configure and build Variation B first.");
+            return;
+          }
+          const raw = variantBConfigRef.current;
+          setProductionConfig({ ...raw, reRankingFilter: { ...raw.reRankingFilter } });
+          setIsDRRActivated(true);
+          showToast("Live ranking now uses Variation B settings.");
+          markApplied();
+          return;
+        }
+        default:
+          return;
+      }
+    },
+    [hasVariantA, hasVariantB, showToast],
+  );
+
+  const beginAbTestWizard = useCallback(() => {
+    setAbTestSelectedVariations([]);
+    setAbTestTrafficSplit([]);
+    setAbTestDurationDays(14);
+  }, []);
+
+  const dismissActiveAbTest = useCallback(() => setActiveAbTest(null), []);
 
   return (
     <DRRContext.Provider
       value={{
         isFirstTimeUser,
         isDRRActivated,
-        activeFlow,
-        testStatus,
-        testConfig,
-        testResult,
         productionConfig,
         variantAConfig,
         variantBConfig,
@@ -284,11 +246,6 @@ export function DRRProvider({ children }: { children: ReactNode }) {
         settingsPreferredBuildTarget,
         setIsFirstTimeUser,
         setIsDRRActivated,
-        setActiveFlow,
-        setTestStatus,
-        setTestConfig,
-        startTest,
-        resetFlow,
         updateProductionConfig,
         replaceProductionConfig,
         showToast,
@@ -301,6 +258,18 @@ export function DRRProvider({ children }: { children: ReactNode }) {
         deleteVariantDraft,
         applyVariantToLive,
         setSettingsPreferredBuildTarget,
+        abTestSelectedVariations,
+        setAbTestSelectedVariations,
+        abTestTrafficSplit,
+        setAbTestTrafficSplit,
+        abTestDurationDays,
+        setAbTestDurationDays,
+        beginAbTestWizard,
+        activeAbTest,
+        setActiveAbTest,
+        dismissActiveAbTest,
+        completeActiveAbTest,
+        applyAbTestVariationToLive,
       }}
     >
       {children}
@@ -313,5 +282,3 @@ export function useDRR() {
   if (!ctx) throw new Error("useDRR must be used within DRRProvider");
   return ctx;
 }
-
-export { defaultVariant };

@@ -1,25 +1,36 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import PageHeader from "../components/PageHeader";
 import ExploreConfigureTabs from "../components/ExploreConfigureTabs";
 import ComparisonQueryToolbar from "../components/ComparisonQueryToolbar";
 import ComparisonView from "../components/ComparisonView";
-import TestBanner from "../components/TestBanner";
+import ActiveAbTestBanner from "../components/ActiveAbTestBanner";
 import ConfirmModal from "../components/ConfirmModal";
 import DeactivateModal from "../components/DeactivateModal";
 import { useDRR } from "../context/DRRContext";
 
 export default function PreviewPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const explorePreviewRef = useRef<HTMLDivElement>(null);
   const {
     isFirstTimeUser,
-    testResult,
-    setActiveFlow,
     setIsFirstTimeUser,
     setIsDRRActivated,
+    beginAbTestWizard,
+    activeAbTest,
   } = useDRR();
   const [showActivateModal, setShowActivateModal] = useState(false);
   const [showDeactivateModal, setShowDeactivateModal] = useState(false);
+
+  useEffect(() => {
+    if (location.state?.focusAbTestPreview !== true) return;
+    const el = explorePreviewRef.current;
+    requestAnimationFrame(() => {
+      el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    navigate(".", { replace: true, state: {} });
+  }, [location.state, navigate]);
 
   const handleActivate = () => {
     if (isFirstTimeUser) {
@@ -33,26 +44,10 @@ export default function PreviewPage() {
     setShowDeactivateModal(true);
   };
 
-  const handleCreateTest = () => {
-    if (isFirstTimeUser) {
-      setActiveFlow("first-time");
-      navigate("/create-variant");
-    } else {
-      setActiveFlow("ab");
-      navigate("/create-variant");
-    }
-  };
-
   const handleModalSave = () => {
     setShowActivateModal(false);
     setIsFirstTimeUser(false);
     setIsDRRActivated(true);
-  };
-
-  const handleModalCreateTest = () => {
-    setShowActivateModal(false);
-    setActiveFlow("first-time");
-    navigate("/create-variant");
   };
 
   const handleConfirmDeactivate = () => {
@@ -65,13 +60,22 @@ export default function PreviewPage() {
       <PageHeader
         onActivate={handleActivate}
         onDeactivate={handleDeactivate}
-        onCreateTest={handleCreateTest}
+        onCreateTest={() => {
+          beginAbTestWizard();
+          navigate("/ab-test/variations");
+        }}
       />
+
+      {activeAbTest ? (
+        <div className="mt-6">
+          <ActiveAbTestBanner />
+        </div>
+      ) : null}
 
       <ExploreConfigureTabs active="explore" />
 
-      <div className="flex flex-col gap-6">
-        <section className="mt-6 rounded-xl border border-border-subtle bg-bg-surface p-4">
+      <div ref={explorePreviewRef} className="mt-6 flex flex-col gap-6 scroll-mt-6">
+        <section className="rounded-xl border border-border-subtle bg-bg-surface p-4">
           <div className="space-y-4">
             <header>
               <h2 className="text-lg font-semibold text-ink tracking-tight">Preview a query</h2>
@@ -83,14 +87,16 @@ export default function PreviewPage() {
           </div>
         </section>
 
-        {testResult && <TestBanner result={testResult} />}
-
         <section className="rounded-xl border border-border-subtle bg-bg-surface p-4">
           <div className="space-y-4">
             <header>
-              <h2 className="text-lg font-semibold text-ink tracking-tight">Compare ranking outputs</h2>
+              <h2 className="text-lg font-semibold text-ink tracking-tight">
+                {activeAbTest ? "Preview test rankings" : "Compare ranking outputs"}
+              </h2>
               <p className="text-sm text-subdued mt-1 max-w-xl leading-5">
-                Compare how this query ranks results across your selected configurations.
+                {activeAbTest
+                  ? "Side-by-side preview of the first two arms in your running test. Use the selectors to compare other configurations."
+                  : "Compare how this query ranks results across your selected configurations."}
               </p>
             </header>
             <ComparisonView />
@@ -102,9 +108,8 @@ export default function PreviewPage() {
         open={showActivateModal}
         title="You are updating live ranking"
         message="Activating dynamic re-ranking will change your live results straight away."
-        secondaryMessage="We recommend running an A/B test first, so you can confirm the impact on clicks and conversion before it goes live."
+        secondaryMessage="Review the comparison view on Explore to validate ranking changes before activating."
         onCancel={() => setShowActivateModal(false)}
-        onCreateTest={handleModalCreateTest}
         onSave={handleModalSave}
       />
 

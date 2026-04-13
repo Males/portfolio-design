@@ -52,7 +52,6 @@ export default function SettingsPage() {
     variantBBuildStatus,
     replaceProductionConfig,
     showToast,
-    setActiveFlow,
     setComparisonLeftMode,
     setComparisonRightMode,
     startPreviewBuild,
@@ -63,6 +62,7 @@ export default function SettingsPage() {
     setSettingsPreferredBuildTarget,
     setVariantAConfig,
     setVariantBConfig,
+    beginAbTestWizard,
   } = useDRR();
 
   const [showSaveModal, setShowSaveModal] = useState(false);
@@ -129,12 +129,6 @@ export default function SettingsPage() {
     });
     setShowSaveModal(false);
     showToast("Changes saved.");
-  };
-
-  const handleCreateTestFromSave = () => {
-    setShowSaveModal(false);
-    setActiveFlow("ab");
-    navigate("/create-variant");
   };
 
   const handleOpenExplore = () => {
@@ -212,8 +206,8 @@ export default function SettingsPage() {
         onActivate={handleActivate}
         onDeactivate={() => setShowDeactivateModal(true)}
         onCreateTest={() => {
-          setActiveFlow("ab");
-          navigate("/create-variant");
+          beginAbTestWizard();
+          navigate("/ab-test/variations");
         }}
       />
 
@@ -323,7 +317,6 @@ export default function SettingsPage() {
         open={showSaveModal}
         onCancel={() => setShowSaveModal(false)}
         onPreviewInComparison={handleOpenExplore}
-        onCreateTest={handleCreateTestFromSave}
         onSaveLive={handleConfirmSave}
       />
 
@@ -331,13 +324,8 @@ export default function SettingsPage() {
         open={showActivateModal}
         title="You are updating live ranking"
         message="Activating dynamic re-ranking will change your live results straight away."
-        secondaryMessage="We recommend running an A/B test first, so you can confirm the impact on clicks and conversion before it goes live."
+        secondaryMessage="Review the comparison view on Explore to validate ranking changes before activating."
         onCancel={() => setShowActivateModal(false)}
-        onCreateTest={() => {
-          setShowActivateModal(false);
-          setActiveFlow("first-time");
-          navigate("/create-variant");
-        }}
         onSave={handleModalSave}
       />
 

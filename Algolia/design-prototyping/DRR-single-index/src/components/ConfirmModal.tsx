@@ -5,8 +5,9 @@ interface ConfirmModalProps {
   title: string;
   message: string;
   secondaryMessage?: string;
+  /** Primary button label (default: Save changes). */
+  primaryActionLabel?: string;
   onCancel: () => void;
-  onCreateTest: () => void;
   onSave: () => void;
 }
 
@@ -15,8 +16,8 @@ export default function ConfirmModal({
   title,
   message,
   secondaryMessage,
+  primaryActionLabel = "Save changes",
   onCancel,
-  onCreateTest,
   onSave,
 }: ConfirmModalProps) {
   if (!open) return null;
@@ -44,27 +45,19 @@ export default function ConfirmModal({
           <p className="text-sm text-ink leading-relaxed mb-6">{secondaryMessage}</p>
         )}
 
-        <div className="flex items-center justify-between pt-2">
+        <div className="flex items-center justify-end gap-3 pt-2">
           <button
             onClick={onCancel}
             className="px-4 py-2 text-sm font-medium text-ink border border-border-subtle rounded-lg hover:bg-bg-sidebar cursor-pointer"
           >
             Cancel
           </button>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onCreateTest}
-              className="px-4 py-2 text-sm font-medium text-ink border border-border-subtle rounded-lg hover:bg-bg-sidebar cursor-pointer"
-            >
-              Create A/B test
-            </button>
-            <button
-              onClick={onSave}
-              className="px-5 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary-hover cursor-pointer"
-            >
-              Save changes
-            </button>
-          </div>
+          <button
+            onClick={onSave}
+            className="px-5 py-2 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary-hover cursor-pointer"
+          >
+            {primaryActionLabel}
+          </button>
         </div>
       </div>
     </div>

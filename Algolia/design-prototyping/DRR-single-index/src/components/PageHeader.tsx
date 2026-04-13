@@ -10,10 +10,9 @@ interface PageHeaderProps {
 export default function PageHeader({
   onActivate = () => {},
   onDeactivate = () => {},
-  onCreateTest = () => {},
+  onCreateTest,
 }: PageHeaderProps) {
-  const { isFirstTimeUser, isDRRActivated, testStatus } = useDRR();
-  const hasRunningTest = testStatus === "running";
+  const { isFirstTimeUser, isDRRActivated } = useDRR();
   const showActivate = isFirstTimeUser || !isDRRActivated;
 
   return (
@@ -63,16 +62,15 @@ export default function PageHeader({
             Deactivate
           </button>
         )}
-        <button
-          type="button"
-          onClick={onCreateTest}
-          disabled={hasRunningTest}
-          className={`h-10 px-3 text-sm font-normal rounded border border-border-subtle bg-bg-surface text-ink hover:bg-bg-sidebar cursor-pointer ${
-            hasRunningTest ? "opacity-50 cursor-not-allowed hover:bg-bg-surface" : ""
-          }`}
-        >
-          Create A/B test
-        </button>
+        {onCreateTest && (
+          <button
+            type="button"
+            onClick={onCreateTest}
+            className="h-10 px-3 text-sm font-normal text-ink bg-bg-surface border border-border-subtle rounded hover:bg-bg-sidebar cursor-pointer"
+          >
+            Create A/B test
+          </button>
+        )}
       </div>
     </div>
   );

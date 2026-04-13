@@ -28,7 +28,12 @@ export default function PrimarySidebar() {
   return (
     <div className="flex flex-col w-14 h-full bg-bg-sidebar border-r border-border-subtle shrink-0">
       <div className="flex flex-col items-center justify-center h-[60px] border-b border-border-subtle px-3">
-        <img src="/DRR-single-index/algolia-mark.png" alt="Algolia" width="28" height="28" />
+        <img
+          src={`${import.meta.env.BASE_URL}algolia-mark.png`}
+          alt="Algolia"
+          width="28"
+          height="28"
+        />
       </div>
 
       <div className="flex-1 flex flex-col items-center gap-2 pt-[17px] px-3">
