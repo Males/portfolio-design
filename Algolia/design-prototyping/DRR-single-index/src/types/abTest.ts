@@ -13,8 +13,17 @@ export function abTestVariationToPaneMode(id: AbTestVariationId): ComparisonPane
   return map[id];
 }
 
+/** Configure / configuration picker: ties a test arm to a ranking source (draft slots). */
 export const AB_TEST_VARIATION_LABELS: Record<AbTestVariationId, string> = {
   control: "Control (live)",
+  "drr-off": "DRR off",
+  "variant-a": "Draft 1",
+  "variant-b": "Draft 2",
+};
+
+/** Experiment-facing variant name (A/B language), distinct from draft slot labels. */
+export const AB_TEST_EXPERIMENT_VARIANT_LABELS: Record<AbTestVariationId, string> = {
+  control: "Control",
   "drr-off": "DRR off",
   "variant-a": "Variation A",
   "variant-b": "Variation B",
@@ -25,6 +34,10 @@ export interface ActiveAbTest {
   id: string;
   /** Display title (Evolved A/B test header). */
   name: string;
+  /** Optional notes from the review step. */
+  description?: string;
+  /** Primary metric chosen in Configure (prototype display). */
+  targetMetric?: string;
   /** When the prototype “started” the test (for date range + progress). */
   startedAtMs: number;
   variationIds: AbTestVariationId[];

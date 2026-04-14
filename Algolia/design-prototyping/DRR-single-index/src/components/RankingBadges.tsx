@@ -62,14 +62,14 @@ function FactorChip({
       aria-pressed={pressed}
       title={title}
       onClick={() => onPressedChange(!pressed)}
-      className={`inline-flex items-center border rounded-full cursor-pointer transition-colors text-xs font-medium ${toneStyles[tone]}`}
+      className={`inline-flex items-center border rounded-full cursor-pointer transition-colors text-xs font-medium leading-none ${toneStyles[tone]}`}
     >
-      <span className="flex items-center gap-1.5 pl-2 pr-1 py-0.5 min-h-[20px]">
+      <span className="flex items-center gap-1.5 pl-2 pr-1 py-0.5 min-h-[20px] leading-none">
         <span className="shrink-0 opacity-90">{icon}</span>
         <span className="whitespace-nowrap">{label}</span>
       </span>
       <span className={`w-px self-stretch min-h-[14px] my-0.5 ${dividerClass}`} />
-      <span className="flex items-center px-1.5 py-0.5 shrink-0 opacity-90">
+      <span className="flex items-center justify-center px-1.5 py-0.5 min-h-[20px] shrink-0 opacity-90 leading-none">
         {pressed ? <Eye size={14} strokeWidth={1.75} /> : <EyeOff size={14} strokeWidth={1.75} />}
       </span>
     </button>

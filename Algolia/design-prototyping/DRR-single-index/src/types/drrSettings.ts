@@ -10,6 +10,10 @@ export interface DRRSettingsSnapshot {
   groupSimilarQueries: boolean;
   groupSimilarQueriesLang: string;
   reRankingFilter: { attribute: string; operator: string; value: string };
+  /** Prototype: short label for A/B build & review cards (e.g. “Clicks + Conv.”). */
+  abTestStrategyLabel?: string;
+  /** Prototype: boost factor line (e.g. “1.2x”). */
+  abTestBoostFactor?: string;
 }
 
 /** Left/right pane selection in the comparison UI. */

@@ -32,7 +32,7 @@ export default function PaneSegmentControl({
   visualVariant = "default",
   /** Stretch segments to fill the row (configure columns). */
   fullWidth,
-  /** Override labels for variant-a / variant-b (e.g. "Variant B" / "Variant C" to match design). */
+  /** Override labels for variant-a / variant-b (Configure: "Draft 1" / "Draft 2"). */
   variantSlotLabels,
 }: {
   value: ComparisonPaneMode;
@@ -70,6 +70,16 @@ export default function PaneSegmentControl({
     return compact ? seg.labelCompact : seg.label;
   };
 
+  const titleFor = (seg: (typeof PANE_SEGMENTS)[0]) => {
+    if (seg.value === "variant-a" && variantSlotLabels) {
+      return `${variantSlotLabels.a} — alternative ranking configuration`;
+    }
+    if (seg.value === "variant-b" && variantSlotLabels) {
+      return `${variantSlotLabels.b} — alternative ranking configuration`;
+    }
+    return seg.title;
+  };
+
   const outer =
     visualVariant === "ds"
       ? `rounded p-1 gap-1 bg-bg-sidebar ${fullWidth ? "w-full flex" : "inline-flex max-w-full"} border-0`
@@ -94,7 +104,7 @@ export default function PaneSegmentControl({
             type="button"
             role="radio"
             aria-checked={selected}
-            title={seg.title}
+            title={titleFor(seg)}
             onClick={() => onChange(seg.value)}
             className={`shrink-0 flex items-center justify-center rounded ${pad} ${text} transition-colors cursor-pointer whitespace-nowrap ${selectedClass} ${
               visualVariant === "ds" && fullWidth ? "flex-1 min-w-0" : ""

@@ -8,6 +8,8 @@ export interface SettingsFieldDiff {
 }
 
 const LABELS: Record<string, string> = {
+  abTestStrategyLabel: "Strategy",
+  abTestBoostFactor: "Boost factor",
   goal: "Goal",
   eventSourceIndex: "Event source index",
   hourlyRefresh: "Hourly refresh",
@@ -32,6 +34,8 @@ export function stringifySettingValue(
   config: DRRSettingsSnapshot,
 ): string {
   if (key === "reRankingFilter") return serializeFilter(config.reRankingFilter);
+  if (key === "abTestStrategyLabel") return config.abTestStrategyLabel ?? "—";
+  if (key === "abTestBoostFactor") return config.abTestBoostFactor ?? "—";
   const v = config[key as keyof DRRSettingsSnapshot];
   if (typeof v === "boolean") return v ? "On" : "Off";
   if (v === undefined || v === null) return "—";
@@ -43,6 +47,8 @@ export function diffSettings(
   other: DRRSettingsSnapshot,
 ): SettingsFieldDiff[] {
   const keys: (keyof DRRSettingsSnapshot)[] = [
+    "abTestStrategyLabel",
+    "abTestBoostFactor",
     "goal",
     "eventSourceIndex",
     "hourlyRefresh",

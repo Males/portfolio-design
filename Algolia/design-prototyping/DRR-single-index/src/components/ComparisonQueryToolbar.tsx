@@ -36,12 +36,6 @@ export default function ComparisonQueryToolbar({ className = "" }: ComparisonQue
         >
           Add query parameter
         </button>
-        <button
-          type="button"
-          className="h-10 px-3 text-sm font-medium text-ink bg-bg-surface border border-border-subtle rounded-lg hover:bg-bg-sidebar cursor-pointer"
-        >
-          Display preferences
-        </button>
       </div>
     </div>
   );

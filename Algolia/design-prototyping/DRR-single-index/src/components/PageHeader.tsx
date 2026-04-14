@@ -1,4 +1,4 @@
-import { Sparkles, Clock } from "lucide-react";
+import { Sparkles, Clock, CircleOff } from "lucide-react";
 import { useDRR } from "../context/DRRContext";
 
 interface PageHeaderProps {
@@ -12,8 +12,8 @@ export default function PageHeader({
   onDeactivate = () => {},
   onCreateTest,
 }: PageHeaderProps) {
-  const { isFirstTimeUser, isDRRActivated } = useDRR();
-  const showActivate = isFirstTimeUser || !isDRRActivated;
+  const { isDRRActivated } = useDRR();
+  const showActivate = !isDRRActivated;
 
   return (
     <div className="flex items-start justify-between">
@@ -32,12 +32,13 @@ export default function PageHeader({
             Last update: March 12th, at 01:44
           </span>
           {isDRRActivated ? (
-            <span className="inline-flex items-center gap-2 px-2 py-0.5 rounded-full text-sm font-normal border border-success-border bg-success-bg text-success-ink">
-              <Sparkles size={12} strokeWidth={2} className="text-success-ink" />
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 min-h-[20px] rounded-full border border-success-border bg-success-bg text-success-ink text-xs font-medium leading-none">
+              <Sparkles size={12} strokeWidth={2} className="shrink-0 text-success-ink" aria-hidden />
               Activated
             </span>
           ) : (
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-bg-sidebar text-subdued border border-border-subtle">
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 min-h-[20px] rounded-full bg-bg-sidebar text-subdued border border-border-subtle text-xs font-medium leading-none">
+              <CircleOff size={12} strokeWidth={2} className="shrink-0" aria-hidden />
               Deactivated
             </span>
           )}

@@ -1,5 +1,5 @@
 import { ExternalLink, Info } from "lucide-react";
-import { useMemo, type ReactNode } from "react";
+import { Fragment, useMemo, type ReactNode } from "react";
 import { diffSettings } from "../lib/configDiff";
 import type { CompareColumnMode } from "../lib/configureColumnResolve";
 import type { DRRSettingsSnapshot } from "../types/drrSettings";
@@ -43,7 +43,18 @@ function CompareRow({
   left: ReactNode;
   right: ReactNode;
 }) {
-  const cell = (highlight: boolean | undefined, node: ReactNode) => (
+  const hlL = !!highlightLeft;
+  const hlR = !!highlightRight;
+  const unifiedHighlight = hlL && hlR;
+
+  const labelBlock = (
+    <div className="min-w-0 max-w-[320px]">
+      <div className="text-sm font-semibold text-ink leading-5">{label}</div>
+      {hint != null && <div className="mt-0.5 text-xs text-subdued leading-4">{hint}</div>}
+    </div>
+  );
+
+  const cell = (highlight: boolean, node: ReactNode) => (
     <div
       className={`min-w-0 rounded-lg p-1 -m-1 transition-colors ${
         highlight ? "bg-amber-500/8 ring-1 ring-amber-500/25" : ""
@@ -53,14 +64,25 @@ function CompareRow({
     </div>
   );
 
+  if (unifiedHighlight) {
+    return (
+      <div className="grid grid-cols-1 lg:grid-cols-[minmax(200px,26%)_minmax(0,1fr)_minmax(0,1fr)] gap-4 gap-y-3 items-start">
+        {labelBlock}
+        <div className="min-w-0 lg:col-span-2 rounded-lg p-1 -m-1 transition-colors bg-amber-500/8 ring-1 ring-amber-500/25">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 gap-y-3 items-start">
+            <div className="min-w-0">{left}</div>
+            <div className="min-w-0">{right}</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[minmax(200px,26%)_minmax(0,1fr)_minmax(0,1fr)] gap-4 gap-y-3 items-start">
-      <div className="min-w-0 max-w-[320px]">
-        <div className="text-sm font-semibold text-ink leading-5">{label}</div>
-        {hint != null && <div className="mt-0.5 text-xs text-subdued leading-4">{hint}</div>}
-      </div>
-      {cell(highlightLeft, left)}
-      {cell(highlightRight, right)}
+      {labelBlock}
+      {cell(hlL, left)}
+      {cell(hlR, right)}
     </div>
   );
 }
@@ -104,9 +126,7 @@ export default function SettingsCompareForm({
 }: SettingsCompareFormProps) {
   const diffKeySet = useMemo(() => {
     const rows = diffSettings(leftConfig, rightConfig);
-    return new Set(
-      rows.map((r) => r.key).filter((key) => key !== "multiSignalRanking"),
-    );
+    return new Set(rows.map((r) => r.key));
   }, [leftConfig, rightConfig]);
 
   const leftNA = leftColumnMode === "inactive";
@@ -139,6 +159,13 @@ export default function SettingsCompareForm({
   const multiSignalNameRightLg = `${rightPaneId}-prodMultiSignal-lg`;
   const multiSignalNameLeftSm = `${leftPaneId}-prodMultiSignal-sm`;
   const multiSignalNameRightSm = `${rightPaneId}-prodMultiSignal-sm`;
+
+  const multiSignalDiff = diffKeySet.has("multiSignalRanking");
+  const multiSignalDiffHighlight =
+    "rounded-lg p-1 -m-1 transition-colors bg-amber-500/8 ring-1 ring-amber-500/25";
+  const multiSignalRadioOnlyWrapClass = multiSignalDiff
+    ? `${multiSignalDiffHighlight} inline-flex items-center justify-center`
+    : "inline-flex items-center justify-center";
 
   const diffWrap = (key: "goal" | "eventSourceIndex" | "hourlyRefresh", node: ReactNode) => (
     <div
@@ -559,57 +586,77 @@ export default function SettingsCompareForm({
                   {coverageColumnHeaderRight}
                 </div>
               </div>
-              {MULTI_SIGNAL_OPTIONS.map((opt) => (
-                <div
-                  key={opt.value}
-                  className="grid grid-cols-[minmax(200px,26%)_minmax(0,1fr)_minmax(0,1fr)] gap-x-4 items-start"
-                >
-                  <div className="min-w-0 pr-2">
-                    <div className="text-sm font-semibold text-ink">{opt.label}</div>
-                    <p className="text-xs text-subdued leading-relaxed mt-1">
-                      {opt.desc} {learn}
-                    </p>
-                  </div>
-                  <div className="flex justify-start items-start pt-1 min-w-0">
-                    {leftNA ? (
-                      <span className="text-subdued text-sm pt-1">—</span>
-                    ) : (
-                      <label className={dl ? "cursor-default" : "cursor-pointer"}>
-                        <span className="sr-only">
-                          {coverageColumnHeaderLeft}: {opt.label}
-                        </span>
-                        <input
-                          type="radio"
-                          name={multiSignalNameLeftLg}
-                          checked={leftConfig.multiSignalRanking === opt.value}
-                          onChange={() => patchL({ multiSignalRanking: opt.value })}
-                          disabled={dl}
-                          className="accent-nebula-600 disabled:opacity-50 size-4"
-                        />
-                      </label>
-                    )}
-                  </div>
-                  <div className="flex justify-start items-start pt-1 min-w-0">
-                    {rightNA ? (
-                      <span className="text-subdued text-sm pt-1">—</span>
-                    ) : (
-                      <label className={dr ? "cursor-default" : "cursor-pointer"}>
-                        <span className="sr-only">
-                          {coverageColumnHeaderRight}: {opt.label}
-                        </span>
-                        <input
-                          type="radio"
-                          name={multiSignalNameRightLg}
-                          checked={rightConfig.multiSignalRanking === opt.value}
-                          onChange={() => patchR({ multiSignalRanking: opt.value })}
-                          disabled={dr}
-                          className="accent-nebula-600 disabled:opacity-50 size-4"
-                        />
-                      </label>
-                    )}
-                  </div>
-                </div>
-              ))}
+              <div className="grid grid-cols-[minmax(200px,26%)_minmax(0,1fr)_minmax(0,1fr)] gap-x-4 gap-y-4">
+                {multiSignalDiff && (
+                  <div
+                    aria-hidden
+                    className={`pointer-events-none z-0 ${multiSignalDiffHighlight}`}
+                    style={{
+                      gridColumn: "2 / span 2",
+                      gridRow: `1 / span ${MULTI_SIGNAL_OPTIONS.length}`,
+                    }}
+                  />
+                )}
+                {MULTI_SIGNAL_OPTIONS.map((opt, i) => {
+                  const row = i + 1;
+                  const leftRadio = leftNA ? (
+                    <span className="text-subdued text-sm pt-1">—</span>
+                  ) : (
+                    <label className={dl ? "cursor-default" : "cursor-pointer"}>
+                      <span className="sr-only">
+                        {coverageColumnHeaderLeft}: {opt.label}
+                      </span>
+                      <input
+                        type="radio"
+                        name={multiSignalNameLeftLg}
+                        checked={leftConfig.multiSignalRanking === opt.value}
+                        onChange={() => patchL({ multiSignalRanking: opt.value })}
+                        disabled={dl}
+                        className="accent-nebula-600 disabled:opacity-50 size-4"
+                      />
+                    </label>
+                  );
+                  const rightRadio = rightNA ? (
+                    <span className="text-subdued text-sm pt-1">—</span>
+                  ) : (
+                    <label className={dr ? "cursor-default" : "cursor-pointer"}>
+                      <span className="sr-only">
+                        {coverageColumnHeaderRight}: {opt.label}
+                      </span>
+                      <input
+                        type="radio"
+                        name={multiSignalNameRightLg}
+                        checked={rightConfig.multiSignalRanking === opt.value}
+                        onChange={() => patchR({ multiSignalRanking: opt.value })}
+                        disabled={dr}
+                        className="accent-nebula-600 disabled:opacity-50 size-4"
+                      />
+                    </label>
+                  );
+                  return (
+                    <Fragment key={opt.value}>
+                      <div className="min-w-0 pr-2 relative z-[1]" style={{ gridColumn: 1, gridRow: row }}>
+                        <div className="text-sm font-semibold text-ink">{opt.label}</div>
+                        <p className="text-xs text-subdued leading-relaxed mt-1">
+                          {opt.desc} {learn}
+                        </p>
+                      </div>
+                      <div
+                        className="relative z-[1] flex justify-start items-start pt-1 min-w-0"
+                        style={{ gridColumn: 2, gridRow: row }}
+                      >
+                        {leftRadio}
+                      </div>
+                      <div
+                        className="relative z-[1] flex justify-start items-start pt-1 min-w-0"
+                        style={{ gridColumn: 3, gridRow: row }}
+                      >
+                        {rightRadio}
+                      </div>
+                    </Fragment>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Mobile: shared copy per option; radios paired below */}
@@ -625,18 +672,25 @@ export default function SettingsCompareForm({
                       className={`flex items-center gap-2 ${dl || leftNA ? "cursor-default" : "cursor-pointer"}`}
                     >
                       {leftNA ? (
-                        <span className="size-4 flex items-center justify-center text-subdued text-sm" aria-hidden>
-                          —
+                        <span className={multiSignalRadioOnlyWrapClass}>
+                          <span
+                            className="flex size-4 items-center justify-center text-subdued text-sm"
+                            aria-hidden
+                          >
+                            —
+                          </span>
                         </span>
                       ) : (
-                        <input
-                          type="radio"
-                          name={multiSignalNameLeftSm}
-                          checked={leftConfig.multiSignalRanking === opt.value}
-                          onChange={() => patchL({ multiSignalRanking: opt.value })}
-                          disabled={dl}
-                          className="accent-nebula-600 disabled:opacity-50 size-4"
-                        />
+                        <span className={multiSignalRadioOnlyWrapClass}>
+                          <input
+                            type="radio"
+                            name={multiSignalNameLeftSm}
+                            checked={leftConfig.multiSignalRanking === opt.value}
+                            onChange={() => patchL({ multiSignalRanking: opt.value })}
+                            disabled={dl}
+                            className="accent-nebula-600 disabled:opacity-50 size-4"
+                          />
+                        </span>
                       )}
                       <span className="text-xs font-medium text-subdued">{coverageColumnHeaderLeft}</span>
                     </label>
@@ -644,18 +698,25 @@ export default function SettingsCompareForm({
                       className={`flex items-center gap-2 ${dr || rightNA ? "cursor-default" : "cursor-pointer"}`}
                     >
                       {rightNA ? (
-                        <span className="size-4 flex items-center justify-center text-subdued text-sm" aria-hidden>
-                          —
+                        <span className={multiSignalRadioOnlyWrapClass}>
+                          <span
+                            className="flex size-4 items-center justify-center text-subdued text-sm"
+                            aria-hidden
+                          >
+                            —
+                          </span>
                         </span>
                       ) : (
-                        <input
-                          type="radio"
-                          name={multiSignalNameRightSm}
-                          checked={rightConfig.multiSignalRanking === opt.value}
-                          onChange={() => patchR({ multiSignalRanking: opt.value })}
-                          disabled={dr}
-                          className="accent-nebula-600 disabled:opacity-50 size-4"
-                        />
+                        <span className={multiSignalRadioOnlyWrapClass}>
+                          <input
+                            type="radio"
+                            name={multiSignalNameRightSm}
+                            checked={rightConfig.multiSignalRanking === opt.value}
+                            onChange={() => patchR({ multiSignalRanking: opt.value })}
+                            disabled={dr}
+                            className="accent-nebula-600 disabled:opacity-50 size-4"
+                          />
+                        </span>
                       )}
                       <span className="text-xs font-medium text-subdued">{coverageColumnHeaderRight}</span>
                     </label>

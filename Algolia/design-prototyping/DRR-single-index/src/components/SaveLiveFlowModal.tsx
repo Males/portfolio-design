@@ -27,15 +27,15 @@ export default function SaveLiveFlowModal({
         style={{ animation: "scaleIn 0.2s ease-out" }}
       >
         <div className="flex items-start justify-between mb-4">
-          <h2 className="text-lg font-semibold text-ink pr-4">Save changes to live ranking?</h2>
+          <h2 className="text-lg font-semibold text-ink pr-4">Publish Control to live ranking?</h2>
           <button type="button" onClick={onCancel} className="text-subdued hover:text-ink cursor-pointer shrink-0">
             <X size={18} />
           </button>
         </div>
 
         <p className="text-sm text-ink leading-relaxed mb-6">
-          This updates live Control for all users. Open Explore to compare rankings side by side or build a preview
-          variant before you save.
+          You have unsaved edits in the <span className="font-medium">Control</span> column. Publishing replaces the
+          current live configuration for everyone. Open Explore first if you want to compare rankings side by side.
         </p>
 
         <div className="flex flex-col-reverse sm:flex-row sm:flex-wrap sm:justify-end gap-2 pt-1">
@@ -58,7 +58,7 @@ export default function SaveLiveFlowModal({
             onClick={onSaveLive}
             className="px-5 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary-hover cursor-pointer"
           >
-            Save changes
+            Publish to live
           </button>
         </div>
       </div>

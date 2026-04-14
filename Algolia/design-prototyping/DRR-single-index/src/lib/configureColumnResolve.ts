@@ -39,12 +39,12 @@ export function resolveConfigureColumn(
   return { kind: "form", config: ctx.localConfig, editable: true };
 }
 
-/** Labels aligned with segmented control (Variant B / Variant C). */
+/** Labels aligned with Configure segmented control (Draft 1 / Draft 2). */
 export function configureCompareColumnTitle(mode: ComparisonPaneMode): string {
   if (mode === "drr-off") return "DRR off";
   if (mode === "control") return "Control";
-  if (mode === "variant-a") return "Variant B";
-  if (mode === "variant-b") return "Variant C";
+  if (mode === "variant-a") return "Draft 1";
+  if (mode === "variant-b") return "Draft 2";
   return "DRR off";
 }
 
