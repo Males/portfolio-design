@@ -62,7 +62,7 @@ export default function PreviewPage() {
         onDeactivate={handleDeactivate}
         onCreateTest={() => {
           beginAbTestWizard();
-          navigate("/ab-test/variations");
+          navigate("/ab-test/build");
         }}
       />
 
@@ -89,15 +89,23 @@ export default function PreviewPage() {
 
         <section className="rounded-xl border border-border-subtle bg-bg-surface p-4">
           <div className="space-y-4">
-            <header>
-              <h2 className="text-lg font-semibold text-ink tracking-tight">
-                {activeAbTest ? "Preview test rankings" : "Compare ranking outputs"}
-              </h2>
-              <p className="text-sm text-subdued mt-1 max-w-xl leading-5">
-                {activeAbTest
-                  ? "Side-by-side preview of the first two arms in your running test. Use the selectors to compare other configurations."
-                  : "Compare how this query ranks results across your selected configurations."}
-              </p>
+            <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+              <div className="min-w-0 sm:max-w-[min(100%,42rem)]">
+                <h2 className="text-lg font-semibold text-ink tracking-tight">
+                  {activeAbTest ? "Preview test rankings" : "Compare ranking outputs"}
+                </h2>
+                <p className="text-sm text-subdued mt-1 max-w-xl leading-5">
+                  {activeAbTest
+                    ? "Side-by-side preview of the first two arms in your running test. Use the selectors to compare other configurations."
+                    : "Compare how this query ranks results across your selected configurations."}
+                </p>
+              </div>
+              <button
+                type="button"
+                className="h-10 shrink-0 self-end px-3 text-sm font-medium text-ink bg-bg-surface border border-border-subtle rounded-lg hover:bg-bg-sidebar cursor-pointer sm:self-start"
+              >
+                Display preferences
+              </button>
             </header>
             <ComparisonView />
           </div>

@@ -1,6 +1,15 @@
-import { createContext, useContext, useState, useCallback, useRef, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useRef,
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
+} from "react";
 import type { ComparisonPaneMode, DRRSettingsSnapshot } from "../types/drrSettings";
-import type { AbTestVariationId, ActiveAbTest } from "../types/abTest";
+import { equalTrafficSplit, type AbTestVariationId, type ActiveAbTest } from "../types/abTest";
 
 export type { ComparisonPaneMode, DRRSettingsSnapshot };
 
@@ -39,12 +48,29 @@ interface DRRState {
   setSettingsPreferredBuildTarget: (target: "A" | "B" | null) => void;
 
   abTestSelectedVariations: AbTestVariationId[];
-  setAbTestSelectedVariations: (ids: AbTestVariationId[]) => void;
+  setAbTestSelectedVariations: Dispatch<SetStateAction<AbTestVariationId[]>>;
   abTestTrafficSplit: number[];
   setAbTestTrafficSplit: (pct: number[]) => void;
   abTestDurationDays: number;
   setAbTestDurationDays: (d: number) => void;
   beginAbTestWizard: () => void;
+
+  /** Index name shown in the A/B build step (prototype). */
+  abTestFlowIndexId: string;
+  setAbTestFlowIndexId: (id: string) => void;
+  /** Per-arm index selection in Build test (same order as `abTestSelectedVariations`). */
+  abTestArmIndexIds: string[];
+  setAbTestArmIndexIds: Dispatch<SetStateAction<string[]>>;
+  abTestTargetMetric: string;
+  setAbTestTargetMetric: (m: string) => void;
+  abTestMinChangePct: number;
+  setAbTestMinChangePct: (n: number) => void;
+  abTestEmailReport: boolean;
+  setAbTestEmailReport: (v: boolean) => void;
+  abTestNameDraft: string;
+  setAbTestNameDraft: (s: string) => void;
+  abTestDescriptionDraft: string;
+  setAbTestDescriptionDraft: (s: string) => void;
 
   activeAbTest: ActiveAbTest | null;
   setActiveAbTest: (t: ActiveAbTest | null) => void;
@@ -66,6 +92,8 @@ const defaultProductionConfig: DRRSettingsSnapshot = {
   groupSimilarQueries: false,
   groupSimilarQueriesLang: "English",
   reRankingFilter: { attribute: "", operator: "is", value: "" },
+  abTestStrategyLabel: "Clicks + Conv.",
+  abTestBoostFactor: "1.2x",
 };
 
 const DRRContext = createContext<DRRState | null>(null);
@@ -74,7 +102,7 @@ const BUILD_MS = 2800;
 
 export function DRRProvider({ children }: { children: ReactNode }) {
   const [isFirstTimeUser, setIsFirstTimeUser] = useState(true);
-  const [isDRRActivated, setIsDRRActivated] = useState(true);
+  const [isDRRActivated, setIsDRRActivated] = useState(false);
   const [productionConfig, setProductionConfig] = useState<DRRSettingsSnapshot>({
     ...defaultProductionConfig,
   });
@@ -95,6 +123,13 @@ export function DRRProvider({ children }: { children: ReactNode }) {
   const [abTestSelectedVariations, setAbTestSelectedVariations] = useState<AbTestVariationId[]>([]);
   const [abTestTrafficSplit, setAbTestTrafficSplit] = useState<number[]>([]);
   const [abTestDurationDays, setAbTestDurationDays] = useState(14);
+  const [abTestFlowIndexId, setAbTestFlowIndexId] = useState("prod_products");
+  const [abTestArmIndexIds, setAbTestArmIndexIds] = useState<string[]>([]);
+  const [abTestTargetMetric, setAbTestTargetMetric] = useState("Click-through rate");
+  const [abTestMinChangePct, setAbTestMinChangePct] = useState(2);
+  const [abTestEmailReport, setAbTestEmailReport] = useState(false);
+  const [abTestNameDraft, setAbTestNameDraft] = useState("");
+  const [abTestDescriptionDraft, setAbTestDescriptionDraft] = useState("");
   const [activeAbTest, setActiveAbTest] = useState<ActiveAbTest | null>(null);
 
   const productionConfigRef = useRef(productionConfig);
@@ -133,14 +168,18 @@ export function DRRProvider({ children }: { children: ReactNode }) {
         setHasVariantA(true);
         setVariantABuildStatus("ready");
         setToastMessage(
-          "Preview ready — Variation A created. Compare DRR off, Control, and Variation A in the comparison view.",
+          "Preview ready — Draft 1 created. Compare DRR off, Control, and Draft 1 in the comparison view.",
         );
       } else {
-        setVariantBConfig({ ...snapshot });
+        setVariantBConfig({
+          ...snapshot,
+          abTestStrategyLabel: "Conversions only",
+          abTestBoostFactor: "1.8x",
+        });
         setHasVariantB(true);
         setVariantBBuildStatus("ready");
         setToastMessage(
-          "Preview ready — Variation B created. You can now compare all four: DRR off, Control, A, and B.",
+          "Preview ready — Draft 2 created. You can now compare all four: DRR off, Control, Draft 1, and Draft 2.",
         );
       }
     }, BUILD_MS);
@@ -157,7 +196,7 @@ export function DRRProvider({ children }: { children: ReactNode }) {
       setHasVariantB(false);
       setVariantBBuildStatus("idle");
     }
-    setToastMessage(`Variation ${target} preview was deleted.`);
+    setToastMessage(`Draft ${target === "A" ? "1" : "2"} preview was deleted.`);
   }, []);
 
   const applyVariantToLive = useCallback((target: "A" | "B") => {
@@ -165,7 +204,7 @@ export function DRRProvider({ children }: { children: ReactNode }) {
     const snapshot = { ...raw, reRankingFilter: { ...raw.reRankingFilter } };
     setProductionConfig(snapshot);
     setIsDRRActivated(true);
-    setToastMessage(`Control (live) now matches Variation ${target}.`);
+    setToastMessage(`Control (live) now matches Draft ${target === "A" ? "1" : "2"}.`);
   }, []);
 
   const completeActiveAbTest = useCallback(() => {
@@ -191,25 +230,25 @@ export function DRRProvider({ children }: { children: ReactNode }) {
           return;
         case "variant-a": {
           if (!hasVariantA) {
-            showToast("Variation A has no saved settings. Open Configure and build Variation A first.");
+            showToast("Draft 1 has no saved settings. Open Configure and build Draft 1 first.");
             return;
           }
           const raw = variantAConfigRef.current;
           setProductionConfig({ ...raw, reRankingFilter: { ...raw.reRankingFilter } });
           setIsDRRActivated(true);
-          showToast("Live ranking now uses Variation A settings.");
+          showToast("Live ranking now uses Draft 1 settings.");
           markApplied();
           return;
         }
         case "variant-b": {
           if (!hasVariantB) {
-            showToast("Variation B has no saved settings. Open Configure and build Variation B first.");
+            showToast("Draft 2 has no saved settings. Open Configure and build Draft 2 first.");
             return;
           }
           const raw = variantBConfigRef.current;
           setProductionConfig({ ...raw, reRankingFilter: { ...raw.reRankingFilter } });
           setIsDRRActivated(true);
-          showToast("Live ranking now uses Variation B settings.");
+          showToast("Live ranking now uses Draft 2 settings.");
           markApplied();
           return;
         }
@@ -221,9 +260,16 @@ export function DRRProvider({ children }: { children: ReactNode }) {
   );
 
   const beginAbTestWizard = useCallback(() => {
-    setAbTestSelectedVariations([]);
-    setAbTestTrafficSplit([]);
+    setAbTestSelectedVariations(["control", "drr-off"]);
+    setAbTestTrafficSplit(equalTrafficSplit(2));
     setAbTestDurationDays(14);
+    setAbTestFlowIndexId("prod_products");
+    setAbTestArmIndexIds(["prod_products", "prod_products"]);
+    setAbTestTargetMetric("Click-through rate");
+    setAbTestMinChangePct(2);
+    setAbTestEmailReport(false);
+    setAbTestNameDraft("Dynamic Re-ranking test — prod_products");
+    setAbTestDescriptionDraft("Testing Dynamic Re-ranking on prod_products with one additional variant.");
   }, []);
 
   const dismissActiveAbTest = useCallback(() => setActiveAbTest(null), []);
@@ -265,6 +311,20 @@ export function DRRProvider({ children }: { children: ReactNode }) {
         abTestDurationDays,
         setAbTestDurationDays,
         beginAbTestWizard,
+        abTestFlowIndexId,
+        setAbTestFlowIndexId,
+        abTestArmIndexIds,
+        setAbTestArmIndexIds,
+        abTestTargetMetric,
+        setAbTestTargetMetric,
+        abTestMinChangePct,
+        setAbTestMinChangePct,
+        abTestEmailReport,
+        setAbTestEmailReport,
+        abTestNameDraft,
+        setAbTestNameDraft,
+        abTestDescriptionDraft,
+        setAbTestDescriptionDraft,
         activeAbTest,
         setActiveAbTest,
         dismissActiveAbTest,

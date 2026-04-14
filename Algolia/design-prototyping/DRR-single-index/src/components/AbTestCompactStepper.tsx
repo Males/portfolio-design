@@ -1,98 +1,59 @@
-import { Check, ListChecks, SlidersHorizontal, type LucideIcon } from "lucide-react";
+import { Check } from "lucide-react";
 
-type StepStatus = "complete" | "active" | "upcoming";
+const STEPS = ["Build test", "Configure", "Review"] as const;
 
-/** Satellite 1.0 — Stepper / Horizontal / Compact (Figma node 17012:1724) */
-const COLOR_SUCCESS = "#008b4a";
-const COLOR_LINE_SUBTLE = "#d6d6e7";
+export type AbTestStepIndex = 0 | 1 | 2;
 
-const STEP_A = { id: "variations", label: "Choose variations", Icon: ListChecks };
-const STEP_B = { id: "traffic", label: "Traffic & duration", Icon: SlidersHorizontal };
-
-function StepIndicator({
-  Icon,
-  status,
-}: {
-  Icon: LucideIcon;
-  status: StepStatus;
-}) {
-  if (status === "complete") {
-    return (
-      <div
-        className="flex items-center justify-center size-5 rounded-full shrink-0"
-        style={{ backgroundColor: COLOR_SUCCESS }}
-        aria-hidden
-      >
-        <Check size={12} className="text-white" strokeWidth={2.5} />
-      </div>
-    );
-  }
-  if (status === "active") {
-    return (
-      <div
-        className="flex items-center justify-center size-5 rounded-full bg-ink-light shrink-0"
-        aria-hidden
-      >
-        <Icon size={12} className="text-white" strokeWidth={2} />
-      </div>
-    );
-  }
-  return (
-    <div
-      className="flex items-center justify-center size-5 rounded-full bg-bg-sidebar shrink-0"
-      aria-hidden
-    >
-      <Icon size={12} className="text-subdued" strokeWidth={2} />
-    </div>
-  );
+function statusFor(step: number, current: AbTestStepIndex): "complete" | "active" | "upcoming" {
+  if (step < current) return "complete";
+  if (step === current) return "active";
+  return "upcoming";
 }
 
-function StepLabel({ children, subdued }: { children: string; subdued: boolean }) {
+/** Three-step horizontal stepper (DRR-only prototype — no separate test-type step). */
+export default function AbTestCompactStepper({ currentStepIndex }: { currentStepIndex: AbTestStepIndex }) {
   return (
-    <span
-      className={`text-xs leading-4 shrink min-w-0 max-w-[11rem] sm:max-w-none truncate ${
-        subdued ? "text-subdued" : "text-ink"
-      }`}
-    >
-      {children}
-    </span>
-  );
-}
-
-/**
- * Compact horizontal stepper per Satellite 1.0 components
- * (https://www.figma.com/design/YzDmKplBDkdJ3aeQunEKq8 — Stepper, Horizontal, Compact).
- */
-export default function AbTestCompactStepper({ currentStepIndex }: { currentStepIndex: 0 | 1 }) {
-  const statusA: StepStatus = currentStepIndex === 0 ? "active" : "complete";
-  const statusB: StepStatus = currentStepIndex === 1 ? "active" : "upcoming";
-  const lineBeforeBComplete = currentStepIndex >= 1;
-
-  return (
-    <div
-      className="flex flex-wrap gap-2 items-center justify-center w-full min-w-0"
-      aria-label="A/B test steps"
-    >
-      {/* Step 1 — no leading connector */}
-      <div className="flex gap-2 items-center shrink-0 rounded">
-        <StepIndicator Icon={STEP_A.Icon} status={statusA} />
-        <StepLabel subdued={false}>{STEP_A.label}</StepLabel>
-      </div>
-
-      {/* Step 2 — 16px line (Figma) + 8px gap + indicator + label */}
-      <div className="flex gap-2 items-center shrink-0">
-        <div
-          className="h-px w-4 shrink-0"
-          style={{
-            backgroundColor: lineBeforeBComplete ? COLOR_SUCCESS : COLOR_LINE_SUBTLE,
-          }}
-          role="presentation"
-        />
-        <div className="flex gap-2 items-center shrink-0 rounded min-w-0">
-          <StepIndicator Icon={STEP_B.Icon} status={statusB} />
-          <StepLabel subdued={statusB === "upcoming"}>{STEP_B.label}</StepLabel>
-        </div>
-      </div>
-    </div>
+    <nav className="w-full" aria-label="A/B test steps">
+      <ol className="flex flex-wrap items-center gap-1 sm:gap-0 sm:justify-between">
+        {STEPS.map((label, i) => {
+          const st = statusFor(i, currentStepIndex);
+          const isLast = i === STEPS.length - 1;
+          return (
+            <li key={label} className="flex min-w-0 flex-1 items-center gap-2 last:flex-none">
+              <div className="flex min-w-0 items-center gap-2">
+                <span
+                  className={[
+                    "flex size-8 shrink-0 items-center justify-center rounded-full text-sm font-semibold leading-none",
+                    st === "complete" && "bg-primary text-white",
+                    st === "active" && "bg-primary text-white ring-4 ring-primary/15",
+                    st === "upcoming" && "border border-border-subtle bg-bg-sidebar text-subdued",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                  aria-current={st === "active" ? "step" : undefined}
+                >
+                  {st === "complete" ? <Check size={16} strokeWidth={2.5} className="text-white" /> : i + 1}
+                </span>
+                <span
+                  className={`min-w-0 truncate text-sm font-medium leading-5 ${
+                    st === "upcoming" ? "text-subdued" : "text-ink"
+                  }`}
+                >
+                  {label}
+                </span>
+              </div>
+              {!isLast ? (
+                <div
+                  className={`mx-1 hidden h-px min-w-[12px] flex-1 sm:block ${
+                    i < currentStepIndex ? "bg-primary" : "bg-border-subtle"
+                  }`}
+                  aria-hidden
+                />
+              ) : null}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
   );
 }

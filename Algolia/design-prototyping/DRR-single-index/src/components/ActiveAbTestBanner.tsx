@@ -3,7 +3,7 @@ import { LayoutGrid, StopCircle } from "lucide-react";
 import { useDRR } from "../context/DRRContext";
 import ConfirmModal from "./ConfirmModal";
 import {
-  AB_TEST_VARIATION_LABELS,
+  AB_TEST_EXPERIMENT_VARIANT_LABELS,
   getIllustrativeAbTestTableData,
   isSuccessfulAbTestOutcome,
   type AbTestVariationId,
@@ -85,7 +85,7 @@ export default function ActiveAbTestBanner() {
   const { cvrRates, winnerIndex } = tableData;
   const successful = isSuccessfulAbTestOutcome(isComplete, winnerIndex, cvrRates);
   const winnerId = variationIds[winnerIndex];
-  const winnerLabel = winnerId ? AB_TEST_VARIATION_LABELS[winnerId] : "";
+  const winnerLabel = winnerId ? AB_TEST_EXPERIMENT_VARIANT_LABELS[winnerId] : "";
 
   const handleConfirmApply = () => {
     if (winnerId) applyAbTestVariationToLive(winnerId);
@@ -179,7 +179,7 @@ export default function ActiveAbTestBanner() {
             {appliedVariationId ? (
               <p className="text-sm text-success-ink leading-5">
                 Live ranking has been updated to match{" "}
-                <span className="font-medium">{AB_TEST_VARIATION_LABELS[appliedVariationId]}</span>.
+                <span className="font-medium">{AB_TEST_EXPERIMENT_VARIANT_LABELS[appliedVariationId]}</span>.
               </p>
             ) : successful && winnerId ? (
               <>
@@ -286,7 +286,7 @@ function AbTestMetricsTable({
                     >
                       {letter}
                     </div>
-                    <span className="truncate text-ink leading-5">{AB_TEST_VARIATION_LABELS[vid]}</span>
+                    <span className="truncate text-ink leading-5">{AB_TEST_EXPERIMENT_VARIANT_LABELS[vid]}</span>
                     {isWinnerRow ? (
                       <span className="shrink-0 rounded-full border border-success-border bg-success-bg px-1.5 py-0 text-xs text-success-ink">
                         Winner

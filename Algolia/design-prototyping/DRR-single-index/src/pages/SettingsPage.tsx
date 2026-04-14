@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import PageHeader from "../components/PageHeader";
 import ExploreConfigureTabs from "../components/ExploreConfigureTabs";
@@ -14,12 +14,20 @@ import {
 } from "../components/GeneralColumnAside";
 import { useDRR } from "../context/DRRContext";
 import type { ComparisonPaneMode, DRRSettingsSnapshot } from "../types/drrSettings";
+import { diffSettings } from "../lib/configDiff";
 import {
   configureCompareColumnTitle,
   resolveConfigureColumn,
   toCompareColumn,
   type ColumnResolved,
 } from "../lib/configureColumnResolve";
+
+function cloneSnapshot(c: DRRSettingsSnapshot): DRRSettingsSnapshot {
+  return {
+    ...c,
+    reRankingFilter: { ...c.reRankingFilter },
+  };
+}
 
 function generalAsideFor(
   resolved: ColumnResolved,
@@ -69,11 +77,20 @@ export default function SettingsPage() {
   const [showActivateModal, setShowActivateModal] = useState(false);
   const [showDeactivateModal, setShowDeactivateModal] = useState(false);
   const [localConfig, setLocalConfig] = useState({ ...productionConfig });
+  const [savedBaseline, setSavedBaseline] = useState(() => ({
+    control: cloneSnapshot(productionConfig),
+    a: cloneSnapshot(variantAConfig),
+    b: cloneSnapshot(variantBConfig),
+  }));
   const [leftMode, setLeftMode] = useState<ComparisonPaneMode>("control");
   const [rightMode, setRightMode] = useState<ComparisonPaneMode>("variant-a");
 
   useEffect(() => {
     setLocalConfig({ ...productionConfig });
+    setSavedBaseline((prev) => ({
+      ...prev,
+      control: cloneSnapshot(productionConfig),
+    }));
   }, [productionConfig]);
 
   useEffect(() => {
@@ -118,8 +135,39 @@ export default function SettingsPage() {
 
   const noop = useCallback(() => {}, []);
 
+  const controlDirty = useMemo(
+    () => diffSettings(savedBaseline.control, localConfig).length > 0,
+    [savedBaseline.control, localConfig],
+  );
+
+  const draftADirty = useMemo(
+    () => diffSettings(savedBaseline.a, variantAConfig).length > 0,
+    [savedBaseline.a, variantAConfig],
+  );
+
+  const draftBDirty = useMemo(
+    () => diffSettings(savedBaseline.b, variantBConfig).length > 0,
+    [savedBaseline.b, variantBConfig],
+  );
+
+  const hasUnsavedChanges = controlDirty || draftADirty || draftBDirty;
+
+  const commitSavedBaseline = useCallback(() => {
+    setSavedBaseline({
+      control: cloneSnapshot(localConfig),
+      a: cloneSnapshot(variantAConfig),
+      b: cloneSnapshot(variantBConfig),
+    });
+  }, [localConfig, variantAConfig, variantBConfig]);
+
   const handleSave = () => {
-    setShowSaveModal(true);
+    if (!hasUnsavedChanges) return;
+    if (controlDirty) {
+      setShowSaveModal(true);
+      return;
+    }
+    commitSavedBaseline();
+    showToast("Draft changes saved.");
   };
 
   const handleConfirmSave = () => {
@@ -127,8 +175,9 @@ export default function SettingsPage() {
       ...localConfig,
       reRankingFilter: { ...localConfig.reRankingFilter },
     });
+    commitSavedBaseline();
     setShowSaveModal(false);
-    showToast("Changes saved.");
+    showToast("Published to live; all changes saved.");
   };
 
   const handleOpenExplore = () => {
@@ -207,7 +256,7 @@ export default function SettingsPage() {
         onDeactivate={() => setShowDeactivateModal(true)}
         onCreateTest={() => {
           beginAbTestWizard();
-          navigate("/ab-test/variations");
+          navigate("/ab-test/build");
         }}
       />
 
@@ -229,7 +278,7 @@ export default function SettingsPage() {
                 alwaysShowVariants
                 visualVariant="ds"
                 fullWidth
-                variantSlotLabels={{ a: "Variant B", b: "Variant C" }}
+                variantSlotLabels={{ a: "Draft 1", b: "Draft 2" }}
               />
             </div>
             <div className="flex flex-col gap-1 min-w-0">
@@ -243,7 +292,7 @@ export default function SettingsPage() {
                 alwaysShowVariants
                 visualVariant="ds"
                 fullWidth
-                variantSlotLabels={{ a: "Variant B", b: "Variant C" }}
+                variantSlotLabels={{ a: "Draft 1", b: "Draft 2" }}
               />
             </div>
           </div>
@@ -259,7 +308,7 @@ export default function SettingsPage() {
                 alwaysShowVariants
                 visualVariant="ds"
                 fullWidth
-                variantSlotLabels={{ a: "Variant B", b: "Variant C" }}
+                variantSlotLabels={{ a: "Draft 1", b: "Draft 2" }}
               />
             </div>
             <div className="flex flex-col gap-1 min-w-0">
@@ -273,7 +322,7 @@ export default function SettingsPage() {
                 alwaysShowVariants
                 visualVariant="ds"
                 fullWidth
-                variantSlotLabels={{ a: "Variant B", b: "Variant C" }}
+                variantSlotLabels={{ a: "Draft 1", b: "Draft 2" }}
               />
             </div>
           </div>
@@ -295,7 +344,17 @@ export default function SettingsPage() {
           />
         </div>
 
-        <div className="flex items-center justify-end gap-3 pb-8">
+        <div className="flex flex-wrap items-center justify-end gap-3 pb-8">
+          {!hasUnsavedChanges ? (
+            <p className="mr-auto max-w-md text-sm text-subdued leading-5">
+              No unsaved changes in Control, Draft 1, or Draft 2.
+            </p>
+          ) : !controlDirty ? (
+            <p className="mr-auto max-w-md text-sm text-subdued leading-5">
+              Draft edits aren’t marked saved yet. Save records them in this session (no live publish). Editing Control
+              will prompt before publishing to live.
+            </p>
+          ) : null}
           <button
             type="button"
             onClick={() => navigate("/")}
@@ -306,7 +365,19 @@ export default function SettingsPage() {
           <button
             type="button"
             onClick={handleSave}
-            className="px-5 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary-hover cursor-pointer"
+            disabled={!hasUnsavedChanges}
+            title={
+              !hasUnsavedChanges
+                ? "No changes to save."
+                : controlDirty
+                  ? "Saving will ask you to confirm before publishing Control to live."
+                  : "Save draft changes (Control unchanged)."
+            }
+            className={`px-5 py-2.5 text-sm font-medium rounded-lg cursor-pointer ${
+              hasUnsavedChanges
+                ? "text-white bg-primary hover:bg-primary-hover"
+                : "text-subdued bg-bg-sidebar border border-border-subtle cursor-not-allowed"
+            }`}
           >
             Save changes
           </button>
