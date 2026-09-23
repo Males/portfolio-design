@@ -1,0 +1,14 @@
+{
+  "name": "Adam Males",
+  "short_name": "Adam Males",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#F7F7F5",
+  "background_color": "#F7F7F5",
+  "display": "browser"
+}

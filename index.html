@@ -3,11 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- meta+icons -->
+  <meta name="description" content="Product designer who makes complex, invisible systems make sense to the people who depend on them. AI search, ranking and diagnostics at Algolia." />
+  <meta property="og:title" content="Adam Males — Product Designer" />
+  <meta property="og:description" content="Product designer who makes complex, invisible systems make sense to the people who depend on them. AI search, ranking and diagnostics at Algolia." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <!-- /meta+icons -->
   <title>Adam Males — Product Designer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
-  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -38,7 +47,11 @@
 
     @media (max-width: 1140px) { :root { --pad: 80px; } }
     @media (max-width: 720px)  { :root { --pad: 40px; } }
-    @media (max-width: 480px)  { :root { --pad: 24px; } }
+    @media (max-width: 480px)  {
+      :root { --pad: 24px; }
+      .work-item { flex-direction: column; align-items: flex-start; gap: var(--micro); }
+      .work-meta { display: flex; gap: var(--sml); }
+    }
 
     html, body {
       background: var(--bg);
@@ -59,39 +72,6 @@
       gap: var(--med);
     }
 
-    .hero-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-    }
-
-    .hero-eyebrow {
-      font-size: var(--t-body);
-      font-weight: 400;
-      color: var(--ink-3);
-    }
-
-    .hero-nav-link {
-      font-size: var(--t-body);
-      font-weight: 400;
-      color: var(--ink-3);
-      text-decoration: none;
-      transition: color 0.15s ease, background-color 0.15s ease;
-      border-radius: 3px;
-      padding: 2px 5px;
-      margin: -2px -5px;
-    }
-
-    .hero-nav-link:hover {
-      color: var(--bg);
-      background-color: var(--ink);
-    }
-
-    .hero-nav-link:active {
-      color: var(--bg);
-      background-color: var(--ink-2);
-    }
-
     .hero-name {
       font-size: var(--t-name);
       font-weight: 700;
@@ -100,17 +80,43 @@
       color: var(--ink);
     }
 
+    .hero-intro {
+      display: flex;
+      flex-direction: column;
+      gap: var(--base);
+      max-width: 480px;
+    }
+
     .hero-statement {
       font-size: var(--t-base);
       font-weight: 300;
       line-height: 1.7;
       color: var(--ink-2);
-      max-width: 480px;
     }
 
     .hero-statement strong {
       font-weight: 500;
       color: var(--ink);
+    }
+
+    .hero-statement a {
+      color: var(--ink);
+      text-decoration: underline;
+      text-decoration-color: var(--ink-3);
+      text-underline-offset: 3px;
+    }
+
+    .hero-statement a:hover {
+      color: var(--bg);
+      background-color: var(--ink);
+      text-decoration: none;
+      border-radius: 3px;
+      padding: 2px 4px;
+      margin: -2px -4px;
+    }
+
+    @media (min-width: 1141px) {
+      .hero-intro { max-width: 700px; }
     }
 
     /* ─── SECTION LABEL ─────────────────────────────────────── */
@@ -120,7 +126,7 @@
 
     .sec-name {
       font-size: var(--t-sm);
-      font-weight: 400;
+      font-weight: 600;
       color: var(--ink);
     }
 
@@ -174,6 +180,23 @@
       font-size: var(--t-body);
       color: var(--ink-3);
       font-weight: 300;
+    }
+
+    @media (max-width: 480px) {
+      span.work-title::after { content: none; }
+    }
+
+    .work-item--soon .work-title,
+    .work-item--soon .work-company,
+    .work-item--soon .work-year {
+      color: var(--ink-3);
+      cursor: default;
+    }
+
+    .work-main {
+      display: flex;
+      flex-direction: column;
+      gap: var(--micro);
     }
 
     .work-meta {
@@ -255,43 +278,61 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-top">
-      <p class="hero-eyebrow">Product Designer, Staff / Principal</p>
-      <nav><a class="hero-nav-link" href="resume.html">Resume</a></nav>
-    </div>
     <h1 class="hero-name">Adam<br>Males.</h1>
-    <p class="hero-statement">
-<strong>Staff product designer with 12 years experience</strong> across data pipelines, logistics platforms, and e-commerce. The work is always the same underneath, understand what's genuinely hard, find the simplest design that holds up, and help the team ship it. IC or player-coach depending on what the problem calls for.
-    </p>
+    <div class="hero-intro">
+      <p class="hero-statement"><strong>Ey up,</strong> I'm Adam, a product designer with 12 years of experience, currently working at the AI search platform <a href="https://www.algolia.com" target="_blank" rel="noopener">Algolia</a>, where I lead design for <a href="https://www.algolia.com/products/features/neuralsearch" target="_blank" rel="noopener">AI search</a>, result ranking and retrieval, making complex, invisible systems make sense to the users who depend on them. I also helped to build the AI documentation search tool <a href="askai-casestudy.html">Ask AI</a>.</p>
+      <p class="hero-statement">Before that I designed the AI copilot at <a href="https://www.matillion.com" target="_blank" rel="noopener">Matillion</a>, the data transformation platform. I also worked at the digital freight forwarder <a href="https://www.zencargo.com" target="_blank" rel="noopener">Zencargo</a> where I worked on shipment visibility.</p>
+      <p class="hero-statement">Find out more in my <a href="resume.html">resume</a> or drop me an <a href="mailto:adammales@me.com">email</a> or a message on <a href="https://www.linkedin.com/in/adam-males" target="_blank" rel="noopener">LinkedIn</a>.</p>
+    </div>
   </section>
 
   <!-- WORK -->
-  <div class="sec-label"><span class="sec-name">Work</span></div>
+  <div class="sec-label"><span class="sec-name">Selected work</span></div>
 
   <ul class="work-list">
-    <li class="work-item">
-      <a class="work-title" href="askai-casestudy.html">Ask AI Adoption.</a>
-      <div class="work-meta">
-        <span class="work-company">Algolia</span>
-        <span class="work-year">2025</span>
-      </div>
+    <li class="work-item work-item--soon">
+      <div class="work-main"><span class="work-title">AI UX review agent</span></div>
+      <div class="work-meta"><span class="work-company">Algolia</span><span class="work-year">2026</span></div>
     </li>
-<li class="work-item locked">
-      <span class="work-title">AI Copilot</span>
-      <div class="work-meta">
-        <span class="work-company">Matillion</span>
-        <span class="work-year">2023</span>
-      </div>
+    <li class="work-item work-item--soon">
+      <div class="work-main"><span class="work-title">Search diagnostics and debugger tool</span></div>
+      <div class="work-meta"><span class="work-company">Algolia</span><span class="work-year">2026</span></div>
     </li>
     <li class="work-item">
-      <a class="work-title" href="zencargo-journey.html">Redefining shipment visibility.</a>
-      <div class="work-meta">
-        <span class="work-company">Zencargo</span>
-        <span class="work-year">2019</span>
-      </div>
+      <div class="work-main"><a class="work-title" href="askai-casestudy.html">AI documentation search</a></div>
+      <div class="work-meta"><span class="work-company">Algolia</span><span class="work-year">2025</span></div>
+    </li>
+    <li class="work-item work-item--soon">
+      <div class="work-main"><span class="work-title">Data transformation AI copilot</span></div>
+      <div class="work-meta"><span class="work-company">Matillion</span><span class="work-year">2024</span></div>
+    </li>
+    <li class="work-item">
+      <div class="work-main"><a class="work-title" href="zencargo-journey.html">Centralised cargo model for supply chain</a></div>
+      <div class="work-meta"><span class="work-company">Zencargo</span><span class="work-year">2019</span></div>
     </li>
   </ul>
 
+  <!-- BUILDS -->
+  <div class="sec-label"><span class="sec-name">Selected builds</span></div>
+
+  <ul class="work-list">
+    <li class="work-item work-item--soon">
+      <div class="work-main"><span class="work-title">A daily curated list, shared with friends</span></div>
+      <div class="work-meta"><span class="work-year">2026</span></div>
+    </li>
+    <li class="work-item work-item--soon">
+      <div class="work-main"><span class="work-title">Split household chores fairly</span></div>
+      <div class="work-meta"><span class="work-year">2026</span></div>
+    </li>
+    <li class="work-item work-item--soon">
+      <div class="work-main"><span class="work-title">Dog friendly walks with sights and beers</span></div>
+      <div class="work-meta"><span class="work-year">2026</span></div>
+    </li>
+    <li class="work-item work-item--soon">
+      <div class="work-main"><span class="work-title">A Yorkshire takeaway decider</span></div>
+      <div class="work-meta"><span class="work-year">2026</span></div>
+    </li>
+  </ul>
 
 </body>
 </html>
