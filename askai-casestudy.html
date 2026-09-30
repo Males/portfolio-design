@@ -3,7 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ask AI Adoption — Adam Males</title>
+  <title>AI documentation search — Adam Males</title>
+  <meta name="description" content="Guided setup for Ask AI, the assistant inside DocSearch. 86 completed setups and zero configuration support tickets in the first 30 days." />
+  <meta property="og:title" content="AI documentation search — Adam Males" />
+  <meta property="og:description" content="Guided setup for Ask AI, the assistant inside DocSearch. 86 completed setups and zero configuration support tickets in the first 30 days." />
+  <meta property="og:type" content="article" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
@@ -32,14 +40,19 @@
       --t-base:  16px;
       --t-md:    18px;
       --t-title: clamp(36px, 5vw, 52px);
+      --t-head:  24px;
+      --radius:  4px;
 
       --pad: 300px;
       --content: 680px;
+
+      /* callouts and figures break the text column by this much each side */
+      --bleed: 40px;
     }
 
     @media (max-width: 1140px) { :root { --pad: 80px; } }
     @media (max-width: 720px)  { :root { --pad: 40px; } }
-    @media (max-width: 480px)  { :root { --pad: 24px; } }
+    @media (max-width: 480px)  { :root { --pad: 24px; --bleed: 16px; } }
 
     html, body {
       background: var(--bg);
@@ -101,9 +114,9 @@
     }
 
     .cs-overview {
-      font-size: var(--t-md);
+      font-size: var(--t-base);
       font-weight: 300;
-      line-height: 1.7;
+      line-height: 1.75;
       color: var(--ink-2);
     }
 
@@ -142,11 +155,9 @@
 
     .meta-label {
       font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
+      font-weight: 600;
+      color: var(--ink-2);
       margin-bottom: var(--micro);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
     }
 
     .meta-value {
@@ -167,11 +178,14 @@
     }
 
     .cs-section-label {
-      font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
+      font-size: var(--t-head);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--ink);
       margin-bottom: var(--med);
     }
+
+    .cs-header .cs-section-label { margin-top: var(--xl); }
 
     .cs-h2 {
       font-size: var(--t-md);
@@ -232,7 +246,7 @@
     .cs-note {
       padding: var(--base);
       border-left: 2px solid var(--rule);
-      margin-bottom: var(--xl);
+      margin: 0 calc(var(--bleed) * -1) var(--xl);
     }
 
     .cs-note p {
@@ -245,18 +259,17 @@
 
     /* ─── OUTCOME CALLOUT ──────────────────────────────────── */
     .cs-outcome {
-      margin-top: var(--base);
-      margin-bottom: var(--med);
-      padding: var(--base);
+      margin: var(--base) calc(var(--bleed) * -1) var(--med);
+      padding: var(--base) var(--bleed);
       background: rgba(24,24,24,0.03);
+      border-radius: var(--radius);
     }
 
-    .cs-outcome-label {
-      font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
+    .cs-outcome .cs-outcome-label {
+      font-size: var(--t-body);
+      font-weight: 600;
+      line-height: 1.65;
+      color: var(--ink-2);
       margin-bottom: var(--micro);
     }
 
@@ -279,12 +292,7 @@
       margin-bottom: var(--xl);
     }
 
-    .cs-decision-num {
-      font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
-      margin-bottom: var(--sml);
-    }
+    .cs-decision { padding-top: var(--sml); }
 
     /* ─── OUTCOMES GRID ────────────────────────────────────── */
     .cs-outcomes-grid {
@@ -309,10 +317,8 @@
 
     .outcome-type {
       font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
+      font-weight: 600;
+      color: var(--ink-2);
       padding-top: 3px;
     }
 
@@ -322,223 +328,692 @@
       line-height: 1.7;
       color: var(--ink-2);
     }
-  </style>
+  
+    /* ─── FIGURE ───────────────────────────────────────────── */
+    .cs-figure { margin: var(--med) calc(var(--bleed) * -1) var(--xl); }
+    .cs-figure svg, .cs-figure img { display: block; width: 100%; height: auto; border-radius: var(--radius); }
+    .cs-figure figcaption { font-size: var(--t-sm); font-weight: 400; color: var(--ink-3); margin: var(--base) var(--bleed) 0; }
+    .cs-decision .cs-figure { margin-bottom: var(--med); }
+    .cs-fig-narrow { display: none; }
+    @media (max-width: 480px) { .cs-fig-wide { display: none; } .cs-fig-narrow { display: block; max-width: 300px; margin: 0 auto; } }
+    .cs-figure-zoom { position: relative; display: block; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+    .cs-figure-zoom-hint { position: absolute; right: var(--sml); bottom: var(--sml); background: var(--ink); color: var(--bg); font-size: var(--t-sm); font-weight: 500; padding: var(--micro) var(--sml); border-radius: var(--radius); }
+    .cs-figure-zoom:hover .cs-figure-zoom-hint, .cs-figure-zoom:focus-visible .cs-figure-zoom-hint { background: var(--ink-2); }
+
+    /* ─── IMAGE PLACEHOLDER ──────────────────────────────── */
+    .cs-ph {
+      aspect-ratio: 16 / 10;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      padding: var(--med);
+      background-color: #EFEFEC;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 2L22 12L12 22L2 12Z' fill='%23E2E2DF'/%3E%3C/svg%3E");
+      background-size: 24px 24px;
+    }
+    .cs-ph p { max-width: 440px; background: var(--bg); border-radius: var(--radius); padding: var(--sml) var(--base); font-size: var(--t-body); line-height: 1.6; color: var(--ink-2); text-align: center; }
+    .cs-ph-tag { display: block; font-weight: 600; color: var(--ink); margin-bottom: var(--micro); }
+    @media (max-width: 480px) { .cs-ph { aspect-ratio: 4 / 3; padding: var(--base); } }
+
+    /* ─── TL;DR ────────────────────────────────────────────── */
+    .cs-tldr { margin: var(--med) calc(var(--bleed) * -1) 0; padding: var(--base) var(--bleed); background: rgba(24,24,24,0.03); border-radius: var(--radius); }
+    .cs-tldr-label { font-size: var(--t-head); font-weight: 600; line-height: 32px; letter-spacing: -0.8px; color: var(--ink); margin-bottom: var(--sml); }
+    .cs-tldr-item { font-size: var(--t-base); font-weight: 300; line-height: 1.5; color: var(--ink); margin-bottom: 24px; }
+    .cs-tldr-item:last-child { margin-bottom: 0; }
+    .cs-tldr-item strong { font-weight: 600; }
+
+    /* ─── LINKS IN COPY ────────────────────────────────────── */
+    .cs-eyebrow a, .cs-p a, .cs-overview a, .cs-tldr-item a { color: inherit; text-decoration: underline; text-decoration-color: var(--ink-3); text-underline-offset: 3px; }
+    .cs-eyebrow a:hover, .cs-p a:hover, .cs-overview a:hover, .cs-tldr-item a:hover { text-decoration-color: var(--ink); }
+
+    /* footer */
+    .site-footer { padding: 40px var(--pad) 96px; border-top: 1px solid #E0E0DE; }
+    .footer-name { font-size: 32px; font-weight: 600; line-height: 1; letter-spacing: -0.8px; color: #181818; }
+    .footer-links { display: flex; gap: 32px; padding-top: 12px; list-style: none; }
+    .footer-links a { font-size: 13px; line-height: 1.5; color: #181818; text-decoration: underline; text-decoration-color: #616161; text-underline-offset: 3px; border-radius: 3px; padding: 2px 4px; margin: -2px -4px; }
+    .footer-links a:hover { color: #F7F7F5; background-color: #181818; text-decoration: none; }
+    @media (max-width: 480px) { .footer-links { flex-direction: column; gap: 4px; } }
+    /* /footer */
+</style>
 </head>
 <body>
 
-  <!-- NAV -->
   <nav class="cs-nav">
     <a class="cs-back" href="/">← Back</a>
   </nav>
 
-  <!-- HEADER -->
   <header class="cs-header">
-    <p class="cs-eyebrow">Algolia · 2025</p>
-    <h1 class="cs-title">Ask AI Adoption.</h1>
-    <p class="cs-overview">
-      Ask AI launched inside DocSearch at a time when AI features were quickly becoming table stakes. The pressure was to move fast and keep pace with competitors, but the most likely outcome was a minimal setup split between code and the Algolia UI.
-    </p>
-    <br>
-    <p class="cs-overview">
-      <strong>I led the design of a guided onboarding model that kept configuration inside the product, reduced friction during setup, and created a more scalable foundation for future AI experiences.</strong> In the first 30 days, the flow drove 86 completed assistant setups, a 26.7% completion rate, and zero support tickets tied to configuration errors. It also went on to influence broader onboarding patterns in Agent Studio.
-    </p>
+    <p class="cs-eyebrow"><a href="https://www.algolia.com" target="_blank" rel="noopener">Algolia</a> · 2025 · Design lead · Ask AI inside <a href="https://docsearch.algolia.com" target="_blank" rel="noopener">DocSearch</a></p>
+    <h1 class="cs-title">AI documentation search.</h1>
+    <section class="cs-tldr" aria-label="Summary">
+  <h2 class="cs-tldr-label">Too long, didn’t read.</h2>
+  <p class="cs-tldr-item"><strong>The fast path was a setup split between code and the dashboard. I argued for a guided one inside the product.</strong></p>
+  <p class="cs-tldr-item"><strong>Ask AI is the assistant inside DocSearch, Algolia's search for documentation sites.</strong> It answers a reader's question from the docs instead of listing pages. The teams who run those docs set it up.</p>
+  <p class="cs-tldr-item"><strong>I led the design of a guided onboarding model that kept configuration inside the product</strong> and presented the assistant and its analytics as one experience.</p>
+  <p class="cs-tldr-item"><strong>In the first 30 days the flow drove 86 completed assistant setups at a 26.7% completion rate, with zero support tickets tied to configuration errors.</strong> The patterns went on to shape onboarding in Agent Studio.</p>
+  <p class="cs-tldr-item"><strong>The principal move was recognising that speed was the wrong target before anything was built</strong> and moving the team to solve for product coherence instead.</p>
+</section>
+    <h2 class="cs-section-label">Introduction.</h2>
+<p class="cs-overview">Ask AI launched inside DocSearch at a time when AI features were quickly becoming table stakes. The pressure was to move fast and keep pace with competitors, but the most likely outcome was a minimal setup split between code and the Algolia UI.</p>
+<br>
+<p class="cs-overview"><strong>I led the design of a guided onboarding model that kept configuration inside the product, reduced friction during setup and created a more scalable foundation for future AI experiences.</strong> In the first 30 days, the flow drove 86 completed assistant setups, a 26.7% completion rate and zero support tickets tied to configuration errors. It also went on to influence broader onboarding patterns in Agent Studio.</p>
   </header>
 
-  <!-- METADATA -->
   <div class="cs-meta">
     <div class="meta-item">
-      <p class="meta-label">My role</p>
-      <p class="meta-value">Design lead</p>
-    </div>
-    <div class="meta-item">
-      <p class="meta-label">Scope</p>
-      <p class="meta-value">Onboarding model<br>Setup flow design<br>Analytics presentation<br>Stakeholder influence</p>
-    </div>
-    <div class="meta-item">
-      <p class="meta-label">Influenced</p>
-      <p class="meta-value">Product direction<br>Scope decisions<br>Engineering architecture<br>Agent Studio patterns</p>
-    </div>
-    <div class="meta-item">
-      <p class="meta-label">Outcome</p>
-      <p class="meta-value">86 setups in 30 days<br>26.7% completion rate<br>Zero config errors</p>
-    </div>
+  <p class="meta-label">My role.</p>
+  <p class="meta-value">Design lead</p>
+</div>
+<div class="meta-item">
+  <p class="meta-label">Scope.</p>
+  <p class="meta-value">Onboarding model<br>Setup flow design<br>Analytics presentation<br>Stakeholder influence</p>
+</div>
+<div class="meta-item">
+  <p class="meta-label">Influenced.</p>
+  <p class="meta-value">Product direction<br>Scope decisions<br>Engineering architecture<br>Agent Studio patterns</p>
+</div>
+<div class="meta-item">
+  <p class="meta-label">Outcome.</p>
+  <p class="meta-value">86 setups in 30 days<br>26.7% completion rate<br>Zero config errors</p>
+</div>
   </div>
 
-  <!-- BODY -->
   <div class="cs-body">
 
-    <!-- WHY THIS MATTERED -->
     <div class="cs-section">
-      <p class="cs-section-label">Why this mattered</p>
-      <p class="cs-p">Ask AI was introduced as part of DocSearch to help Algolia keep pace as competing products started shipping AI features. The immediate business pressure was simple: move quickly and stay relevant.</p>
-      <p class="cs-p">But speed alone was not the real challenge.</p>
-      <p class="cs-p">The bigger risk was shipping an experience that only worked if users were willing to stitch setup together across multiple places. The early direction leaned toward a thin implementation, with some configuration handled in the UI and other parts pushed into code. That may have been faster to release, but it would also have created a fragmented workflow, made setup harder to follow, and limited the product's ability to stand on its own inside the platform.</p>
-      <p class="cs-p">I believed the real problem was not how to expose the functionality quickly. It was how to make Ask AI usable as a product, not just available as technical capability.</p>
-    </div>
+<h2 class="cs-section-label">Why this mattered.</h2>
+<p class="cs-p"><strong>Ask AI was introduced as part of DocSearch to help Algolia keep pace as competing products started shipping AI features.</strong> The immediate business pressure was simple. Move quickly and stay relevant.</p>
+<p class="cs-p">But speed alone was not the real challenge.</p>
+<p class="cs-p">The bigger risk was shipping an experience that only worked if users were willing to stitch setup together across multiple places. The early direction leaned toward a thin implementation, with some configuration handled in the UI and other parts pushed into code. That may have been faster to release, but it would also have created a fragmented workflow, made setup harder to follow and limited the product's ability to stand on its own inside the platform.</p>
+<p class="cs-p">I believed the real problem was not how to expose the functionality quickly. It was how to make Ask AI usable as a product, not just available as technical capability.</p>
+</div>
 
-    <hr class="cs-divider">
+<hr class="cs-divider">
 
-    <!-- THE PROBLEM -->
+<div class="cs-section">
+<h2 class="cs-section-label">The problem I chose to solve.</h2>
+<p class="cs-p"><strong>On the surface, this looked like an onboarding problem.</strong></p>
+<p class="cs-p">In reality, it was a product coherence problem.</p>
+<p class="cs-p">Without intervention, Ask AI would likely have launched as a minimal interface with key parts of setup split between the codebase and the product UI. That would have pushed more of the burden onto users, created a disjointed experience and made configuration harder to understand and complete.</p>
+<p class="cs-p">I reframed the work around jobs to be done. Instead of asking "What is the fastest way to expose this feature?", I pushed the team to ask "What is the clearest and most coherent way to help someone configure this successfully inside the product?"</p>
+<figure class="cs-figure">
+  <a class="cs-figure-zoom" href="assets/askai/askai-flow-v1.svg" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" id="fig-askai-v1" viewBox="0 0 3496 1718" width="3496" height="1718" role="img" aria-labelledby="fig-askai-v1-t fig-askai-v1-d">
+  <title id="fig-askai-v1-t">The first proposed Ask AI setup flow</title>
+  <desc id="fig-askai-v1-d">A branching flow from the Ask AI tab. A check for existing prompts and configurations splits into a table view and an empty state, which fan out into separate paths to delete, view, edit and analyse prompts and configurations, a six step configuration form and two routes to create a prompt.</desc>
+  <style>#fig-askai-v1 text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
+  <defs><marker id="fig-askai-v1-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
+  <rect width="3496" height="1718" fill="#F7F7F5"/>
+  <path d="M246,1286 H294" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M492,1286 H517" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M709,1286 H724 V1064 H738" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <text x="732" y="1180" font-size="15" font-weight="600" fill="#525252">Yes</text>
+  <path d="M709,1286 H724 V1508 H738" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <text x="732" y="1402" font-size="15" font-weight="600" fill="#525252">No</text>
+  <path d="M936,1064 H972 V250 H1010" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M936,1064 H972 V710 H1010" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M936,1064 H972 V1108 H1010" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M936,1064 H972 V1312 H1010" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M936,1508 H972 V1108 H1010" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M936,1508 H1010" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1208,250 H1458" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1656,250 H1680 V180 H614 V1214" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1208,710 H1244 V552 H1458" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1208,710 H1244 V920 H1458" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1656,552 H1689 V398 H1720" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1656,552 H1689 V500 H1720" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1656,552 H1689 V604 H1720" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1656,920 H1689 V776 H1720" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1656,920 H1689 V868 H1720" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1656,920 H1689 V970 H1720" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1918,604 H1954 V690 H2040" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1918,776 H1954 V690 H2040" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1208,1108 H1289" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1441,1108 H1450 V1194 H1458" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1656,1194 H1716" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1914,1194 H1964" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M2162,1194 H2218" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M2416,1194 H2466" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M2664,1194 H2714" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M2912,1194 H2944" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M3142,1194 H3176 V1134 H3208" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M3142,1194 H3176 V1240 H3208" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1208,1312 H1244 V1412 H1289" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1208,1508 H1244 V1412 H1289" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1441,1412 H1458" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1656,1412 H1687 V1372 H1716" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1914,1372 H1964" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M2162,1372 H2218" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M2416,1372 H2998" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1656,1412 H1687 V1558 H1716" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M1914,1558 H1964" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M2162,1558 H2218" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M2416,1558 H2466" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M2664,1558 H2714" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <path d="M2912,1558 H2948 V1372 H2998" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
+  <circle cx="188" cy="1286" r="58" fill="#181818"/>
+  <text x="188" y="1266" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Lands in</text>
+  <text x="188" y="1282" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Data</text>
+  <text x="188" y="1299" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">sources /</text>
+  <text x="188" y="1315" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Crawler</text>
+  <rect x="296" y="1259" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="394" y="1291" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Selects tab “Ask AI”</text>
+  <path d="M614,1216 L709,1286 L614,1356 L519,1286 Z" fill="#181818" stroke-linejoin="round"/>
+  <text x="614" y="1266" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Do prompts</text>
+  <text x="614" y="1282" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">and/or</text>
+  <text x="614" y="1299" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">configs</text>
+  <text x="614" y="1315" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">exist?</text>
+  <rect x="740" y="1032" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="838" y="1050" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Table view showing all</text>
+  <text x="838" y="1069" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">existing prompts &amp;</text>
+  <text x="838" y="1088" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">configurations</text>
+  <rect x="740" y="1476" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="838" y="1504" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Empty state pushing</text>
+  <text x="838" y="1523" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">prompt creation</text>
+  <rect x="1012" y="223" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1110" y="246" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Delete a prompt /</text>
+  <text x="1110" y="265" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">config</text>
+  <rect x="1460" y="218" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1558" y="255" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Confirmation modal</text>
+  <rect x="1012" y="683" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1110" y="706" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Select an existing</text>
+  <text x="1110" y="725" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">prompt / config</text>
+  <rect x="1460" y="520" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1558" y="557" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">View config</text>
+  <rect x="1460" y="888" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1558" y="925" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">View prompt</text>
+  <rect x="1722" y="371" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1820" y="403" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Delete prompt</text>
+  <rect x="1722" y="473" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1820" y="505" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Edit prompt</text>
+  <rect x="1722" y="577" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1820" y="609" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">View analytics</text>
+  <rect x="1722" y="749" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1820" y="781" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">View analytics</text>
+  <rect x="1722" y="841" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1820" y="873" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Edit prompt</text>
+  <rect x="1722" y="943" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1820" y="975" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Delete prompt</text>
+  <rect x="2042" y="658" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="2140" y="695" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Analytics page</text>
+  <rect x="1012" y="1081" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1110" y="1104" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create a new</text>
+  <text x="1110" y="1123" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">configuration</text>
+  <path d="M1366,1062 L1441,1108 L1366,1154 L1291,1108 Z" fill="#FFFFFF" stroke="#525252" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <text x="1366" y="1096" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">Config</text>
+  <text x="1366" y="1113" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">creation</text>
+  <text x="1366" y="1129" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">flow</text>
+  <rect x="1460" y="1162" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1558" y="1199" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Config creation form</text>
+  <rect x="1718" y="1167" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1816" y="1199" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Select provider</text>
+  <rect x="1966" y="1167" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2064" y="1199" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Select model</text>
+  <rect x="2220" y="1167" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2318" y="1199" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Add API keys</text>
+  <rect x="2468" y="1167" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2566" y="1199" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Select region</text>
+  <rect x="2716" y="1167" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2814" y="1199" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Set max token limit</text>
+  <rect x="2946" y="1167" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="3044" y="1199" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Name configuration</text>
+  <rect x="3210" y="1107" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="3308" y="1139" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
+  <rect x="3210" y="1213" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="3308" y="1245" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save &amp; Create prompt</text>
+  <rect x="1012" y="1285" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1110" y="1317" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create a new prompt</text>
+  <rect x="1012" y="1481" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1110" y="1513" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create a new prompt</text>
+  <path d="M1366,1366 L1441,1412 L1366,1458 L1291,1412 Z" fill="#FFFFFF" stroke="#525252" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <text x="1366" y="1400" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">Prompt</text>
+  <text x="1366" y="1417" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">creation</text>
+  <text x="1366" y="1433" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">flow</text>
+  <rect x="1460" y="1380" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1558" y="1417" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Prompt creation form</text>
+  <rect x="1718" y="1345" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1816" y="1377" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Select template prompt</text>
+  <rect x="1966" y="1345" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2064" y="1377" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Prompt name</text>
+  <rect x="2220" y="1345" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2318" y="1377" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
+  <rect x="1718" y="1531" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1816" y="1563" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create new prompt</text>
+  <rect x="1966" y="1531" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2064" y="1563" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Prompt name</text>
+  <rect x="2220" y="1531" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2318" y="1563" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Tone</text>
+  <rect x="2468" y="1531" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2566" y="1563" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Instruction</text>
+  <rect x="2716" y="1531" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2814" y="1563" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
+  <rect x="3000" y="1340" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="3098" y="1368" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">How to implement</text>
+  <text x="3098" y="1387" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">instructions</text>
+</svg>
+<span class="cs-figure-zoom-hint">Open full size</span></a>
+  <figcaption>The first proposed flow, redrawn from the working board. Setup was organised around prompts and configurations as separate objects, each with its own branches to create, view, edit and delete. Testing showed it was not the best path.</figcaption>
+</figure>
+<figure class="cs-figure">
+  <a class="cs-figure-zoom" href="assets/askai/askai-flow-v2.svg" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" id="fig-askai-v2" viewBox="0 0 3516 1399" width="3516" height="1399" role="img" aria-labelledby="fig-askai-v2-t fig-askai-v2-d">
+  <title id="fig-askai-v2-t">The second proposed Ask AI setup flow</title>
+  <desc id="fig-askai-v2-d">A revised branching flow from the Ask AI tab. Existing prompts and configurations open a view and edit screen with four separate edit paths. The empty state splits into creating a prompt, then optionally attaching it to a new or existing configuration, or creating a configuration, then choosing a template or a new prompt.</desc>
+  <style>#fig-askai-v2 text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
+  <defs><marker id="fig-askai-v2-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
+  <rect width="3516" height="1399" fill="#F7F7F5"/>
+  <path d="M246,784 H279" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M477,784 H486" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M678,784 H696 V628 H712" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <text x="704" y="711" font-size="15" font-weight="600" fill="#525252">Yes</text>
+  <path d="M678,784 H696 V945 H712" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <text x="704" y="870" font-size="15" font-weight="600" fill="#525252">No</text>
+  <path d="M910,628 H946 V269 H987" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M910,628 H946 V435 H987" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M910,628 H987" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1185,628 H1241" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1439,628 H1475 V160 H1512" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1439,628 H1475 V391 H1512" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1439,628 H1475 V506 H1512" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1439,628 H1512" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1710,160 H1749" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1947,160 H2012" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1710,391 H1772" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1924,391 H1960 V506 H2012" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1710,506 H2012" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1710,628 H1749" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1947,628 H1980 V506 H2012" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M910,945 H946 V842 H987" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1185,842 H1264" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1416,842 H1466" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1664,842 H1707" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1905,842 H1928" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M2120,842 H2156 V725 H2217" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <text x="2164" y="789" font-size="15" font-weight="600" fill="#525252">Yes</text>
+  <path d="M2120,842 H2156 V929 H2220" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <text x="2164" y="891" font-size="15" font-weight="600" fill="#525252">No</text>
+  <path d="M2415,725 H2448 V641 H2478" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M2676,641 H2749" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M2415,725 H2448 V788 H2478" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M2676,788 H2774" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M2926,788 H2976" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M3174,788 H3228" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M910,945 H946 V1149 H987" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1185,1149 H1264" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1416,1149 H1466" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1664,1149 H1707" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1905,1149 H1928" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M2120,1149 H2156 V1067 H2222" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <text x="2164" y="1113" font-size="15" font-weight="600" fill="#525252">Template</text>
+  <path d="M2120,1149 H2156 V1239 H2222" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <text x="2164" y="1199" font-size="15" font-weight="600" fill="#525252">Create</text>
+  <path d="M2420,1067 H2439 V1149 H2457" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M2420,1239 H2439 V1149 H2457" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <circle cx="188" cy="784" r="58" fill="#181818"/>
+  <text x="188" y="764" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Lands in</text>
+  <text x="188" y="780" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Data</text>
+  <text x="188" y="796" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">sources /</text>
+  <text x="188" y="813" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Crawler</text>
+  <rect x="281" y="757" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="379" y="789" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Selects tab “Ask AI”</text>
+  <path d="M583,714 L678,784 L583,854 L488,784 Z" fill="#181818" stroke-linejoin="round"/>
+  <text x="583" y="764" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Do configs</text>
+  <text x="583" y="780" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">and/or</text>
+  <text x="583" y="796" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">prompts</text>
+  <text x="583" y="813" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">exist?</text>
+  <rect x="714" y="596" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="812" y="615" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Table view showing all</text>
+  <text x="812" y="634" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">existing prompts &amp;</text>
+  <text x="812" y="652" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">configurations</text>
+  <rect x="714" y="913" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="812" y="941" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Empty state pushing</text>
+  <text x="812" y="960" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">creation</text>
+  <rect x="989" y="242" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1087" y="274" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Delete prompt</text>
+  <rect x="989" y="408" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1087" y="440" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Delete config</text>
+  <rect x="989" y="601" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1087" y="634" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">View / Edit config</text>
+  <rect x="1243" y="596" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1341" y="634" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">View / Edit screen</text>
+  <rect x="1514" y="133" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1612" y="165" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Edit config</text>
+  <rect x="1751" y="128" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1849" y="165" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Config edit form</text>
+  <rect x="2014" y="133" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2112" y="165" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
+  <rect x="1514" y="364" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1612" y="396" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create a new prompt</text>
+  <path d="M1849,345 L1924,391 L1849,437 L1774,391 Z" fill="#FFFFFF" stroke="#525252" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <text x="1849" y="387" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">Creation</text>
+  <text x="1849" y="404" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">flow</text>
+  <rect x="1514" y="480" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1612" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Swap out prompt</text>
+  <rect x="2014" y="480" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2112" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
+  <rect x="1514" y="601" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1612" y="634" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Edit prompt</text>
+  <rect x="1751" y="596" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1849" y="634" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Prompt edit form</text>
+  <rect x="989" y="816" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1087" y="848" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create prompt</text>
+  <path d="M1341,796 L1416,842 L1341,888 L1266,842 Z" fill="#FFFFFF" stroke="#525252" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <text x="1341" y="839" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">Creation</text>
+  <text x="1341" y="855" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">flow</text>
+  <rect x="1468" y="810" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1566" y="848" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create a prompt UI</text>
+  <rect x="1709" y="816" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1807" y="848" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create new prompt</text>
+  <path d="M2026,772 L2120,842 L2026,912 L1930,842 Z" fill="#181818" stroke-linejoin="round"/>
+  <text x="2026" y="839" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Add prompt</text>
+  <text x="2026" y="855" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">to config</text>
+  <rect x="2219" y="693" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="2317" y="721" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Config select / create</text>
+  <text x="2317" y="740" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">UI</text>
+  <rect x="2222" y="902" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2320" y="934" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
+  <rect x="2480" y="614" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2578" y="646" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Select existing config</text>
+  <rect x="2751" y="609" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="2849" y="646" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Overwrite confirmation</text>
+  <rect x="2480" y="761" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2578" y="793" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create config</text>
+  <path d="M2851,742 L2926,788 L2851,834 L2776,788 Z" fill="#FFFFFF" stroke="#525252" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <text x="2851" y="784" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">Creation</text>
+  <text x="2851" y="801" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">flow</text>
+  <rect x="2978" y="756" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="3076" y="793" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create a config UI</text>
+  <rect x="3230" y="761" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="3328" y="793" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
+  <rect x="989" y="1122" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1087" y="1154" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create configuration</text>
+  <path d="M1341,1103 L1416,1149 L1341,1195 L1266,1149 Z" fill="#FFFFFF" stroke="#525252" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <text x="1341" y="1146" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">Creation</text>
+  <text x="1341" y="1162" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">flow</text>
+  <rect x="1468" y="1117" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1566" y="1154" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create a config UI</text>
+  <rect x="1709" y="1117" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1807" y="1154" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Select a prompt</text>
+  <path d="M2026,1079 L2120,1149 L2026,1219 L1930,1149 Z" fill="#181818" stroke-linejoin="round"/>
+  <text x="2026" y="1137" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Template or</text>
+  <text x="2026" y="1154" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">create</text>
+  <text x="2026" y="1170" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">prompt</text>
+  <rect x="2224" y="1040" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2322" y="1072" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Select template prompt</text>
+  <rect x="2224" y="1212" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2322" y="1245" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create new prompt</text>
+  <rect x="2459" y="1122" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2557" y="1154" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
+</svg>
+<span class="cs-figure-zoom-hint">Open full size</span></a>
+  <figcaption>The second proposed flow reorganised the branches but still treated prompts and configurations as separate things to set up. Testing ruled it out too.</figcaption>
+</figure>
+<figure class="cs-figure">
+  <div class="cs-fig-wide"><svg xmlns="http://www.w3.org/2000/svg" id="fig-askai-shipped" viewBox="0 0 1595 310" width="1595" height="310" role="img" aria-labelledby="fig-askai-shipped-t fig-askai-shipped-d">
+  <title id="fig-askai-shipped-t">The guided Ask AI setup as built</title>
+  <desc id="fig-askai-shipped-d">One path from the Ask AI landing page through the terms of use and three numbered steps, add domains, configure the model and define the assistant behaviour from a template or from scratch, to the created assistant and its analytics.</desc>
+  <style>#fig-askai-shipped text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
+  <defs><marker id="fig-askai-shipped-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
+  <rect width="1595" height="310" fill="#F7F7F5"/>
+  <path d="M193,155 H230" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-a)"/>
+  <path d="M388,155 H425" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-a)"/>
+  <path d="M583,155 H620" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-a)"/>
+  <path d="M778,155 H815" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-a)"/>
+  <path d="M973,155 H994 V90 H1013" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-a)"/>
+  <path d="M973,155 H994 V220 H1013" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-a)"/>
+  <path d="M1165,90 H1186 V155 H1205" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-a)"/>
+  <path d="M1165,220 H1186 V155 H1205" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-a)"/>
+  <path d="M1363,155 H1400" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-a)"/>
+  <rect x="37" y="107" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <text x="115" y="150" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Ask AI landing</text>
+  <text x="115" y="172" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">page</text>
+  <rect x="232" y="107" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <text x="310" y="161" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Terms of use</text>
+  <rect x="427" y="107" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <text x="505" y="150" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Step 1 of 3.</text>
+  <text x="505" y="172" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Add domains</text>
+  <rect x="622" y="107" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <text x="700" y="140" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Step 2 of 3.</text>
+  <text x="700" y="161" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Configure model</text>
+  <text x="700" y="182" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">and settings</text>
+  <rect x="817" y="107" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <text x="895" y="129" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Step 3 of 3.</text>
+  <text x="895" y="150" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Define</text>
+  <text x="895" y="172" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">assistant</text>
+  <text x="895" y="193" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">behaviour</text>
+  <rect x="1015" y="62" width="150" height="56" rx="28" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1090" y="85" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Start with</text>
+  <text x="1090" y="107" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">template</text>
+  <rect x="1015" y="192" width="150" height="56" rx="28" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1090" y="226" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Create new</text>
+  <rect x="1207" y="107" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <text x="1285" y="140" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Assistant</text>
+  <text x="1285" y="161" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">created, next</text>
+  <text x="1285" y="182" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">step shown</text>
+  <rect x="1402" y="107" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <text x="1480" y="150" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Assistant and</text>
+  <text x="1480" y="172" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">its analytics</text>
+</svg>
+</div><div class="cs-fig-narrow"><svg xmlns="http://www.w3.org/2000/svg" id="fig-askai-shipped-v" viewBox="0 0 400 1125" width="400" height="1125" role="img" aria-labelledby="fig-askai-shipped-v-t fig-askai-shipped-v-d">
+  <title id="fig-askai-shipped-v-t">The guided Ask AI setup as built</title>
+  <desc id="fig-askai-shipped-v-d">One path from the Ask AI landing page through the terms of use and three numbered steps, add domains, configure the model and define the assistant behaviour from a template or from scratch, to the created assistant and its analytics.</desc>
+  <style>#fig-askai-shipped-v text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
+  <defs><marker id="fig-askai-shipped-v-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
+  <rect width="400" height="1125" fill="#F7F7F5"/>
+  <path d="M200,138 V175" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-v-a)"/>
+  <path d="M200,273 V310" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-v-a)"/>
+  <path d="M200,408 V445" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-v-a)"/>
+  <path d="M200,543 V580" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-v-a)"/>
+  <path d="M200,678 V708 H115 V735" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-v-a)"/>
+  <path d="M200,678 V708 H285 V735" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-v-a)"/>
+  <path d="M115,793 V822 H200 V850" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-v-a)"/>
+  <path d="M285,793 V822 H200 V850" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-v-a)"/>
+  <path d="M200,948 V985" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-v-a)"/>
+  <rect x="122" y="42" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <text x="200" y="85" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Ask AI landing</text>
+  <text x="200" y="107" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">page</text>
+  <rect x="122" y="177" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <text x="200" y="231" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Terms of use</text>
+  <rect x="122" y="312" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <text x="200" y="355" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Step 1 of 3.</text>
+  <text x="200" y="377" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Add domains</text>
+  <rect x="122" y="447" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <text x="200" y="480" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Step 2 of 3.</text>
+  <text x="200" y="501" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Configure model</text>
+  <text x="200" y="522" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">and settings</text>
+  <rect x="122" y="582" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <text x="200" y="604" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Step 3 of 3.</text>
+  <text x="200" y="625" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Define</text>
+  <text x="200" y="647" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">assistant</text>
+  <text x="200" y="668" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">behaviour</text>
+  <rect x="40" y="737" width="150" height="56" rx="28" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="115" y="760" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Start with</text>
+  <text x="115" y="782" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">template</text>
+  <rect x="210" y="737" width="150" height="56" rx="28" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="285" y="771" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Create new</text>
+  <rect x="122" y="852" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <text x="200" y="885" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Assistant</text>
+  <text x="200" y="906" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">created, next</text>
+  <text x="200" y="927" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">step shown</text>
+  <rect x="122" y="987" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <text x="200" y="1030" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Assistant and</text>
+  <text x="200" y="1052" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">its analytics</text>
+</svg>
+</div>
+  <figcaption>The third version, which tested best and shipped. One path and three numbered steps from the landing page to a working assistant. Drawn from the shipped screens.</figcaption>
+</figure>
+<p class="cs-p">That shift mattered. It changed the conversation from implementation speed to adoption risk. It changed the shape of the solution.</p>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">My role and scope.</h2>
+<p class="cs-p"><strong>I did not invent Ask AI as a product concept.</strong> My role was to define how users would configure and experience it inside the product.</p>
+<p class="cs-p">I owned the onboarding model, the sequence of setup decisions, the way the agent was presented to users and how analytics were surfaced after setup. I also worked to remove the split between code-based and in-product configuration, so the feature felt cohesive rather than stitched together.</p>
+<p class="cs-p">My scope covered six areas.</p>
+<ul class="cs-list">
+  <li>Defining the onboarding approach</li>
+  <li>Shaping what steps users saw, in what order and why</li>
+  <li>Designing a guided setup flow with opinionated defaults</li>
+  <li>Presenting the assistant and its analytics in a coherent way</li>
+  <li>Influencing PM and engineering stakeholders on scope and direction</li>
+  <li>Creating patterns that were later reused by engineers, PMs and other designers</li>
+</ul>
+<p class="cs-p">This was not just interface design. It was a product direction decision about how Ask AI should work, who it could realistically serve and how much burden the product placed on the user.</p>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">The constraints and tension.</h2>
+<p class="cs-p"><strong>This was not a neat project with a settled plan.</strong></p>
+<p class="cs-p">There was pressure to ship quickly, the wider strategy was still moving and the upgrade path beyond the MVP had not been thought through clearly enough. At the same time, there was a long-standing belief from engineering and wider leadership that developer products should optimise for speed first and that richer UI often got in the way.</p>
+<p class="cs-p">That created a real tension.</p>
+<p class="cs-p">One path prioritised speed of implementation. It would have shipped faster, but at the cost of a fragmented experience and a narrower product. The other path required more design discipline and stronger alignment, but had a better chance of producing something coherent and scalable.</p>
+<p class="cs-p">I had to navigate that tension while working lean, often keeping pace with features that were already moving toward code. Part of the challenge was not just defining the right experience. It was keeping the product coherent while the team was shipping in motion.</p>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">Key decisions I drove.</h2>
+<div class="cs-decision">
+  <h3 class="cs-h2">1. Shifted from fragmented setup to a guided product flow</h3>
+  <p class="cs-p"><strong>The most important contribution I made was changing the setup model.</strong> Without my involvement, Ask AI would likely have launched as a much more minimal experience, with functionality split between code and the Algolia platform.</p>
+  <p class="cs-p">I challenged that direction and pushed for a guided, in-product setup flow that kept users in one place and focused them on one decision at a time. For the first version, I prioritised simplicity and speed to value over maximum flexibility. We used opinionated defaults, reduced distractions and structured the experience as a step-by-step wizard.</p>
+  <div class="cs-outcome">
+    <p class="cs-outcome-label">Outcome.</p>
+    <p>That choice was not about making the UI feel friendlier. It was about reducing the burden of configuration and turning a complex capability into a usable product experience.</p>
+  </div>
+  <figure class="cs-figure">
+    <img src="assets/askai/askai-setup-flow.png" width="1440" height="1150" loading="lazy" alt="The guided setup flow inside the dashboard. Each step asks one question and the assistant appears at the end. Sandbox application, no customer data." />
+    <figcaption>The guided setup flow inside the dashboard. Each step asks one question and the assistant appears at the end. Sandbox application, no customer data.</figcaption>
+  </figure>
+</div>
+<div class="cs-decision">
+  <h3 class="cs-h2">2. Kept setup inside the product</h3>
+  <p class="cs-p">I removed the need for users to bounce between code and the UI during configuration. This made setup feel more cohesive and gave the feature a clearer product shape.</p>
+  <div class="cs-outcome">
+    <p class="cs-outcome-label">Outcome.</p>
+    <p>The experience became something users could complete entirely inside the platform, rather than a partial UI backed by code they had to manage separately.</p>
+  </div>
+  <figure class="cs-figure">
+    <img src="assets/askai/askai-landing.png" width="1440" height="968" loading="lazy" alt="The Ask AI landing page inside the dashboard, headed Your Docs, smarter support, powered by Ask AI, with a Create your assistant button beside a preview of the assistant answering." />
+    <figcaption>The Ask AI landing page inside the dashboard, where setup starts. Sandbox application, no customer data.</figcaption>
+  </figure>
+  <figure class="cs-figure">
+    <img src="assets/askai/askai-configure-model.png" width="1440" height="968" loading="lazy" alt="Step 2 of 3, configure model and settings, with fields for the language model provider, the model, the API key, a maximum token limit and a configuration name, and guidance for each beside the form." />
+    <figcaption>Step 2 of the setup. The model, API key and token limit are all chosen inside the dashboard, with guidance beside each field. Sandbox application, no customer data.</figcaption>
+  </figure>
+</div>
+<div class="cs-decision">
+  <h3 class="cs-h2">3. Presented the assistant and its analytics as one experience</h3>
+  <p class="cs-p">My scope included how the configured assistant and its analytics were presented after setup. That mattered because the product needed to feel coherent beyond onboarding, not like a collection of disconnected screens.</p>
+  <div class="cs-outcome">
+    <p class="cs-outcome-label">Outcome.</p>
+    <p>The result was a more legible product experience from setup through to use, rather than a handoff between separate surfaces.</p>
+  </div>
+  <figure class="cs-figure">
+    <img src="assets/askai/askai-assistant-analytics.png" width="1440" height="1045" loading="lazy" alt="An assistant detail page showing its model configuration and prompt, three performance charts for questions, upvotes and downvotes, and a thread depth histogram." />
+    <figcaption>A configured assistant with its prompt and performance analytics on one page. Sandbox application with placeholder figures, no customer data.</figcaption>
+  </figure>
+</div>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">How I influenced direction.</h2>
+<p class="cs-p"><strong>This work required more than producing screens.</strong></p>
+<p class="cs-p">I had to challenge a default product assumption. That speed of implementation was the primary success metric. I used jobs to be done framing to shift the conversation toward user burden, product coherence and adoption risk. That framing gave PMs a stronger way to align leadership and helped move the team away from a thinner, more fragmented setup model.</p>
+<p class="cs-p">The influence extended beyond the initial design review. PMs used the framing to align leadership. Engineers reused the architecture. Other designers adopted the onboarding model.</p>
+<p class="cs-p">That mattered because it meant the work created leverage beyond the original feature, rather than staying trapped as a one-off solution.</p>
+<div class="cs-outcome">
+  <p class="cs-outcome-label">Strategic outcome.</p>
+  <p>The value was not just in getting a flow out of the door. It was in changing the shape of the product and giving the organisation a stronger pattern for similar work.</p>
+</div>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">Outcomes.</h2>
+<p class="cs-p"><strong>In the first 30 days, Ask AI reached three marks.</strong></p>
+<ul class="cs-list">
+  <li>86 completed assistant setups</li>
+  <li>26.7% completion rate</li>
+  <li>Zero support tickets tied to configuration errors</li>
+</ul>
+<figure class="cs-figure">
+  <img src="assets/askai/askai-assistant-created.png" width="1440" height="895" loading="lazy" alt="The Ask AI page after setup, with a next step banner about adding Ask AI to your site, the new assistant and its prompt listed in tables and a toast confirming the assistant was created." />
+  <figcaption>The moment setup completes. The new assistant is listed with its prompt and a banner points to the one step left, adding Ask AI to the documentation site. Sandbox application, no customer data.</figcaption>
+</figure>
+<p class="cs-p">The strongest signal for me was not just the number of completions. It was the absence of configuration-related support tickets. That suggests the guided setup reduced confusion rather than adding friction, which was important given the concern that a richer flow might slow users down.</p>
+<div class="cs-outcomes-grid">
+  <div class="outcome-row">
+    <p class="outcome-type">Product.</p>
+    <p class="outcome-text">PMs used the framing to align leadership on scope and direction. The product coherence argument replaced implementation speed as the primary decision criterion.</p>
+  </div>
+  <div class="outcome-row">
+    <p class="outcome-type">Engineering.</p>
+    <p class="outcome-text">Engineers reused the architecture established during this work, reducing rework on adjacent features.</p>
+  </div>
+  <div class="outcome-row">
+    <p class="outcome-type">Design.</p>
+    <p class="outcome-text">Other designers adopted the onboarding model. The patterns from Ask AI later informed the revamp of Agent Studio.</p>
+  </div>
+  <div class="outcome-row">
+    <p class="outcome-type">Organisational.</p>
+    <p class="outcome-text">The approach created a reusable pattern for AI configuration onboarding that extended well beyond the original feature launch.</p>
+  </div>
+</div>
+<br>
+<div class="cs-note">
+  <p>I can credibly say this work improved product coherence, created a guided onboarding model that performed well and influenced future AI onboarding patterns inside Algolia. I cannot credibly claim direct revenue impact, support cost savings or proven adoption by non-technical personas from the evidence I have today, so I do not. That honesty makes the story stronger, not weaker.</p>
+</div>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">Why this demonstrates principal level capability.</h2>
+<p class="cs-p"><strong>The principal signal in this work is not that I designed a wizard.</strong></p>
+<p class="cs-p">It is that I identified that the default delivery path solved the wrong problem. The obvious path was to ship fast and expose the capability. I pushed the team to solve for product coherence and adoption instead. That changed the setup model, shaped what shipped, influenced how stakeholders thought about the problem and created a reusable pattern that later informed Agent Studio.</p>
+<p class="cs-p">This project shows five things I can do.</p>
+<ul class="cs-list">
+  <li>Recognise when a team is optimising for the wrong thing</li>
+  <li>Reframe the work around a more strategic problem</li>
+  <li>Influence direction across design, product and engineering</li>
+  <li>Make deliberate trade-offs between speed, simplicity and flexibility</li>
+  <li>Create patterns that extend beyond a single launch</li>
+</ul>
+<p class="cs-p"><strong>The outcome was not just a better onboarding flow. It was a stronger product model and a more scalable approach to AI configuration.</strong></p>
+</div>
+
+<hr class="cs-divider">
+
     <div class="cs-section">
-      <p class="cs-section-label">The problem I chose to solve</p>
-      <p class="cs-p">On the surface, this looked like an onboarding problem.</p>
-      <p class="cs-p">In reality, it was a product coherence problem.</p>
-      <p class="cs-p">Without intervention, Ask AI would likely have launched as a minimal interface with key parts of setup split between the codebase and the product UI. That would have pushed more of the burden onto users, created a disjointed experience, and made configuration harder to understand and complete.</p>
-      <p class="cs-p">I reframed the work around jobs to be done. Instead of asking "What is the fastest way to expose this feature?", I pushed the team to ask "What is the clearest and most coherent way to help someone configure this successfully inside the product?"</p>
-      <p class="cs-p">That shift mattered. It changed the conversation from implementation speed to adoption risk, and it changed the shape of the solution.</p>
-    </div>
-
-    <hr class="cs-divider">
-
-    <!-- ROLE -->
-    <div class="cs-section">
-      <p class="cs-section-label">My role and scope</p>
-      <p class="cs-p">I did not invent Ask AI as a product concept. My role was to define how users would configure and experience it inside the product.</p>
-      <p class="cs-p">I owned the onboarding model, the sequence of setup decisions, the way the agent was presented to users, and how analytics were surfaced after setup. I also worked to remove the split between code-based and in-product configuration, so the feature felt cohesive rather than stitched together.</p>
-      <p class="cs-p">My scope included:</p>
-      <ul class="cs-list">
-        <li>Defining the onboarding approach</li>
-        <li>Shaping what steps users saw, in what order, and why</li>
-        <li>Designing a guided setup flow with opinionated defaults</li>
-        <li>Presenting the assistant and its analytics in a coherent way</li>
-        <li>Influencing PM and engineering stakeholders on scope and direction</li>
-        <li>Creating patterns that were later reused by engineers, PMs, and other designers</li>
-      </ul>
-      <p class="cs-p">This was not just interface design. It was a product direction decision about how Ask AI should work, who it could realistically serve, and how much burden the product placed on the user.</p>
-    </div>
-
-    <hr class="cs-divider">
-
-    <!-- CONSTRAINTS -->
-    <div class="cs-section">
-      <p class="cs-section-label">The constraints and tension</p>
-      <p class="cs-p">This was not a neat project with a settled plan.</p>
-      <p class="cs-p">There was pressure to ship quickly, the wider strategy was still moving, and the upgrade path beyond the MVP had not been thought through clearly enough. At the same time, there was a long-standing belief from engineering and wider leadership that developer products should optimise for speed first, and that richer UI often got in the way.</p>
-      <p class="cs-p">That created a real tension.</p>
-      <p class="cs-p">One path prioritised speed of implementation. It would have shipped faster, but at the cost of a fragmented experience and a narrower product. The other path required more design discipline and stronger alignment, but had a better chance of producing something coherent and scalable.</p>
-      <p class="cs-p">I had to navigate that tension while working lean, often keeping pace with features that were already moving toward code. Part of the challenge was not just defining the right experience. It was keeping the product coherent while the team was shipping in motion.</p>
-    </div>
-
-    <hr class="cs-divider">
-
-    <!-- KEY DECISIONS -->
-    <div class="cs-section">
-      <p class="cs-section-label">Key decisions I drove</p>
-
-      <div class="cs-decision">
-        <p class="cs-decision-num">1</p>
-        <h2 class="cs-h2">Shifted from fragmented setup to a guided product flow</h2>
-        <p class="cs-p">The most important contribution I made was changing the setup model. Without my involvement, Ask AI would likely have launched as a much more minimal experience, with functionality split between code and the Algolia platform.</p>
-        <p class="cs-p">I challenged that direction and pushed for a guided, in-product setup flow that kept users in one place and focused them on one decision at a time. For the first version, I prioritised simplicity and speed to value over maximum flexibility. We used opinionated defaults, reduced distractions, and structured the experience as a step-by-step wizard.</p>
-        <div class="cs-outcome">
-          <p class="cs-outcome-label">Outcome</p>
-          <p>That choice was not about making the UI feel friendlier. It was about reducing the burden of configuration and turning a complex capability into a usable product experience.</p>
-        </div>
-      </div>
-
-      <div class="cs-decision">
-        <p class="cs-decision-num">2</p>
-        <h2 class="cs-h2">Kept setup inside the product</h2>
-        <p class="cs-p">I removed the need for users to bounce between code and the UI during configuration. This made setup feel more cohesive and gave the feature a clearer product shape.</p>
-        <div class="cs-outcome">
-          <p class="cs-outcome-label">Outcome</p>
-          <p>The experience became something users could complete entirely inside the platform, rather than a partial UI backed by code they had to manage separately.</p>
-        </div>
-      </div>
-
-      <div class="cs-decision">
-        <p class="cs-decision-num">3</p>
-        <h2 class="cs-h2">Presented the assistant and its analytics as one experience</h2>
-        <p class="cs-p">My scope included how the configured assistant and its analytics were presented after setup. That mattered because the product needed to feel coherent beyond onboarding, not like a collection of disconnected screens.</p>
-        <div class="cs-outcome">
-          <p class="cs-outcome-label">Outcome</p>
-          <p>The result was a more legible product experience from setup through to use, rather than a handoff between separate surfaces.</p>
-        </div>
-      </div>
-    </div>
-
-    <hr class="cs-divider">
-
-    <!-- HOW I INFLUENCED -->
-    <div class="cs-section">
-      <p class="cs-section-label">How I influenced direction</p>
-      <p class="cs-p">This work required more than producing screens.</p>
-      <p class="cs-p">I had to challenge a default product assumption: that speed of implementation was the primary success metric. I used jobs to be done framing to shift the conversation toward user burden, product coherence, and adoption risk. That framing gave PMs a stronger way to align leadership and helped move the team away from a thinner, more fragmented setup model.</p>
-      <p class="cs-p">The influence extended beyond the initial design review. PMs used the framing to align leadership. Engineers reused the architecture. Other designers adopted the onboarding model.</p>
-      <p class="cs-p">That mattered because it meant the work created leverage beyond the original feature, rather than staying trapped as a one-off solution.</p>
-      <div class="cs-outcome">
-        <p class="cs-outcome-label">Strategic outcome</p>
-        <p>The value was not just in getting a flow out of the door. It was in changing the shape of the product and giving the organisation a stronger pattern for similar work.</p>
-      </div>
-    </div>
-
-    <hr class="cs-divider">
-
-    <!-- OUTCOMES -->
-    <div class="cs-section">
-      <p class="cs-section-label">Outcomes</p>
-      <p class="cs-p">In the first 30 days, Ask AI reached:</p>
-      <ul class="cs-list">
-        <li>86 completed assistant setups</li>
-        <li>26.7% completion rate</li>
-        <li>Zero support tickets tied to configuration errors</li>
-      </ul>
-      <p class="cs-p">The strongest signal for me was not just the number of completions. It was the absence of configuration-related support tickets. That suggests the guided setup reduced confusion rather than adding friction, which was important given the concern that a richer flow might slow users down.</p>
-
-      <div class="cs-outcomes-grid">
-        <div class="outcome-row">
-          <p class="outcome-type">Product</p>
-          <p class="outcome-text">PMs used the framing to align leadership on scope and direction. The product coherence argument replaced implementation speed as the primary decision criterion.</p>
-        </div>
-        <div class="outcome-row">
-          <p class="outcome-type">Engineering</p>
-          <p class="outcome-text">Engineers reused the architecture established during this work, reducing rework on adjacent features.</p>
-        </div>
-        <div class="outcome-row">
-          <p class="outcome-type">Design</p>
-          <p class="outcome-text">Other designers adopted the onboarding model. The patterns from Ask AI later informed the revamp of Agent Studio.</p>
-        </div>
-        <div class="outcome-row">
-          <p class="outcome-type">Organisational</p>
-          <p class="outcome-text">The approach created a reusable pattern for AI configuration onboarding that extended well beyond the original feature launch.</p>
-        </div>
-      </div>
-
-      <br>
-      <div class="cs-note">
-        <p>I can credibly say this work improved product coherence, created a guided onboarding model that performed well, and influenced future AI onboarding patterns inside Algolia. I cannot credibly claim direct revenue impact, support cost savings, or proven adoption by non-technical personas from the evidence I have today, so I do not. That honesty makes the story stronger, not weaker.</p>
-      </div>
-    </div>
-
-    <hr class="cs-divider">
-
-    <!-- WHY THIS MATTERS -->
-    <div class="cs-section">
-      <p class="cs-section-label">Why this demonstrates principal level capability</p>
-      <p class="cs-p">The principal signal in this work is not that I designed a wizard.</p>
-      <p class="cs-p">It is that I identified that the default delivery path solved the wrong problem. The obvious path was to ship fast and expose the capability. I pushed the team to solve for product coherence and adoption instead. That changed the setup model, shaped what shipped, influenced how stakeholders thought about the problem, and created a reusable pattern that later informed Agent Studio.</p>
-      <p class="cs-p">This project shows that I can:</p>
-      <ul class="cs-list">
-        <li>Recognise when a team is optimising for the wrong thing</li>
-        <li>Reframe the work around a more strategic problem</li>
-        <li>Influence direction across design, product, and engineering</li>
-        <li>Make deliberate trade-offs between speed, simplicity, and flexibility</li>
-        <li>Create patterns that extend beyond a single launch</li>
-      </ul>
-      <p class="cs-p"><strong>The outcome was not just a better onboarding flow. It was a stronger product model and a more scalable approach to AI configuration.</strong></p>
-    </div>
-
-    <hr class="cs-divider">
-
-    <!-- REFLECTION -->
-    <div class="cs-section">
-      <p class="cs-section-label">Reflection</p>
-      <p class="cs-p">Looking back, the most important lesson was that in fast-moving spaces like AI, the first risk is not always shipping too slowly. Sometimes the bigger risk is shipping something technically possible but structurally hard to adopt.</p>
-      <p class="cs-p">Ask AI reinforced for me that design has the most leverage when it shapes the product model early, not just the interface late. By changing the setup from a fragmented implementation pattern into a guided in-product experience, I helped turn a feature into something that could behave more like a product.</p>
-      <p class="cs-p">It also showed how much value comes from creating work that others can reuse. The fact that this approach influenced Agent Studio, and was adopted more broadly by PMs, engineers, and other designers, is what makes the story meaningful beyond the original launch.</p>
-    </div>
+<h2 class="cs-section-label">Reflection.</h2>
+<p class="cs-p"><strong>Looking back, the most important lesson was that in fast-moving spaces like AI, the first risk is not always shipping too slowly.</strong> Sometimes the bigger risk is shipping something technically possible but structurally hard to adopt.</p>
+<p class="cs-p">Ask AI reinforced for me that design has the most leverage when it shapes the product model early, not just the interface late. By changing the setup from a fragmented implementation pattern into a guided in-product experience, I helped turn a feature into something that could behave more like a product.</p>
+<p class="cs-p">It also showed how much value comes from creating work that others can reuse. The fact that this approach influenced Agent Studio and was adopted more broadly by PMs, engineers and other designers, is what makes the story meaningful beyond the original launch.</p>
+<div class="cs-note">
+  <p><em>The principal move. Recognising that speed was the wrong target before anything was built and moving the team to solve for product coherence instead.</em></p>
+</div>
+<p class="cs-eyebrow">&rarr; Full story and decisions in an interview</p>
+</div>
 
   </div>
+
+<!-- footer -->
+  <footer class="site-footer">
+    <p class="footer-name">Adam Males.</p>
+    <ul class="footer-links">
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="mailto:adammales@me.com">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/adam-males" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+  </footer>
+<!-- /footer -->
 
 </body>
 </html>
