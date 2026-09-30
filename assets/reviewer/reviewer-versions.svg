@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fig-rev-versions" viewBox="0 0 1600 760" width="1600" height="760" role="img" aria-labelledby="fig-rev-versions-t fig-rev-versions-d">
+  <title id="fig-rev-versions-t">Three versions of the review comment</title>
+  <desc id="fig-rev-versions-d">Three review comments side by side. The first is a formal design review scoring five UX promises. The second is the same review with a name, the design goblin, and a playful voice. The third is the team&#x27;s AI code review bot after the merge, with no name or voice, where the finding still ends with the design rule it came from.</desc>
+  <style>#fig-rev-versions text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; } #fig-rev-versions .mono { font-family: "SF Mono", SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace; }</style>
+  <rect width="1600" height="760" fill="#F7F7F5"/>
+  <text x="40" y="44" font-size="15" font-weight="600" fill="#525252" text-anchor="start">Version 1</text>
+  <text x="40" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">My reviewer</text>
+  <rect x="40" y="110" width="490" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <circle cx="80" cy="146" r="12" fill="#181818"/>
+  <text x="102" y="152" font-size="15" font-weight="600" fill="#181818" text-anchor="start">Review bot</text>
+  <text x="188" y="152" font-size="15" font-weight="400" fill="#616161" text-anchor="start">left a comment</text>
+  <line x1="40" y1="172" x2="530" y2="172" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="68" y="214" font-size="21" font-weight="700" fill="#181818" text-anchor="start">Design review, five UX promises</text>
+  <text x="68" y="252" font-size="17" font-weight="400" fill="#181818" text-anchor="start">The overall interaction design is solid. Three</text>
+  <text x="68" y="277" font-size="17" font-weight="400" fill="#181818" text-anchor="start">issues need attention before this ships.</text>
+  <text x="68" y="315" font-size="16" font-weight="600" fill="#181818" text-anchor="start">Findings  3 Blocker · 0 Consider · 0 Ask</text>
+  <circle cx="74" cy="346.3" r="3" fill="#616161"/>
+  <text x="88" y="351" font-size="16" font-weight="400" fill="#181818" text-anchor="start">Promise 1  Feedback</text>
+  <text x="502" y="351" font-size="16" font-weight="400" fill="#616161" text-anchor="end">pass</text>
+  <circle cx="74" cy="376.3" r="3" fill="#616161"/>
+  <text x="88" y="381" font-size="16" font-weight="400" fill="#181818" text-anchor="start">Promise 2  Safety</text>
+  <text x="502" y="381" font-size="16" font-weight="600" fill="#181818" text-anchor="end">finding</text>
+  <circle cx="74" cy="406.3" r="3" fill="#616161"/>
+  <text x="88" y="411" font-size="16" font-weight="400" fill="#181818" text-anchor="start">Promise 3  Recovery</text>
+  <text x="502" y="411" font-size="16" font-weight="600" fill="#181818" text-anchor="end">finding</text>
+  <circle cx="74" cy="436.3" r="3" fill="#616161"/>
+  <text x="88" y="441" font-size="16" font-weight="400" fill="#181818" text-anchor="start">Promise 4  Accessibility</text>
+  <text x="502" y="441" font-size="16" font-weight="600" fill="#181818" text-anchor="end">finding</text>
+  <circle cx="74" cy="466.3" r="3" fill="#616161"/>
+  <text x="88" y="471" font-size="16" font-weight="400" fill="#181818" text-anchor="start">Promise 5  Consistency</text>
+  <text x="502" y="471" font-size="16" font-weight="400" fill="#616161" text-anchor="end">pass</text>
+  <text x="68" y="517" font-size="15" font-weight="400" fill="#616161" text-anchor="start">This automated review is advisory. Its labels and</text>
+  <text x="68" y="539" font-size="15" font-weight="400" fill="#616161" text-anchor="start">comments never block merging.</text>
+  <text x="40" y="710" font-size="17" font-weight="400" fill="#525252" text-anchor="start">Five promises, a formal voice.</text>
+  <path d="M534,390 h17" stroke="#616161" stroke-width="2"/><path d="M549,384 l7,6 l-7,6" stroke="#616161" stroke-width="2" fill="none"/>
+  <text x="555" y="44" font-size="15" font-weight="600" fill="#525252" text-anchor="start">Version 2</text>
+  <text x="555" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">The design goblin</text>
+  <rect x="555" y="110" width="490" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <circle cx="595" cy="146" r="12" fill="#181818"/>
+  <text x="617" y="152" font-size="15" font-weight="600" fill="#181818" text-anchor="start">Review bot</text>
+  <text x="703" y="152" font-size="15" font-weight="400" fill="#616161" text-anchor="start">left a comment</text>
+  <line x1="555" y1="172" x2="1045" y2="172" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="583" y="214" font-size="21" font-weight="700" fill="#181818" text-anchor="start">The design goblin took a look</text>
+  <text x="583" y="252" font-size="17" font-weight="400" fill="#181818" text-anchor="start">The goblin sniffs through the diff and finds</text>
+  <text x="583" y="277" font-size="17" font-weight="400" fill="#181818" text-anchor="start">mostly empty space where a banner used to lurk.</text>
+  <text x="583" y="301" font-size="17" font-weight="400" fill="#181818" text-anchor="start">Nothing broken, nothing missing. The goblin is</text>
+  <text x="583" y="326" font-size="17" font-weight="400" fill="#181818" text-anchor="start">almost disappointed there&#x27;s nothing to scold.</text>
+  <text x="583" y="365" font-size="16" font-weight="600" fill="#181818" text-anchor="start">0 Blocker · 0 Consider · 0 Ask · the goblin found</text>
+  <text x="583" y="388" font-size="16" font-weight="600" fill="#181818" text-anchor="start">nothing to grumble about.</text>
+  <text x="583" y="425" font-size="16" font-weight="400" fill="#525252" text-anchor="start" font-style="italic">What the goblin poked at</text>
+  <text x="603" y="457" font-size="16" font-weight="400" fill="#181818" text-anchor="start">1  Feedback</text>
+  <text x="1017" y="457" font-size="16" font-weight="400" fill="#616161" text-anchor="end">pass</text>
+  <text x="603" y="487" font-size="16" font-weight="400" fill="#181818" text-anchor="start">2  Safety</text>
+  <text x="1017" y="487" font-size="16" font-weight="400" fill="#616161" text-anchor="end">pass</text>
+  <text x="603" y="517" font-size="16" font-weight="400" fill="#181818" text-anchor="start">3  Recovery</text>
+  <text x="1017" y="517" font-size="16" font-weight="400" fill="#616161" text-anchor="end">pass</text>
+  <text x="603" y="547" font-size="16" font-weight="400" fill="#181818" text-anchor="start">4  Accessibility</text>
+  <text x="1017" y="547" font-size="16" font-weight="400" fill="#616161" text-anchor="end">pass</text>
+  <text x="603" y="577" font-size="16" font-weight="400" fill="#181818" text-anchor="start">5  Consistency</text>
+  <text x="1017" y="577" font-size="16" font-weight="400" fill="#616161" text-anchor="end">pass</text>
+  <text x="583" y="617" font-size="15" font-weight="400" fill="#616161" text-anchor="start">The goblin is advisory only. It grumbles, it never</text>
+  <text x="583" y="639" font-size="15" font-weight="400" fill="#616161" text-anchor="start">blocks your merge.</text>
+  <text x="555" y="710" font-size="17" font-weight="400" fill="#525252" text-anchor="start">Same rules, now with a name and a voice.</text>
+  <path d="M1049,390 h17" stroke="#616161" stroke-width="2"/><path d="M1064,384 l7,6 l-7,6" stroke="#616161" stroke-width="2" fill="none"/>
+  <text x="1070" y="44" font-size="15" font-weight="600" fill="#525252" text-anchor="start">Version 3</text>
+  <text x="1070" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">The team&#x27;s bot, after the merge</text>
+  <rect x="1070" y="110" width="490" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <circle cx="1110" cy="146" r="12" fill="#181818"/>
+  <text x="1132" y="152" font-size="15" font-weight="600" fill="#181818" text-anchor="start">Review bot</text>
+  <text x="1218" y="152" font-size="15" font-weight="400" fill="#616161" text-anchor="start">left a comment</text>
+  <line x1="1070" y1="172" x2="1560" y2="172" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1098" y="214" font-size="21" font-weight="700" fill="#181818" text-anchor="start">Code review (AI)</text>
+  <text x="1098" y="252" font-size="16" font-weight="600" fill="#181818" text-anchor="start">Findings  0 blocker · 1 consider · 0 nit</text>
+  <rect x="1098" y="292" width="434" height="70" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1118" y="318" font-size="14" font-weight="400" fill="#525252" text-anchor="start" class="mono">…/features/new/Provider.tsx</text>
+  <rect x="1099" y="332" width="432" height="30" fill="#EAEAE6"/>
+  <text x="1142" y="352" font-size="14" font-weight="400" fill="#616161" text-anchor="end" class="mono">138</text>
+  <text x="1160" y="352" font-size="14" font-weight="600" fill="#181818" text-anchor="start" class="mono">+</text>
+  <text x="1180" y="352" font-size="14" font-weight="400" fill="#181818" text-anchor="start" class="mono">const options = useMemo(() =&gt; {</text>
+  <text x="1098" y="384" font-size="16" font-weight="600" fill="#181818" text-anchor="start">consider · A fetch error silently hides</text>
+  <text x="1098" y="408" font-size="16" font-weight="600" fill="#181818" text-anchor="start">every option</text>
+  <text x="1098" y="440" font-size="16" font-weight="400" fill="#181818" text-anchor="start">The provider returns an empty list for both</text>
+  <text x="1098" y="463" font-size="16" font-weight="400" fill="#181818" text-anchor="start">loading and error, so the user sees no options, no</text>
+  <text x="1098" y="486" font-size="16" font-weight="400" fill="#181818" text-anchor="start">message and cannot continue. Show a skeleton or an</text>
+  <text x="1098" y="510" font-size="16" font-weight="400" fill="#181818" text-anchor="start">error while the list loads.</text>
+  <rect x="1098" y="536.8" width="3" height="32" fill="#181818"/>
+  <text x="1114" y="559" font-size="15" font-weight="600" fill="#181818" text-anchor="start">Rule</text>
+  <text x="1158" y="559" font-size="15" font-weight="400" fill="#181818" text-anchor="start" class="mono">ux/error-and-recovery-states</text>
+  <text x="1070" y="710" font-size="17" font-weight="400" fill="#525252" text-anchor="start">Name and voice gone. The rule tag carried</text>
+  <text x="1070" y="735" font-size="17" font-weight="400" fill="#525252" text-anchor="start">across.</text>
+</svg>

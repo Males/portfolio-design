@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI UX review agent — Adam Males</title>
+  <meta name="description" content="Five design rules turned into an automated reviewer on every front end pull request, then merged into the team&#x27;s always on bot so the rules would reach everything." />
+  <meta property="og:title" content="AI UX review agent — Adam Males" />
+  <meta property="og:description" content="Five design rules turned into an automated reviewer on every front end pull request, then merged into the team&#x27;s always on bot so the rules would reach everything." />
+  <meta property="og:type" content="article" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:    #F7F7F5;
+      --ink:   #181818;
+      --ink-2: #525252;
+      --ink-3: #616161;
+      --rule:  #E0E0DE;
+      --f:     'Inter', system-ui, sans-serif;
+
+      /* spacing */
+      --micro: 4px;
+      --sml:   12px;
+      --base:  20px;
+      --med:   32px;
+      --xl:    64px;
+      --hero:  96px;
+
+      /* type */
+      --t-sm:    12px;
+      --t-body:  13px;
+      --t-base:  16px;
+      --t-md:    18px;
+      --t-title: clamp(36px, 5vw, 52px);
+      --t-head:  24px;
+      --radius:  4px;
+
+      --pad: 300px;
+      --content: 680px;
+
+      /* callouts and figures break the text column by this much each side */
+      --bleed: 40px;
+    }
+
+    @media (max-width: 1140px) { :root { --pad: 80px; } }
+    @media (max-width: 720px)  { :root { --pad: 40px; } }
+    @media (max-width: 480px)  { :root { --pad: 24px; --bleed: 16px; } }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--f);
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: 'ss01' 1, 'cv05' 1;
+    }
+
+    /* ─── BACK NAV ─────────────────────────────────────────── */
+    .cs-nav {
+      padding: var(--med) var(--pad);
+    }
+
+    .cs-back {
+      font-size: var(--t-body);
+      font-weight: 400;
+      color: var(--ink-3);
+      text-decoration: none;
+      transition: color 0.15s ease, background-color 0.15s ease;
+      border-radius: 3px;
+      padding: 2px 5px;
+      margin: -2px -5px;
+    }
+
+    .cs-back:hover {
+      color: var(--bg);
+      background-color: var(--ink);
+    }
+
+    .cs-back:active {
+      color: var(--bg);
+      background-color: var(--ink-2);
+    }
+
+    /* ─── HEADER ───────────────────────────────────────────── */
+    .cs-header {
+      padding: var(--xl) var(--pad) var(--med);
+      max-width: calc(var(--content) + var(--pad) * 2);
+    }
+
+    .cs-eyebrow {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      margin-bottom: var(--base);
+    }
+
+    .cs-title {
+      font-size: var(--t-title);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      color: var(--ink);
+      margin-bottom: var(--med);
+    }
+
+    .cs-overview {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-2);
+    }
+
+    .cs-overview strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    /* ─── METADATA ─────────────────────────────────────────── */
+    .cs-meta {
+      padding: var(--med) var(--pad);
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      gap: var(--xl);
+      justify-content: start;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: var(--xl);
+    }
+
+    @media (max-width: 720px) {
+      .cs-meta {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--med);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cs-meta {
+        grid-template-columns: 1fr;
+        gap: var(--base);
+      }
+    }
+
+    .meta-item {}
+
+    .meta-label {
+      font-size: var(--t-sm);
+      font-weight: 600;
+      color: var(--ink-2);
+      margin-bottom: var(--micro);
+    }
+
+    .meta-value {
+      font-size: var(--t-body);
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    /* ─── BODY ─────────────────────────────────────────────── */
+    .cs-body {
+      padding: 0 var(--pad) var(--hero);
+      max-width: calc(var(--content) + var(--pad) * 2);
+    }
+
+    .cs-section {
+      margin-bottom: var(--xl);
+    }
+
+    .cs-section-label {
+      font-size: var(--t-head);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: var(--med);
+    }
+
+    .cs-header .cs-section-label { margin-top: var(--xl); }
+
+    .cs-h2 {
+      font-size: var(--t-md);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: var(--base);
+    }
+
+    .cs-h3 {
+      font-size: var(--t-base);
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: var(--sml);
+    }
+
+    .cs-p {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-2);
+      margin-bottom: var(--base);
+    }
+
+    .cs-p:last-child { margin-bottom: 0; }
+
+    .cs-p strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .cs-list {
+      list-style: none;
+      margin-bottom: var(--base);
+    }
+
+    .cs-list li {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-2);
+      padding: 3px 0 3px 16px;
+      position: relative;
+    }
+
+    .cs-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 13px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--ink-3);
+    }
+
+    /* ─── NOTE ─────────────────────────────────────────────── */
+    .cs-note {
+      padding: var(--base);
+      border-left: 2px solid var(--rule);
+      margin: 0 calc(var(--bleed) * -1) var(--xl);
+    }
+
+    .cs-note p {
+      font-size: var(--t-body);
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-3);
+      font-style: italic;
+    }
+
+    /* ─── OUTCOME CALLOUT ──────────────────────────────────── */
+    .cs-outcome {
+      margin: var(--base) calc(var(--bleed) * -1) var(--med);
+      padding: var(--base) var(--bleed);
+      background: rgba(24,24,24,0.03);
+      border-radius: var(--radius);
+    }
+
+    .cs-outcome .cs-outcome-label {
+      font-size: var(--t-body);
+      font-weight: 600;
+      line-height: 1.65;
+      color: var(--ink-2);
+      margin-bottom: var(--micro);
+    }
+
+    .cs-outcome p {
+      font-size: var(--t-body);
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--ink-2);
+    }
+
+    /* ─── DIVIDER ───────────────────────────────────────────── */
+    .cs-divider {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: var(--xl) 0;
+    }
+
+    /* ─── DECISION ─────────────────────────────────────────── */
+    .cs-decision {
+      margin-bottom: var(--xl);
+    }
+
+    .cs-decision { padding-top: var(--sml); }
+
+    /* ─── OUTCOMES GRID ────────────────────────────────────── */
+    .cs-outcomes-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--med);
+    }
+
+    .outcome-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: var(--med);
+      align-items: start;
+    }
+
+    @media (max-width: 600px) {
+      .outcome-row {
+        grid-template-columns: 1fr;
+        gap: var(--sml);
+      }
+    }
+
+    .outcome-type {
+      font-size: var(--t-sm);
+      font-weight: 600;
+      color: var(--ink-2);
+      padding-top: 3px;
+    }
+
+    .outcome-text {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+  
+    /* ─── FIGURE ───────────────────────────────────────────── */
+    .cs-figure { margin: var(--med) calc(var(--bleed) * -1) var(--xl); }
+    .cs-figure svg, .cs-figure img { display: block; width: 100%; height: auto; border-radius: var(--radius); }
+    .cs-figure figcaption { font-size: var(--t-sm); font-weight: 400; color: var(--ink-3); margin: var(--base) var(--bleed) 0; }
+    .cs-decision .cs-figure { margin-bottom: var(--med); }
+    .cs-fig-narrow { display: none; }
+    @media (max-width: 480px) { .cs-fig-wide { display: none; } .cs-fig-narrow { display: block; max-width: 300px; margin: 0 auto; } }
+    .cs-figure-zoom { position: relative; display: block; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+    .cs-figure-zoom-hint { position: absolute; right: var(--sml); bottom: var(--sml); background: var(--ink); color: var(--bg); font-size: var(--t-sm); font-weight: 500; padding: var(--micro) var(--sml); border-radius: var(--radius); }
+    .cs-figure-zoom:hover .cs-figure-zoom-hint, .cs-figure-zoom:focus-visible .cs-figure-zoom-hint { background: var(--ink-2); }
+
+    /* ─── IMAGE PLACEHOLDER ──────────────────────────────── */
+    .cs-ph {
+      aspect-ratio: 16 / 10;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      padding: var(--med);
+      background-color: #EFEFEC;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 2L22 12L12 22L2 12Z' fill='%23E2E2DF'/%3E%3C/svg%3E");
+      background-size: 24px 24px;
+    }
+    .cs-ph p { max-width: 440px; background: var(--bg); border-radius: var(--radius); padding: var(--sml) var(--base); font-size: var(--t-body); line-height: 1.6; color: var(--ink-2); text-align: center; }
+    .cs-ph-tag { display: block; font-weight: 600; color: var(--ink); margin-bottom: var(--micro); }
+    @media (max-width: 480px) { .cs-ph { aspect-ratio: 4 / 3; padding: var(--base); } }
+
+    /* ─── TL;DR ────────────────────────────────────────────── */
+    .cs-tldr { margin: var(--med) calc(var(--bleed) * -1) 0; padding: var(--base) var(--bleed); background: rgba(24,24,24,0.03); border-radius: var(--radius); }
+    .cs-tldr-label { font-size: var(--t-head); font-weight: 600; line-height: 32px; letter-spacing: -0.8px; color: var(--ink); margin-bottom: var(--sml); }
+    .cs-tldr-item { font-size: var(--t-base); font-weight: 300; line-height: 1.5; color: var(--ink); margin-bottom: 24px; }
+    .cs-tldr-item:last-child { margin-bottom: 0; }
+    .cs-tldr-item strong { font-weight: 600; }
+
+    /* ─── LINKS IN COPY ────────────────────────────────────── */
+    .cs-eyebrow a, .cs-p a, .cs-overview a, .cs-tldr-item a { color: inherit; text-decoration: underline; text-decoration-color: var(--ink-3); text-underline-offset: 3px; }
+    .cs-eyebrow a:hover, .cs-p a:hover, .cs-overview a:hover, .cs-tldr-item a:hover { text-decoration-color: var(--ink); }
+
+    /* footer */
+    .site-footer { padding: 40px var(--pad) 96px; border-top: 1px solid #E0E0DE; }
+    .footer-name { font-size: 32px; font-weight: 600; line-height: 1; letter-spacing: -0.8px; color: #181818; }
+    .footer-links { display: flex; gap: 32px; padding-top: 12px; list-style: none; }
+    .footer-links a { font-size: 13px; line-height: 1.5; color: #181818; text-decoration: underline; text-decoration-color: #616161; text-underline-offset: 3px; border-radius: 3px; padding: 2px 4px; margin: -2px -4px; }
+    .footer-links a:hover { color: #F7F7F5; background-color: #181818; text-decoration: none; }
+    @media (max-width: 480px) { .footer-links { flex-direction: column; gap: 4px; } }
+    /* /footer */
+</style>
+</head>
+<body>
+
+  <nav class="cs-nav">
+    <a class="cs-back" href="/">← Back</a>
+  </nav>
+
+  <header class="cs-header">
+    <p class="cs-eyebrow"><a href="https://www.algolia.com" target="_blank" rel="noopener">Algolia</a> · 2026 · Design lead, author and owner of the design rules, built with an engineer</p>
+    <h1 class="cs-title">AI UX review agent.</h1>
+    <section class="cs-tldr" aria-label="Summary">
+  <h2 class="cs-tldr-label">Too long, didn’t read.</h2>
+  <p class="cs-tldr-item"><strong>I built a design reviewer, then gave it away.</strong></p>
+  <p class="cs-tldr-item"><strong>Algolia's dashboard is where its customers configure search.</strong> Every change to it arrives as a front end pull request and nobody was checking those against the design rules.</p>
+  <p class="cs-tldr-item"><strong>I turned five design rules into an automated reviewer that comments on every front end pull request,</strong> backtested it before asking anyone to trust it, then merged it into the always on bot another team already ran.</p>
+  <p class="cs-tldr-item"><strong>One always on reviewer now covers every front end pull request and every rule survived the merge.</strong> Four of the nine findings that got an answer merged with nobody acting on them, which I publish as the failure metric rather than hide.</p>
+  <p class="cs-tldr-item"><strong>The principal move was giving away the tool, its name and my own metric,</strong> because none of them was the standard. The rules were.</p>
+</section>
+    <h2 class="cs-section-label">Introduction.</h2>
+<p class="cs-overview">Every product has a gap between the design that was approved and the code that ships. Inside Algolia's dashboard that gap is where an accessibility affordance quietly disappears and a component gets rebuilt by hand instead of taken from the design system. Nobody reviews it, so those regressions ship in silence.</p>
+<br>
+<p class="cs-overview"><strong>I turned five design rules into an automated reviewer that comments on every front-end pull request, then gave the tool away to the team already running a bot so the rules would reach everything.</strong> I backtested it before asking anyone to trust it, rewrote my own headline number when it was challenged and binned my own metric when I saw it could not detect its own silence. One always-on reviewer now covers every front-end pull request. The rules inside it are mine to maintain.</p>
+  </header>
+
+  <div class="cs-meta">
+    <div class="meta-item">
+  <p class="meta-label">My role.</p>
+  <p class="meta-value">Design lead<br>Author and owner of the design rules</p>
+</div>
+<div class="meta-item">
+  <p class="meta-label">Scope.</p>
+  <p class="meta-value">Five design rules<br>Reviewer prompt and voice<br>Read-only backtest<br>Three-week pilot<br>Merge into the always-on bot<br>Measurement and reporting</p>
+</div>
+<div class="meta-item">
+  <p class="meta-label">Influenced.</p>
+  <p class="meta-value">How design quality is checked at the moment of coding<br>Which reviewer the front end runs<br>What gets measured and how a finding stays traceable</p>
+</div>
+<div class="meta-item">
+  <p class="meta-label">Outcome.</p>
+  <p class="meta-value">One always-on reviewer on every front-end pull request<br>Every rule survived the merge<br>A published failure metric</p>
+</div>
+  </div>
+
+  <div class="cs-body">
+
+    <div class="cs-section">
+<h2 class="cs-section-label">Why this mattered.</h2>
+<p class="cs-p"><strong>Design can be right and still ship wrong. Nobody reviews that gap.</strong> A pull request, the moment an engineer proposes a change, is the last point where a mistake is cheap to fix. Between the design handover and the customer, an accessibility affordance disappears, an error branch gets built to log to the console and show the user nothing, a component that already exists in the design system gets rebuilt by hand. None of that is carelessness. It is what happens when the last checkpoint on design quality is a designer's attention. There are far more pull requests than designers.</p>
+<p class="cs-p">The cost lands on the customer, who meets the unhandled error. It lands on the design system, which decays one hand-built component at a time. And it lands on the design team, who meet the regression months later and argue for a fix that would have been a one-line comment at the time.</p>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">The problem I chose to solve.</h2>
+<p class="cs-p"><strong>The obvious answer was more guidance. Guidance only works on people who go looking.</strong> Documentation, a checklist, a pattern page about error states. The person about to ship an unhandled error branch is not looking. So I put the standard where the work happens, as rules an automated reviewer applies to every front-end pull request while the code is still cheap to change. Not a document engineers should read. A comment on their diff.</p>
+<figure class="cs-figure">
+  <svg xmlns="http://www.w3.org/2000/svg" id="fig-rev-review" viewBox="0 0 1200 914" width="1200" height="914" role="img" aria-labelledby="fig-rev-review-t fig-rev-review-d">
+  <title id="fig-rev-review-t">One design review on one pull request</title>
+  <desc id="fig-rev-review-d">A design review summary scores five UX promises for one pull request, two passing and three with findings. Below it, on the changed line of code that adds a destructive menu item, the reviewer posts a blocker explaining that deleting a row has no confirmation or undo and pointing to the confirmation pattern the feature already uses.</desc>
+  <style>#fig-rev-review text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; } #fig-rev-review .mono { font-family: "SF Mono", SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace; }</style>
+  <rect width="1200" height="914" fill="#F7F7F5"/>
+  <text x="60" y="44" font-size="15" font-weight="600" fill="#525252" text-anchor="start">One review on one pull request</text>
+  <rect x="60" y="70" width="1080" height="420" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <circle cx="108" cy="106" r="12" fill="#181818"/>
+  <text x="130" y="112" font-size="15" font-weight="600" fill="#181818" text-anchor="start">Review bot</text>
+  <text x="216" y="112" font-size="15" font-weight="400" fill="#616161" text-anchor="start">left a comment</text>
+  <line x1="60" y1="132" x2="1140" y2="132" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="96" y="176" font-size="24" font-weight="700" fill="#181818" text-anchor="start">Design review, five UX promises</text>
+  <text x="96" y="216" font-size="17" font-weight="400" fill="#181818" text-anchor="start">This pull request adds a setup modal and a table of saved items. The overall interaction design is solid and</text>
+  <text x="96" y="241" font-size="17" font-weight="400" fill="#181818" text-anchor="start">the destructive flow for the whole feature is gated behind a confirmation. Three issues need attention.</text>
+  <text x="96" y="281" font-size="17" font-weight="600" fill="#181818" text-anchor="start">Findings  3 Blocker · 0 Consider · 0 Ask</text>
+  <text x="96" y="319" font-size="16" font-weight="400" fill="#525252" text-anchor="start">Promise 1</text>
+  <text x="206" y="319" font-size="16" font-weight="400" fill="#525252" text-anchor="start">Feedback</text>
+  <text x="346" y="319" font-size="16" font-weight="400" fill="#616161" text-anchor="start">pass</text>
+  <text x="436" y="319" font-size="16" font-weight="400" fill="#181818" text-anchor="start">Save, add and remove all show pending states.</text>
+  <text x="96" y="351" font-size="16" font-weight="600" fill="#181818" text-anchor="start">Promise 2</text>
+  <text x="206" y="351" font-size="16" font-weight="400" fill="#525252" text-anchor="start">Safety</text>
+  <text x="346" y="351" font-size="16" font-weight="600" fill="#181818" text-anchor="start">finding</text>
+  <text x="436" y="351" font-size="16" font-weight="400" fill="#181818" text-anchor="start">Deleting a row commits permanently with no confirmation or undo.</text>
+  <text x="96" y="383" font-size="16" font-weight="600" fill="#181818" text-anchor="start">Promise 3</text>
+  <text x="206" y="383" font-size="16" font-weight="400" fill="#525252" text-anchor="start">Recovery</text>
+  <text x="346" y="383" font-size="16" font-weight="600" fill="#181818" text-anchor="start">finding</text>
+  <text x="436" y="383" font-size="16" font-weight="400" fill="#181818" text-anchor="start">A failed fetch is swallowed and looks like an empty library.</text>
+  <text x="96" y="415" font-size="16" font-weight="600" fill="#181818" text-anchor="start">Promise 4</text>
+  <text x="206" y="415" font-size="16" font-weight="400" fill="#525252" text-anchor="start">Accessibility</text>
+  <text x="346" y="415" font-size="16" font-weight="600" fill="#181818" text-anchor="start">finding</text>
+  <text x="436" y="415" font-size="16" font-weight="400" fill="#181818" text-anchor="start">An icon button has an empty label, so screen readers get nothing.</text>
+  <text x="96" y="447" font-size="16" font-weight="400" fill="#525252" text-anchor="start">Promise 5</text>
+  <text x="206" y="447" font-size="16" font-weight="400" fill="#525252" text-anchor="start">Consistency</text>
+  <text x="346" y="447" font-size="16" font-weight="400" fill="#616161" text-anchor="start">pass</text>
+  <text x="436" y="447" font-size="16" font-weight="400" fill="#181818" text-anchor="start">Design system components are used throughout.</text>
+  <rect x="120" y="530" width="1020" height="160" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="140" y="556" font-size="14" font-weight="400" fill="#525252" text-anchor="start" class="mono">…/features/items/ItemsTable.tsx</text>
+  <rect x="121" y="570" width="1018" height="30" fill="#EAEAE6"/>
+  <text x="164" y="590" font-size="14" font-weight="400" fill="#616161" text-anchor="end" class="mono">245</text>
+  <text x="182" y="590" font-size="14" font-weight="600" fill="#181818" text-anchor="start" class="mono">+</text>
+  <text x="202" y="590" font-size="14" font-weight="400" fill="#181818" text-anchor="start" class="mono">})}</text>
+  <rect x="121" y="600" width="1018" height="30" fill="#EAEAE6"/>
+  <text x="164" y="620" font-size="14" font-weight="400" fill="#616161" text-anchor="end" class="mono">246</text>
+  <text x="182" y="620" font-size="14" font-weight="600" fill="#181818" text-anchor="start" class="mono">+</text>
+  <text x="202" y="620" font-size="14" font-weight="400" fill="#181818" text-anchor="start" class="mono">&lt;/MenuButton.Item&gt;</text>
+  <rect x="121" y="630" width="1018" height="30" fill="#EAEAE6"/>
+  <text x="164" y="650" font-size="14" font-weight="400" fill="#616161" text-anchor="end" class="mono">247</text>
+  <text x="182" y="650" font-size="14" font-weight="600" fill="#181818" text-anchor="start" class="mono">+</text>
+  <text x="202" y="650" font-size="14" font-weight="400" fill="#181818" text-anchor="start" class="mono">&lt;MenuButton.Item</text>
+  <rect x="121" y="660" width="1018" height="30" fill="#EAEAE6"/>
+  <text x="164" y="680" font-size="14" font-weight="400" fill="#616161" text-anchor="end" class="mono">248</text>
+  <text x="182" y="680" font-size="14" font-weight="600" fill="#181818" text-anchor="start" class="mono">+</text>
+  <text x="202" y="680" font-size="14" font-weight="400" fill="#181818" text-anchor="start" class="mono">  variant=&quot;destructive&quot;</text>
+  <path d="M90,530 V874" stroke="#E0E0DE" stroke-width="2"/>
+  <rect x="120" y="706" width="1020" height="168" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <circle cx="168" cy="740" r="12" fill="#181818"/>
+  <text x="190" y="746" font-size="15" font-weight="600" fill="#181818" text-anchor="start">Review bot</text>
+  <text x="276" y="746" font-size="15" font-weight="400" fill="#616161" text-anchor="start">on the changed line</text>
+  <text x="156" y="790" font-size="18" font-weight="700" fill="#181818" text-anchor="start">Blocker · Promise 2. Deleting a row commits permanently with no confirmation or undo</text>
+  <text x="156" y="824" font-size="16" font-weight="400" fill="#181818" text-anchor="start">Choosing Delete from the row menu removes the record at once. There is no confirmation, undo toast or</text>
+  <text x="156" y="847" font-size="16" font-weight="400" fill="#181818" text-anchor="start">cancel path. Apply the confirmation pattern this feature already uses for removing the whole setup.</text>
+</svg>
+
+  <figcaption>One review landing on one pull request. The summary scores the five promises, then the finding sits on the exact line that caused it. Redrawn from the pull request with neutral names.</figcaption>
+</figure>
+<p class="cs-p">I called this the floor, not the ceiling. I said so from the start. Catching mistakes at scale is not preventing them. The structural fix, a design system with fewer ways to get it wrong, is slower and worth more. I took the floor first because its findings show where the ceiling needs the investment.</p>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">My role and scope.</h2>
+<p class="cs-p"><strong>I owned the pilot, chose its first intervention and wrote the rules it still runs on.</strong> The idea of a review gate came from more than one direction, so I do not claim I dreamt it up alone. What is mine is the call to make it the pilot's first move, the five rules, the backtest, the pilot groups, the measurement and, by explicit agreement at the merge, the rules' content going forward. An engineer I built it with tuned and landed the first version and later routed the merge.</p>
+<p class="cs-p">The five rules are held deliberately to the judgment calls a linter cannot make.</p>
+<ul class="cs-list">
+  <li>Use the design system's own component rather than reinventing it</li>
+  <li>Give feedback for anything slow or state-changing</li>
+  <li>Make destructive actions safe, never a single accidental click</li>
+  <li>Handle loading, empty and error states, not just the success case</li>
+  <li>Catch the accessibility problems a linter cannot see, such as colour as the only signal or a meaningless label, against WCAG 2.2 AA</li>
+</ul>
+<p class="cs-p">Two further rules were designed and held back, because a reviewer nobody trusts yet should say less.</p>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">The constraints and tension.</h2>
+<p class="cs-p"><strong>A reviewer that cries wolf gets muted.</strong> The accurate version was unaffordable. The obvious accuracy fix was a verification pass on every pull request. At roughly eight dollars a pull request it was ruled out on cost at this repository's volume, so accuracy had to come from scoping the rules better instead. The second tension was tone. A gate that reads like a compliance form gets ignored, so I gave the tool a name and a voice on purpose. Personality turned out to be the first thing a merge costs you.</p>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">Key decisions I drove.</h2>
+<div class="cs-decision">
+  <h3 class="cs-h2">1. Backtested it before asking anyone to trust it</h3>
+  <p class="cs-p"><strong>The first conversation was about evidence, not an idea.</strong> Before proposing rollout I ran the reviewer read-only against eight already-merged dashboard pull requests, roughly seven thousand lines of diff. It produced ten findings. Two were genuinely useful. The one real bug was a setup wizard whose completion step failed silently on error, no message, no recovery, nothing, exactly the "only built the happy path" failure the exercise existed to catch. I published the backtest's limits alongside it. One manual pass rather than the live model, a small sample that never tested the destructive-action rule and full file context the live bot would not always have, so the real noise floor could run higher.</p>
+  <figure class="cs-figure">
+    <svg xmlns="http://www.w3.org/2000/svg" id="fig-reviewer" viewBox="0 0 1200 646" width="1200" height="646" role="img" aria-labelledby="t d">
+    <title id="t">An automated design review comment on a pull request diff, with the rule that produced it named on the comment</title>
+    <desc id="d">A compressed diff shows a list rendering straight from a fetch, with a loading state handled but no empty state. Beneath it sits a posted design review comment asking for an empty state. At the foot of the comment a provenance line names Rule 4, handle loading, empty and error states, together with the rule file it came from.</desc>
+  
+    <style>
+      #fig-reviewer .sans { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+      #fig-reviewer .mono { font-family: "SF Mono", SFMono-Regular, "JetBrains Mono", Menlo, Consolas, "Liberation Mono", monospace; }
+      #fig-reviewer .ink  { fill: #181818; }
+      #fig-reviewer .sec  { fill: #525252; }
+      #fig-reviewer .ter  { fill: #616161; }
+      #fig-reviewer .eyebrow { font-size: 22px; letter-spacing: 1.6px; font-weight: 500; }
+      #fig-reviewer .path    { font-size: 24px; }
+      #fig-reviewer .code    { font-size: 28px; }
+      #fig-reviewer .head    { font-size: 28px; font-weight: 600; }
+      #fig-reviewer .headsec { font-size: 28px; font-weight: 400; }
+      #fig-reviewer .body    { font-size: 32px; font-weight: 400; }
+      #fig-reviewer .prov    { font-size: 26px; font-weight: 500; }
+      #fig-reviewer .provsrc { font-size: 24px; }
+      #fig-reviewer text { text-rendering: geometricPrecision; }
+    </style>
+  
+    <!-- ground -->
+    <rect width="1200" height="646" fill="#F7F7F5"/>
+  
+    <!-- where this is happening: the engineer's own workflow -->
+    <text x="88" y="46" class="sans eyebrow ter">AUTOMATED DESIGN REVIEW · FRONT END PULL REQUEST</text>
+    <line x1="88" y1="66" x2="1112" y2="66" stroke="#E0E0DE" stroke-width="1"/>
+  
+    <!-- ZONE 1: compressed diff fragment -->
+    <text x="88" y="106" class="mono path sec">src/components/list/DataList.tsx</text>
+  
+    <!-- the changed line: tint step off the ground plus an ink rule, no accent colour -->
+    <rect x="88" y="216" width="1024" height="42" fill="#EAEAE6"/>
+    <rect x="88" y="216" width="3" height="42" fill="#181818"/>
+  
+    <text x="136" y="156" class="mono code ter">const { items, isLoading } = useItems(query)</text>
+    <text x="136" y="198" class="mono code ter">if (isLoading) return &lt;Spinner /&gt;</text>
+    <text x="108" y="240" class="mono code ink">+</text>
+    <text x="136" y="240" class="mono code ink">return &lt;List&gt;{items.map(renderRow)}&lt;/List&gt;</text>
+  
+    <!-- ZONE 2: the posted review comment -->
+    <rect x="88" y="282" width="1024" height="340" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1" rx="2"/>
+  
+    <text x="136" y="322" class="sans head ink">Design review<tspan class="ter" dx="14">·</tspan><tspan class="headsec sec" dx="14">Consider</tspan></text>
+  
+    <text x="136" y="374" class="sans body ink">This list renders straight from the fetch. If the query</text>
+    <text x="136" y="416" class="sans body ink">returns no matches, the user sees an empty box with no</text>
+    <text x="136" y="458" class="sans body ink">explanation and nothing to do next. Add an empty state</text>
+    <text x="136" y="500" class="sans body ink">that says why the list is empty and what to try.</text>
+  
+    <!-- ZONE 3: rule provenance, set apart at the foot of the comment. The leader line
+         and annotation text that used to sit below the box were deleted: that sentence
+         now lives once, as the figure's HTML caption, not duplicated here. The hairline
+         and ink bar stay, so this block is still visually set apart without the leader. -->
+    <line x1="136" y1="532" x2="1076" y2="532" stroke="#E0E0DE" stroke-width="1"/>
+    <rect x="112" y="544" width="3" height="64" fill="#181818"/>
+    <text x="136" y="566" class="sans prov ink">Rule 4 · handle loading, empty and error states</text>
+    <text x="136" y="598" class="mono provsrc sec">design-rules/unhappy-paths.md</text>
+  </svg>
+  
+    <figcaption>Every finding carries the rule that fired and a link to the rule itself. Schematic, not a screenshot.</figcaption>
+  </figure>
+  <div class="cs-outcome">
+    <p class="cs-outcome-label">Outcome.</p>
+    <p>Rollout was argued from a results table rather than a slide, which is also what made the next challenge possible.</p>
+  </div>
+</div>
+<div class="cs-decision">
+  <h3 class="cs-h2">2. Rewrote the headline number when it was challenged, then the measure behind it</h3>
+  <p class="cs-p"><strong>I had claimed a low false-positive rate. Read plainly against my own table, the figure was nearer 80% false positives.</strong> The number was challenged. I checked it against the table and the challenge was right. I had been counting in a way that flattered me. The assertive tier held, the single Blocker was correct, but precision across all ten findings was about 20%. So I rewrote the headline rather than defend it, then rewrote the measure too. A single pass or fail number was hiding the shape of the failure, so I split every outcome three ways. Wrong. Correct but not worth a comment. A fair question that still spends a reader's attention. With that split the cause fell out at once. The rules were firing on patterns a pull request merely touched rather than introduced. I scoped every rule to new code only and reported the 20% as a pre-mitigation baseline instead of quietly replacing it with a better number.</p>
+  <figure class="cs-figure">
+    <svg xmlns="http://www.w3.org/2000/svg" id="fig-rev-backtest" viewBox="0 0 1200 460" width="1200" height="460" role="img" aria-labelledby="fig-rev-backtest-t fig-rev-backtest-d">
+    <title id="fig-rev-backtest-t">Backtest findings sorted three ways</title>
+    <desc id="fig-rev-backtest-d">Ten squares, one per backtest finding. Two are useful, the one real bug and one other. Four are fair questions that still cost attention. Four were wrong or correct but not worth a comment. Precision was about 20 percent before rules were scoped to new code.</desc>
+    <style>#fig-rev-backtest text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; } #fig-rev-backtest .mono { font-family: "SF Mono", SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace; }</style>
+    <rect width="1200" height="460" fill="#F7F7F5"/>
+    <text x="60" y="60" font-size="56" font-weight="700" fill="#181818" text-anchor="start">About 20%</text>
+    <text x="60" y="96" font-size="18" font-weight="400" fill="#525252" text-anchor="start">precision across the ten backtest findings, before rules were scoped to new code</text>
+    <rect x="60" y="140" width="76" height="76" rx="4" fill="#181818"><title>Useful</title></rect>
+    <rect x="144" y="140" width="76" height="76" rx="4" fill="#181818"><title>Useful</title></rect>
+    <rect x="252" y="140" width="76" height="76" rx="4" fill="#EAEAE6"><title>A fair question</title></rect>
+    <rect x="336" y="140" width="76" height="76" rx="4" fill="#EAEAE6"><title>A fair question</title></rect>
+    <rect x="420" y="140" width="76" height="76" rx="4" fill="#EAEAE6"><title>A fair question</title></rect>
+    <rect x="504" y="140" width="76" height="76" rx="4" fill="#EAEAE6"><title>A fair question</title></rect>
+    <rect x="612" y="140" width="76" height="76" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"><title>Wrong, or correct but not worth a comment</title></rect>
+    <rect x="696" y="140" width="76" height="76" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"><title>Wrong, or correct but not worth a comment</title></rect>
+    <rect x="780" y="140" width="76" height="76" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"><title>Wrong, or correct but not worth a comment</title></rect>
+    <rect x="864" y="140" width="76" height="76" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"><title>Wrong, or correct but not worth a comment</title></rect>
+    <rect x="60" y="249" width="20" height="20" rx="4" fill="#181818"><title>Useful</title></rect>
+    <text x="96" y="266" font-size="17" font-weight="600" fill="#181818" text-anchor="start">2  Useful</text>
+    <text x="560" y="266" font-size="16" font-weight="400" fill="#525252" text-anchor="start">The one real bug and one Consider.</text>
+    <rect x="60" y="285" width="20" height="20" rx="4" fill="#EAEAE6"><title>A fair question</title></rect>
+    <text x="96" y="302" font-size="17" font-weight="600" fill="#181818" text-anchor="start">4  A fair question</text>
+    <text x="560" y="302" font-size="16" font-weight="400" fill="#525252" text-anchor="start">Asks that were not wrong but still cost a reader&#x27;s attention.</text>
+    <rect x="60" y="321" width="20" height="20" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"><title>Wrong, or correct but not worth a comment</title></rect>
+    <text x="96" y="338" font-size="17" font-weight="600" fill="#181818" text-anchor="start">4  Wrong, or correct but not worth a comment</text>
+    <text x="560" y="338" font-size="16" font-weight="400" fill="#525252" text-anchor="start">The remaining Considers.</text>
+    <text x="60" y="434" font-size="15" font-weight="400" fill="#616161" text-anchor="start">Read-only backtest against eight already-merged pull requests, about seven thousand lines of diff.</text>
+  </svg>
+  
+    <figcaption>The ten backtest findings sorted three ways. Two were useful, four were fair questions that still cost attention and four were wrong or not worth a comment. This is the baseline before rules were scoped to new code.</figcaption>
+  </figure>
+  <div class="cs-outcome">
+    <p class="cs-outcome-label">Outcome.</p>
+    <p>The reviewer got more accurate and so did I. The proposal went forward carrying its worst number on the front page.</p>
+  </div>
+</div>
+<div class="cs-decision">
+  <h3 class="cs-h2">3. Folded it into another team's bot rather than defend my own</h3>
+  <p class="cs-p"><strong>When a second reviewer appeared on the same pull requests, one voice was the only workable answer. It was not going to be mine.</strong> Two bots on one thread get each other muted. Two copies of the same guidance drift apart the moment either is edited. The other bot already ran on every push, while mine ran on an opt-in label, only when someone remembered. So I argued against running both and folded mine into theirs. Every rule survived intact. I declined the easy version, which was to carry my opt-in trigger across, because the trigger was the problem. I gave up the tool, its name, its voice and my trigger. I kept the standard, with a split agreed at the merge. They own and run the bot. I own and maintain the design rules inside it.</p>
+  <figure class="cs-figure">
+    <a class="cs-figure-zoom" href="assets/reviewer/reviewer-versions.svg" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" id="fig-rev-versions" viewBox="0 0 1600 760" width="1600" height="760" role="img" aria-labelledby="fig-rev-versions-t fig-rev-versions-d">
+    <title id="fig-rev-versions-t">Three versions of the review comment</title>
+    <desc id="fig-rev-versions-d">Three review comments side by side. The first is a formal design review scoring five UX promises. The second is the same review with a name, the design goblin, and a playful voice. The third is the team&#x27;s AI code review bot after the merge, with no name or voice, where the finding still ends with the design rule it came from.</desc>
+    <style>#fig-rev-versions text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; } #fig-rev-versions .mono { font-family: "SF Mono", SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace; }</style>
+    <rect width="1600" height="760" fill="#F7F7F5"/>
+    <text x="40" y="44" font-size="15" font-weight="600" fill="#525252" text-anchor="start">Version 1</text>
+    <text x="40" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">My reviewer</text>
+    <rect x="40" y="110" width="490" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <circle cx="80" cy="146" r="12" fill="#181818"/>
+    <text x="102" y="152" font-size="15" font-weight="600" fill="#181818" text-anchor="start">Review bot</text>
+    <text x="188" y="152" font-size="15" font-weight="400" fill="#616161" text-anchor="start">left a comment</text>
+    <line x1="40" y1="172" x2="530" y2="172" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="68" y="214" font-size="21" font-weight="700" fill="#181818" text-anchor="start">Design review, five UX promises</text>
+    <text x="68" y="252" font-size="17" font-weight="400" fill="#181818" text-anchor="start">The overall interaction design is solid. Three</text>
+    <text x="68" y="277" font-size="17" font-weight="400" fill="#181818" text-anchor="start">issues need attention before this ships.</text>
+    <text x="68" y="315" font-size="16" font-weight="600" fill="#181818" text-anchor="start">Findings  3 Blocker · 0 Consider · 0 Ask</text>
+    <circle cx="74" cy="346.3" r="3" fill="#616161"/>
+    <text x="88" y="351" font-size="16" font-weight="400" fill="#181818" text-anchor="start">Promise 1  Feedback</text>
+    <text x="502" y="351" font-size="16" font-weight="400" fill="#616161" text-anchor="end">pass</text>
+    <circle cx="74" cy="376.3" r="3" fill="#616161"/>
+    <text x="88" y="381" font-size="16" font-weight="400" fill="#181818" text-anchor="start">Promise 2  Safety</text>
+    <text x="502" y="381" font-size="16" font-weight="600" fill="#181818" text-anchor="end">finding</text>
+    <circle cx="74" cy="406.3" r="3" fill="#616161"/>
+    <text x="88" y="411" font-size="16" font-weight="400" fill="#181818" text-anchor="start">Promise 3  Recovery</text>
+    <text x="502" y="411" font-size="16" font-weight="600" fill="#181818" text-anchor="end">finding</text>
+    <circle cx="74" cy="436.3" r="3" fill="#616161"/>
+    <text x="88" y="441" font-size="16" font-weight="400" fill="#181818" text-anchor="start">Promise 4  Accessibility</text>
+    <text x="502" y="441" font-size="16" font-weight="600" fill="#181818" text-anchor="end">finding</text>
+    <circle cx="74" cy="466.3" r="3" fill="#616161"/>
+    <text x="88" y="471" font-size="16" font-weight="400" fill="#181818" text-anchor="start">Promise 5  Consistency</text>
+    <text x="502" y="471" font-size="16" font-weight="400" fill="#616161" text-anchor="end">pass</text>
+    <text x="68" y="517" font-size="15" font-weight="400" fill="#616161" text-anchor="start">This automated review is advisory. Its labels and</text>
+    <text x="68" y="539" font-size="15" font-weight="400" fill="#616161" text-anchor="start">comments never block merging.</text>
+    <text x="40" y="710" font-size="17" font-weight="400" fill="#525252" text-anchor="start">Five promises, a formal voice.</text>
+    <path d="M534,390 h17" stroke="#616161" stroke-width="2"/><path d="M549,384 l7,6 l-7,6" stroke="#616161" stroke-width="2" fill="none"/>
+    <text x="555" y="44" font-size="15" font-weight="600" fill="#525252" text-anchor="start">Version 2</text>
+    <text x="555" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">The design goblin</text>
+    <rect x="555" y="110" width="490" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <circle cx="595" cy="146" r="12" fill="#181818"/>
+    <text x="617" y="152" font-size="15" font-weight="600" fill="#181818" text-anchor="start">Review bot</text>
+    <text x="703" y="152" font-size="15" font-weight="400" fill="#616161" text-anchor="start">left a comment</text>
+    <line x1="555" y1="172" x2="1045" y2="172" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="583" y="214" font-size="21" font-weight="700" fill="#181818" text-anchor="start">The design goblin took a look</text>
+    <text x="583" y="252" font-size="17" font-weight="400" fill="#181818" text-anchor="start">The goblin sniffs through the diff and finds</text>
+    <text x="583" y="277" font-size="17" font-weight="400" fill="#181818" text-anchor="start">mostly empty space where a banner used to lurk.</text>
+    <text x="583" y="301" font-size="17" font-weight="400" fill="#181818" text-anchor="start">Nothing broken, nothing missing. The goblin is</text>
+    <text x="583" y="326" font-size="17" font-weight="400" fill="#181818" text-anchor="start">almost disappointed there&#x27;s nothing to scold.</text>
+    <text x="583" y="365" font-size="16" font-weight="600" fill="#181818" text-anchor="start">0 Blocker · 0 Consider · 0 Ask · the goblin found</text>
+    <text x="583" y="388" font-size="16" font-weight="600" fill="#181818" text-anchor="start">nothing to grumble about.</text>
+    <text x="583" y="425" font-size="16" font-weight="400" fill="#525252" text-anchor="start" font-style="italic">What the goblin poked at</text>
+    <text x="603" y="457" font-size="16" font-weight="400" fill="#181818" text-anchor="start">1  Feedback</text>
+    <text x="1017" y="457" font-size="16" font-weight="400" fill="#616161" text-anchor="end">pass</text>
+    <text x="603" y="487" font-size="16" font-weight="400" fill="#181818" text-anchor="start">2  Safety</text>
+    <text x="1017" y="487" font-size="16" font-weight="400" fill="#616161" text-anchor="end">pass</text>
+    <text x="603" y="517" font-size="16" font-weight="400" fill="#181818" text-anchor="start">3  Recovery</text>
+    <text x="1017" y="517" font-size="16" font-weight="400" fill="#616161" text-anchor="end">pass</text>
+    <text x="603" y="547" font-size="16" font-weight="400" fill="#181818" text-anchor="start">4  Accessibility</text>
+    <text x="1017" y="547" font-size="16" font-weight="400" fill="#616161" text-anchor="end">pass</text>
+    <text x="603" y="577" font-size="16" font-weight="400" fill="#181818" text-anchor="start">5  Consistency</text>
+    <text x="1017" y="577" font-size="16" font-weight="400" fill="#616161" text-anchor="end">pass</text>
+    <text x="583" y="617" font-size="15" font-weight="400" fill="#616161" text-anchor="start">The goblin is advisory only. It grumbles, it never</text>
+    <text x="583" y="639" font-size="15" font-weight="400" fill="#616161" text-anchor="start">blocks your merge.</text>
+    <text x="555" y="710" font-size="17" font-weight="400" fill="#525252" text-anchor="start">Same rules, now with a name and a voice.</text>
+    <path d="M1049,390 h17" stroke="#616161" stroke-width="2"/><path d="M1064,384 l7,6 l-7,6" stroke="#616161" stroke-width="2" fill="none"/>
+    <text x="1070" y="44" font-size="15" font-weight="600" fill="#525252" text-anchor="start">Version 3</text>
+    <text x="1070" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">The team&#x27;s bot, after the merge</text>
+    <rect x="1070" y="110" width="490" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <circle cx="1110" cy="146" r="12" fill="#181818"/>
+    <text x="1132" y="152" font-size="15" font-weight="600" fill="#181818" text-anchor="start">Review bot</text>
+    <text x="1218" y="152" font-size="15" font-weight="400" fill="#616161" text-anchor="start">left a comment</text>
+    <line x1="1070" y1="172" x2="1560" y2="172" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1098" y="214" font-size="21" font-weight="700" fill="#181818" text-anchor="start">Code review (AI)</text>
+    <text x="1098" y="252" font-size="16" font-weight="600" fill="#181818" text-anchor="start">Findings  0 blocker · 1 consider · 0 nit</text>
+    <rect x="1098" y="292" width="434" height="70" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1118" y="318" font-size="14" font-weight="400" fill="#525252" text-anchor="start" class="mono">…/features/new/Provider.tsx</text>
+    <rect x="1099" y="332" width="432" height="30" fill="#EAEAE6"/>
+    <text x="1142" y="352" font-size="14" font-weight="400" fill="#616161" text-anchor="end" class="mono">138</text>
+    <text x="1160" y="352" font-size="14" font-weight="600" fill="#181818" text-anchor="start" class="mono">+</text>
+    <text x="1180" y="352" font-size="14" font-weight="400" fill="#181818" text-anchor="start" class="mono">const options = useMemo(() =&gt; {</text>
+    <text x="1098" y="384" font-size="16" font-weight="600" fill="#181818" text-anchor="start">consider · A fetch error silently hides</text>
+    <text x="1098" y="408" font-size="16" font-weight="600" fill="#181818" text-anchor="start">every option</text>
+    <text x="1098" y="440" font-size="16" font-weight="400" fill="#181818" text-anchor="start">The provider returns an empty list for both</text>
+    <text x="1098" y="463" font-size="16" font-weight="400" fill="#181818" text-anchor="start">loading and error, so the user sees no options, no</text>
+    <text x="1098" y="486" font-size="16" font-weight="400" fill="#181818" text-anchor="start">message and cannot continue. Show a skeleton or an</text>
+    <text x="1098" y="510" font-size="16" font-weight="400" fill="#181818" text-anchor="start">error while the list loads.</text>
+    <rect x="1098" y="536.8" width="3" height="32" fill="#181818"/>
+    <text x="1114" y="559" font-size="15" font-weight="600" fill="#181818" text-anchor="start">Rule</text>
+    <text x="1158" y="559" font-size="15" font-weight="400" fill="#181818" text-anchor="start" class="mono">ux/error-and-recovery-states</text>
+    <text x="1070" y="710" font-size="17" font-weight="400" fill="#525252" text-anchor="start">Name and voice gone. The rule tag carried</text>
+    <text x="1070" y="735" font-size="17" font-weight="400" fill="#525252" text-anchor="start">across.</text>
+  </svg>
+  <span class="cs-figure-zoom-hint">Open full size</span></a>
+    <figcaption>Three versions of the same review. Mine, then the design goblin with a name and a voice, then the team's bot after the merge. The name and voice went, the rule on every finding stayed. Redrawn from the pull requests with neutral names.</figcaption>
+  </figure>
+  <div class="cs-outcome">
+    <p class="cs-outcome-label">Outcome.</p>
+    <p>One always-on reviewer on every front-end pull request instead of two competing ones, an order of magnitude more coverage in a fraction of the time. I verified that against the live repository with my own counting script rather than taking it on report.</p>
+  </div>
+</div>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">How I influenced direction.</h2>
+<p class="cs-p"><strong>My own measurement went in the bin with the tool, because it could not detect its own silence.</strong> The pilot metric counted comments actioned off a label I controlled, so it could only measure what the reviewer had already decided to say. A real problem the rules never fired on leaves no label and no trace, so the metric was blind by construction to the failures that matter most and would have looked healthiest when it was most wrong. So every finding now carries a machine-readable tag naming the rule that produced it. A script I wrote counts from those instead. Inside a system I do not own, my contribution would have disappeared the moment measurement moved off my labels, so I got that requirement built in before the new reporting shipped and checked it in the code myself.</p>
+<figure class="cs-figure">
+  <svg xmlns="http://www.w3.org/2000/svg" id="fig-rev-label-tag" viewBox="0 0 1200 360" width="1200" height="360" role="img" aria-labelledby="fig-rev-label-tag-t fig-rev-label-tag-d">
+  <title id="fig-rev-label-tag-t">A pull request label beside a rule tag</title>
+  <desc id="fig-rev-label-tag-d">On the left, the reviewer adds a single design review pass label to the whole pull request. On the right, one finding ends with the name of the design rule that produced it.</desc>
+  <style>#fig-rev-label-tag text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; } #fig-rev-label-tag .mono { font-family: "SF Mono", SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace; }</style>
+  <rect width="1200" height="360" fill="#F7F7F5"/>
+  <text x="60" y="48" font-size="22" font-weight="600" fill="#181818" text-anchor="start">What a label records</text>
+  <rect x="60" y="76" width="520" height="150" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <circle cx="100" cy="150" r="12" fill="#181818"/>
+  <text x="124" y="144" font-size="16" font-weight="400" fill="#525252" text-anchor="start">Review bot added</text>
+  <rect x="124" y="158" width="170" height="28" rx="14" fill="#181818"/>
+  <text x="209" y="177" font-size="14" font-weight="600" fill="#FFFFFF" text-anchor="middle" class="mono">design-review:pass</text>
+  <text x="306" y="177" font-size="16" font-weight="400" fill="#525252" text-anchor="start">and removed</text>
+  <rect x="406" y="158" width="130" height="28" rx="14" fill="#EAEAE6"/>
+  <text x="471" y="177" font-size="14" font-weight="600" fill="#181818" text-anchor="middle" class="mono">design-review</text>
+  <text x="60" y="272" font-size="17" font-weight="400" fill="#525252" text-anchor="start">One label for the whole pull request, set by what the</text>
+  <text x="60" y="297" font-size="17" font-weight="400" fill="#525252" text-anchor="start">reviewer chose to say.</text>
+  <text x="620" y="48" font-size="22" font-weight="600" fill="#181818" text-anchor="start">What a rule tag records</text>
+  <rect x="620" y="76" width="520" height="150" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="656" y="124" font-size="16" font-weight="600" fill="#181818" text-anchor="start">consider · The radio group lost its accessible name</text>
+  <text x="656" y="154" font-size="15" font-weight="400" fill="#525252" text-anchor="start">The replaced element carried the label, the new one drops it.</text>
+  <rect x="656" y="176" width="3" height="32" fill="#181818"/>
+  <text x="672" y="198" font-size="15" font-weight="600" fill="#181818" text-anchor="start">Rule</text>
+  <text x="716" y="198" font-size="15" font-weight="400" fill="#181818" text-anchor="start" class="mono">ux/accessible-interactions</text>
+  <text x="620" y="272" font-size="17" font-weight="400" fill="#525252" text-anchor="start">One tag on every finding, so each one traces back to the</text>
+  <text x="620" y="297" font-size="17" font-weight="400" fill="#525252" text-anchor="start">rule behind it.</text>
+</svg>
+
+  <figcaption>A label can only record what the reviewer chose to say about a whole pull request. A rule tag on every finding makes each one traceable. Redrawn from the pull requests.</figcaption>
+</figure>
+<p class="cs-p">Ten days after the merge I caught my own counting script understating the results. It capped the pull request list with no warning when the real population ran past the cap. Run deep enough to cover every pull request, findings went from 15 to 21 and findings that had drawn a human reply went from 1 to 6. Everything I had quoted before had understated engagement by about a third. The corrected numbers flattered the project, which is exactly why I published the correction alongside them.</p>
+<div class="cs-outcome">
+  <p class="cs-outcome-label">Strategic outcome.</p>
+  <p>Design's contribution to code quality is now countable inside a system design does not run, rule by rule. The count is one I would trust from someone else.</p>
+</div>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">Outcomes.</h2>
+<p class="cs-p"><strong>Over ten days the reviewer posted 21 findings, 14 of them against my five rules.</strong> Of those 14, nine reached a decision. Three were fixed, one was accepted and tracked, one was declined with a stated reason and four merged with nobody acting on them. None were argued down as inaccurate. I also published a failure metric on purpose. Of the findings that got any answer at all, 44% merged unaddressed, which is four of the nine. A review process that only publishes its wins is not one anyone senior should believe.</p>
+<p class="cs-p">The strongest evidence is not a number. On a finding about a picker that could render an empty, unexplained list, an engineer with no hand in building the reviewer replied unprompted, naming the commit that fixed it.</p>
+<div class="cs-outcomes-grid">
+  <div class="outcome-row">
+    <p class="outcome-type">Product.</p>
+    <p class="outcome-text">Happy-path-only changes get flagged on the diff, while the fix is still a comment rather than a ticket.</p>
+  </div>
+  <div class="outcome-row">
+    <p class="outcome-type">Engineering.</p>
+    <p class="outcome-text">One reviewer rather than two on every front-end pull request, with each finding traceable to the rule behind it.</p>
+  </div>
+  <div class="outcome-row">
+    <p class="outcome-type">Design.</p>
+    <p class="outcome-text">Five design rules run on every change to the front end without a designer in the room. The rules stay mine to maintain.</p>
+  </div>
+  <div class="outcome-row">
+    <p class="outcome-type">Organisational.</p>
+    <p class="outcome-text">A design standard that lives in the engineering workflow rather than the wiki, with a published failure metric attached.</p>
+  </div>
+</div>
+<br>
+<div class="cs-note">
+  <p>I cannot claim a measured improvement in shipped design quality, so I do not. Some of those outcomes are inferred from commits rather than stated by the author. A rule that never fires on a real problem still leaves no trace at all.</p>
+</div>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">Why this demonstrates principal level capability.</h2>
+<p class="cs-p"><strong>The principal signal is not that I built a bot.</strong> It is that I put a design standard where it would be argued with, then gave away everything that was not the standard so the standard would reach more code. The tool, the name, the trigger and my own metric all went. The rules stayed and I still own them.</p>
+<p class="cs-p">This work shows that I can set a standard other teams run without me, back a proposal with evidence before asking for trust, take a direct challenge to my own number and rewrite it rather than defend it, design measurement that survives success and choose the outcome over the credit when the two pull apart.</p>
+</div>
+
+<hr class="cs-divider">
+
+    <div class="cs-section">
+<h2 class="cs-section-label">Reflection.</h2>
+<p class="cs-p"><strong>Standards scale when they live in the workflow rather than the wiki.</strong> A rule that arrives on a diff gets argued with. The same rule on a documentation page gets nothing, not even disagreement. The lesson I would not have predicted is to check that your measurement survives success. Mine did not. The version where I keep the bot, the name and the dashboard is the version where the standard reaches fewer pull requests.</p>
+<figure class="cs-figure">
+  <img src="assets/reviewer/reviewer-goblin-ghost.jpg" width="600" height="480" loading="lazy" alt="A cartoon illustration of a ghostly goblin rising from a mound of earth at night, surrounded by old interface screens like gravestones, with its goggles and clipboard left behind." />
+  <figcaption>The design goblin after the merge. An illustration made for an internal presentation, not part of the product.</figcaption>
+</figure>
+<div class="cs-note">
+  <p><em>The principal move. I gave away the tool, its name and my own metric, because none of them was the standard. The rules were.</em></p>
+</div>
+<p class="cs-eyebrow">&rarr; Full story and decisions in an interview</p>
+</div>
+
+  </div>
+
+<!-- footer -->
+  <footer class="site-footer">
+    <p class="footer-name">Adam Males.</p>
+    <ul class="footer-links">
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="mailto:adammales@me.com">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/adam-males" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+  </footer>
+<!-- /footer -->
+
+</body>
+</html>
