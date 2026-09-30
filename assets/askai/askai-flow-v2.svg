@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fig-askai-v2" viewBox="0 0 3516 1399" width="3516" height="1399" role="img" aria-labelledby="fig-askai-v2-t fig-askai-v2-d">
+  <title id="fig-askai-v2-t">The second proposed Ask AI setup flow</title>
+  <desc id="fig-askai-v2-d">A revised branching flow from the Ask AI tab. Existing prompts and configurations open a view and edit screen with four separate edit paths. The empty state splits into creating a prompt, then optionally attaching it to a new or existing configuration, or creating a configuration, then choosing a template or a new prompt.</desc>
+  <style>#fig-askai-v2 text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
+  <defs><marker id="fig-askai-v2-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
+  <rect width="3516" height="1399" fill="#F7F7F5"/>
+  <path d="M246,784 H279" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M477,784 H486" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M678,784 H696 V628 H712" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <text x="704" y="711" font-size="15" font-weight="600" fill="#525252">Yes</text>
+  <path d="M678,784 H696 V945 H712" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <text x="704" y="870" font-size="15" font-weight="600" fill="#525252">No</text>
+  <path d="M910,628 H946 V269 H987" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M910,628 H946 V435 H987" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M910,628 H987" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1185,628 H1241" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1439,628 H1475 V160 H1512" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1439,628 H1475 V391 H1512" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1439,628 H1475 V506 H1512" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1439,628 H1512" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1710,160 H1749" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1947,160 H2012" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1710,391 H1772" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1924,391 H1960 V506 H2012" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1710,506 H2012" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1710,628 H1749" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1947,628 H1980 V506 H2012" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M910,945 H946 V842 H987" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1185,842 H1264" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1416,842 H1466" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1664,842 H1707" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1905,842 H1928" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M2120,842 H2156 V725 H2217" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <text x="2164" y="789" font-size="15" font-weight="600" fill="#525252">Yes</text>
+  <path d="M2120,842 H2156 V929 H2220" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <text x="2164" y="891" font-size="15" font-weight="600" fill="#525252">No</text>
+  <path d="M2415,725 H2448 V641 H2478" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M2676,641 H2749" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M2415,725 H2448 V788 H2478" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M2676,788 H2774" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M2926,788 H2976" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M3174,788 H3228" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M910,945 H946 V1149 H987" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1185,1149 H1264" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1416,1149 H1466" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1664,1149 H1707" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M1905,1149 H1928" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M2120,1149 H2156 V1067 H2222" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <text x="2164" y="1113" font-size="15" font-weight="600" fill="#525252">Template</text>
+  <path d="M2120,1149 H2156 V1239 H2222" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <text x="2164" y="1199" font-size="15" font-weight="600" fill="#525252">Create</text>
+  <path d="M2420,1067 H2439 V1149 H2457" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <path d="M2420,1239 H2439 V1149 H2457" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
+  <circle cx="188" cy="784" r="58" fill="#181818"/>
+  <text x="188" y="764" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Lands in</text>
+  <text x="188" y="780" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Data</text>
+  <text x="188" y="796" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">sources /</text>
+  <text x="188" y="813" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Crawler</text>
+  <rect x="281" y="757" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="379" y="789" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Selects tab “Ask AI”</text>
+  <path d="M583,714 L678,784 L583,854 L488,784 Z" fill="#181818" stroke-linejoin="round"/>
+  <text x="583" y="764" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Do configs</text>
+  <text x="583" y="780" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">and/or</text>
+  <text x="583" y="796" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">prompts</text>
+  <text x="583" y="813" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">exist?</text>
+  <rect x="714" y="596" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="812" y="615" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Table view showing all</text>
+  <text x="812" y="634" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">existing prompts &amp;</text>
+  <text x="812" y="652" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">configurations</text>
+  <rect x="714" y="913" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="812" y="941" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Empty state pushing</text>
+  <text x="812" y="960" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">creation</text>
+  <rect x="989" y="242" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1087" y="274" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Delete prompt</text>
+  <rect x="989" y="408" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1087" y="440" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Delete config</text>
+  <rect x="989" y="601" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1087" y="634" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">View / Edit config</text>
+  <rect x="1243" y="596" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1341" y="634" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">View / Edit screen</text>
+  <rect x="1514" y="133" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1612" y="165" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Edit config</text>
+  <rect x="1751" y="128" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1849" y="165" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Config edit form</text>
+  <rect x="2014" y="133" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2112" y="165" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
+  <rect x="1514" y="364" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1612" y="396" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create a new prompt</text>
+  <path d="M1849,345 L1924,391 L1849,437 L1774,391 Z" fill="#FFFFFF" stroke="#525252" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <text x="1849" y="387" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">Creation</text>
+  <text x="1849" y="404" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">flow</text>
+  <rect x="1514" y="480" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1612" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Swap out prompt</text>
+  <rect x="2014" y="480" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2112" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
+  <rect x="1514" y="601" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1612" y="634" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Edit prompt</text>
+  <rect x="1751" y="596" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1849" y="634" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Prompt edit form</text>
+  <rect x="989" y="816" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1087" y="848" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create prompt</text>
+  <path d="M1341,796 L1416,842 L1341,888 L1266,842 Z" fill="#FFFFFF" stroke="#525252" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <text x="1341" y="839" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">Creation</text>
+  <text x="1341" y="855" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">flow</text>
+  <rect x="1468" y="810" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1566" y="848" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create a prompt UI</text>
+  <rect x="1709" y="816" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1807" y="848" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create new prompt</text>
+  <path d="M2026,772 L2120,842 L2026,912 L1930,842 Z" fill="#181818" stroke-linejoin="round"/>
+  <text x="2026" y="839" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Add prompt</text>
+  <text x="2026" y="855" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">to config</text>
+  <rect x="2219" y="693" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="2317" y="721" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Config select / create</text>
+  <text x="2317" y="740" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">UI</text>
+  <rect x="2222" y="902" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2320" y="934" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
+  <rect x="2480" y="614" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2578" y="646" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Select existing config</text>
+  <rect x="2751" y="609" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="2849" y="646" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Overwrite confirmation</text>
+  <rect x="2480" y="761" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2578" y="793" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create config</text>
+  <path d="M2851,742 L2926,788 L2851,834 L2776,788 Z" fill="#FFFFFF" stroke="#525252" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <text x="2851" y="784" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">Creation</text>
+  <text x="2851" y="801" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">flow</text>
+  <rect x="2978" y="756" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="3076" y="793" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create a config UI</text>
+  <rect x="3230" y="761" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="3328" y="793" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
+  <rect x="989" y="1122" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1087" y="1154" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create configuration</text>
+  <path d="M1341,1103 L1416,1149 L1341,1195 L1266,1149 Z" fill="#FFFFFF" stroke="#525252" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <text x="1341" y="1146" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">Creation</text>
+  <text x="1341" y="1162" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">flow</text>
+  <rect x="1468" y="1117" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1566" y="1154" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create a config UI</text>
+  <rect x="1709" y="1117" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <text x="1807" y="1154" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Select a prompt</text>
+  <path d="M2026,1079 L2120,1149 L2026,1219 L1930,1149 Z" fill="#181818" stroke-linejoin="round"/>
+  <text x="2026" y="1137" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Template or</text>
+  <text x="2026" y="1154" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">create</text>
+  <text x="2026" y="1170" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">prompt</text>
+  <rect x="2224" y="1040" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2322" y="1072" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Select template prompt</text>
+  <rect x="2224" y="1212" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2322" y="1245" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create new prompt</text>
+  <rect x="2459" y="1122" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="2557" y="1154" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
+</svg>
