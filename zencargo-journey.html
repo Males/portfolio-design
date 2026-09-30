@@ -3,7 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Redefining shipment visibility — Adam Males</title>
+  <title>Centralised cargo model for supply chain — Adam Males</title>
+  <meta name="description" content="Moving Zencargo from page level fixes to a cargo centred visibility model that became an early foundation for its digital twin direction." />
+  <meta property="og:title" content="Centralised cargo model for supply chain — Adam Males" />
+  <meta property="og:description" content="Moving Zencargo from page level fixes to a cargo centred visibility model that became an early foundation for its digital twin direction." />
+  <meta property="og:type" content="article" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
@@ -32,14 +40,19 @@
       --t-base:  16px;
       --t-md:    18px;
       --t-title: clamp(36px, 5vw, 52px);
+      --t-head:  24px;
+      --radius:  4px;
 
       --pad: 300px;
       --content: 680px;
+
+      /* callouts and figures break the text column by this much each side */
+      --bleed: 40px;
     }
 
     @media (max-width: 1140px) { :root { --pad: 80px; } }
     @media (max-width: 720px)  { :root { --pad: 40px; } }
-    @media (max-width: 480px)  { :root { --pad: 24px; } }
+    @media (max-width: 480px)  { :root { --pad: 24px; --bleed: 16px; } }
 
     html, body {
       background: var(--bg);
@@ -101,9 +114,9 @@
     }
 
     .cs-overview {
-      font-size: var(--t-md);
+      font-size: var(--t-base);
       font-weight: 300;
-      line-height: 1.7;
+      line-height: 1.75;
       color: var(--ink-2);
     }
 
@@ -142,11 +155,9 @@
 
     .meta-label {
       font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
+      font-weight: 600;
+      color: var(--ink-2);
       margin-bottom: var(--micro);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
     }
 
     .meta-value {
@@ -167,11 +178,14 @@
     }
 
     .cs-section-label {
-      font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
+      font-size: var(--t-head);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--ink);
       margin-bottom: var(--med);
     }
+
+    .cs-header .cs-section-label { margin-top: var(--xl); }
 
     .cs-h2 {
       font-size: var(--t-md);
@@ -232,7 +246,7 @@
     .cs-note {
       padding: var(--base);
       border-left: 2px solid var(--rule);
-      margin-bottom: var(--xl);
+      margin: 0 calc(var(--bleed) * -1) var(--xl);
     }
 
     .cs-note p {
@@ -245,18 +259,17 @@
 
     /* ─── OUTCOME CALLOUT ──────────────────────────────────── */
     .cs-outcome {
-      margin-top: var(--base);
-      margin-bottom: var(--med);
-      padding: var(--base);
+      margin: var(--base) calc(var(--bleed) * -1) var(--med);
+      padding: var(--base) var(--bleed);
       background: rgba(24,24,24,0.03);
+      border-radius: var(--radius);
     }
 
-    .cs-outcome-label {
-      font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
+    .cs-outcome .cs-outcome-label {
+      font-size: var(--t-body);
+      font-weight: 600;
+      line-height: 1.65;
+      color: var(--ink-2);
       margin-bottom: var(--micro);
     }
 
@@ -279,12 +292,7 @@
       margin-bottom: var(--xl);
     }
 
-    .cs-decision-num {
-      font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
-      margin-bottom: var(--sml);
-    }
+    .cs-decision { padding-top: var(--sml); }
 
     /* ─── OUTCOMES GRID ────────────────────────────────────── */
     .cs-outcomes-grid {
@@ -309,10 +317,8 @@
 
     .outcome-type {
       font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
+      font-weight: 600;
+      color: var(--ink-2);
       padding-top: 3px;
     }
 
@@ -322,225 +328,732 @@
       line-height: 1.7;
       color: var(--ink-2);
     }
-  </style>
+  
+    /* ─── FIGURE ───────────────────────────────────────────── */
+    .cs-figure { margin: var(--med) calc(var(--bleed) * -1) var(--xl); }
+    .cs-figure svg, .cs-figure img { display: block; width: 100%; height: auto; border-radius: var(--radius); }
+    .cs-figure figcaption { font-size: var(--t-sm); font-weight: 400; color: var(--ink-3); margin: var(--base) var(--bleed) 0; }
+    .cs-decision .cs-figure { margin-bottom: var(--med); }
+    .cs-fig-narrow { display: none; }
+    @media (max-width: 480px) { .cs-fig-wide { display: none; } .cs-fig-narrow { display: block; max-width: 300px; margin: 0 auto; } }
+    .cs-figure-zoom { position: relative; display: block; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+    .cs-figure-zoom-hint { position: absolute; right: var(--sml); bottom: var(--sml); background: var(--ink); color: var(--bg); font-size: var(--t-sm); font-weight: 500; padding: var(--micro) var(--sml); border-radius: var(--radius); }
+    .cs-figure-zoom:hover .cs-figure-zoom-hint, .cs-figure-zoom:focus-visible .cs-figure-zoom-hint { background: var(--ink-2); }
+
+    /* ─── IMAGE PLACEHOLDER ──────────────────────────────── */
+    .cs-ph {
+      aspect-ratio: 16 / 10;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      padding: var(--med);
+      background-color: #EFEFEC;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 2L22 12L12 22L2 12Z' fill='%23E2E2DF'/%3E%3C/svg%3E");
+      background-size: 24px 24px;
+    }
+    .cs-ph p { max-width: 440px; background: var(--bg); border-radius: var(--radius); padding: var(--sml) var(--base); font-size: var(--t-body); line-height: 1.6; color: var(--ink-2); text-align: center; }
+    .cs-ph-tag { display: block; font-weight: 600; color: var(--ink); margin-bottom: var(--micro); }
+    @media (max-width: 480px) { .cs-ph { aspect-ratio: 4 / 3; padding: var(--base); } }
+
+    /* ─── TL;DR ────────────────────────────────────────────── */
+    .cs-tldr { margin: var(--med) calc(var(--bleed) * -1) 0; padding: var(--base) var(--bleed); background: rgba(24,24,24,0.03); border-radius: var(--radius); }
+    .cs-tldr-label { font-size: var(--t-head); font-weight: 600; line-height: 32px; letter-spacing: -0.8px; color: var(--ink); margin-bottom: var(--sml); }
+    .cs-tldr-item { font-size: var(--t-base); font-weight: 300; line-height: 1.5; color: var(--ink); margin-bottom: 24px; }
+    .cs-tldr-item:last-child { margin-bottom: 0; }
+    .cs-tldr-item strong { font-weight: 600; }
+
+    /* ─── LINKS IN COPY ────────────────────────────────────── */
+    .cs-eyebrow a, .cs-p a, .cs-overview a, .cs-tldr-item a { color: inherit; text-decoration: underline; text-decoration-color: var(--ink-3); text-underline-offset: 3px; }
+    .cs-eyebrow a:hover, .cs-p a:hover, .cs-overview a:hover, .cs-tldr-item a:hover { text-decoration-color: var(--ink); }
+
+    /* footer */
+    .site-footer { padding: 40px var(--pad) 96px; border-top: 1px solid #E0E0DE; }
+    .footer-name { font-size: 32px; font-weight: 600; line-height: 1; letter-spacing: -0.8px; color: #181818; }
+    .footer-links { display: flex; gap: 32px; padding-top: 12px; list-style: none; }
+    .footer-links a { font-size: 13px; line-height: 1.5; color: #181818; text-decoration: underline; text-decoration-color: #616161; text-underline-offset: 3px; border-radius: 3px; padding: 2px 4px; margin: -2px -4px; }
+    .footer-links a:hover { color: #F7F7F5; background-color: #181818; text-decoration: none; }
+    @media (max-width: 480px) { .footer-links { flex-direction: column; gap: 4px; } }
+    /* /footer */
+</style>
 </head>
 <body>
 
-  <!-- NAV -->
   <nav class="cs-nav">
     <a class="cs-back" href="/">← Back</a>
   </nav>
 
-  <!-- HEADER -->
   <header class="cs-header">
-    <p class="cs-eyebrow">Zencargo · 2019 – 2023</p>
-    <h1 class="cs-title">Redefining<br>shipment visibility.</h1>
-    <p class="cs-overview">
-      Zencargo customers were frustrated by poor shipment visibility. In a fragmented logistics environment shaped by manual handoffs, changing routes, and incomplete data, customers often could not tell where cargo was, what had happened, or whether they needed to act.
-    </p>
-    <br>
-    <p class="cs-overview">
-      What looked like a page-level UX problem was actually a deeper issue with how cargo journeys were modelled, structured, and communicated. <strong>I led the design direction for a new visibility experience that shifted the team from incremental UI fixes to a more scalable, cargo-centred model</strong>, helping create an early foundation for Zencargo's broader digital twin strategy.
-    </p>
+    <p class="cs-eyebrow"><a href="https://www.zencargo.com" target="_blank" rel="noopener">Zencargo</a> · 2019 to 2023 · Design lead</p>
+    <h1 class="cs-title">Centralised cargo model for supply chain.</h1>
+    <section class="cs-tldr" aria-label="Summary">
+  <h2 class="cs-tldr-label">Too long, didn’t read.</h2>
+  <p class="cs-tldr-item"><strong>A page level complaint about shipment status that turned out to be a modelling problem.</strong></p>
+  <p class="cs-tldr-item"><strong>Zencargo is a digital freight forwarder.</strong> Its platform shows importers where their cargo is, what has happened to it and whether they need to act.</p>
+  <p class="cs-tldr-item"><strong>I led the design direction for a new visibility experience</strong> and moved the team from incremental UI fixes to a cargo centred model of the journey.</p>
+  <p class="cs-tldr-item"><strong>PM, engineering and domain experts adopted one shared cargo centred model, which became an early foundation for the company's digital twin direction.</strong> I left before full rollout, so I claim no shipped performance metrics.</p>
+  <p class="cs-tldr-item"><strong>The principal move was changing the success criteria from fixing a page to modelling the journey</strong> and getting three functions to sign up to it.</p>
+  <p class="cs-tldr-item"><strong>Zencargo's platform is live today.</strong> See it at <a href="https://www.zencargo.com/ai-platform/" target="_blank" rel="noopener">zencargo.com</a>.</p>
+</section>
+    <h2 class="cs-section-label">Introduction.</h2>
+<p class="cs-overview">Zencargo customers were frustrated by poor shipment visibility. In a fragmented logistics environment shaped by manual handoffs, changing routes and incomplete data, customers often could not tell where cargo was, what had happened or whether they needed to act.</p>
+<br>
+<p class="cs-overview">What looked like a page-level UX problem was actually a deeper issue with how cargo journeys were modelled, structured and communicated. <strong>I led the design direction for a new visibility experience that shifted the team from incremental UI fixes to a more scalable, cargo-centred model</strong>, helping create an early foundation for Zencargo's broader digital twin strategy.</p>
   </header>
 
-  <!-- METADATA -->
   <div class="cs-meta">
     <div class="meta-item">
-      <p class="meta-label">My role</p>
-      <p class="meta-value">Design lead</p>
-    </div>
-    <div class="meta-item">
-      <p class="meta-label">Scope</p>
-      <p class="meta-value">UX direction<br>Research strategy<br>Stakeholder alignment<br>Launch readiness</p>
-    </div>
-    <div class="meta-item">
-      <p class="meta-label">Influenced</p>
-      <p class="meta-value">Product direction<br>Success criteria<br>Service model<br>Cross-team governance</p>
-    </div>
-    <div class="meta-item">
-      <p class="meta-label">Timeline</p>
-      <p class="meta-value">5 months</p>
-    </div>
+  <p class="meta-label">My role.</p>
+  <p class="meta-value">Design lead</p>
+</div>
+<div class="meta-item">
+  <p class="meta-label">Scope.</p>
+  <p class="meta-value">UX direction<br>Research strategy<br>Stakeholder alignment<br>Launch readiness</p>
+</div>
+<div class="meta-item">
+  <p class="meta-label">Influenced.</p>
+  <p class="meta-value">Product direction<br>Success criteria<br>Service model<br>Cross-team governance</p>
+</div>
+<div class="meta-item">
+  <p class="meta-label">Outcome.</p>
+  <p class="meta-value">Shared cargo centred model<br>Foundation for the digital twin direction<br>No shipped metrics claimed</p>
+</div>
   </div>
 
-  <!-- BODY -->
   <div class="cs-body">
 
-    <!-- NOTE -->
-    <div class="cs-note">
-      <p>I left Zencargo before full rollout, so this case study focuses on the strategic decisions, cross-functional influence, and foundational outcomes that shaped the work.</p>
-    </div>
-
-    <!-- THE PROBLEM -->
     <div class="cs-section">
-      <p class="cs-section-label">The problem</p>
-      <p class="cs-p">Customers were complaining because they lacked reliable visibility into shipment progress. The existing experience made it difficult to understand where cargo was, what stage it had reached, and whether there was a problem worth investigating.</p>
-      <p class="cs-p">This was not just frustrating for customers. It also created pressure internally:</p>
-      <ul class="cs-list">
-        <li>Operational teams were filling information gaps manually</li>
-        <li>Support teams were dealing with avoidable queries</li>
-        <li>The business risked losing customer trust in a high-stakes area of the product</li>
-      </ul>
-      <p class="cs-p">Leadership initially pushed for smaller improvements, but those would only have improved presentation, not the underlying quality of visibility.</p>
-    </div>
+<h2 class="cs-section-label">Why this mattered.</h2>
+<p class="cs-p"><strong>Customers were complaining because they lacked reliable visibility into shipment progress.</strong> The existing experience made it difficult to understand where cargo was, what stage it had reached and whether there was a problem worth investigating.</p>
+<p class="cs-p">This was not just frustrating for customers. It also created pressure internally.</p>
+<ul class="cs-list">
+  <li>Operational teams were filling information gaps manually</li>
+  <li>Support teams were dealing with avoidable queries</li>
+  <li>The business risked losing customer trust in a high-stakes area of the product</li>
+</ul>
+<p class="cs-p">Leadership initially pushed for smaller improvements, but those would only have improved presentation, not the underlying quality of visibility.</p>
+</div>
 
-    <hr class="cs-divider">
+<hr class="cs-divider">
 
-    <!-- WHY HARDER -->
+<div class="cs-section">
+<h2 class="cs-section-label">The problem I chose to solve.</h2>
+<p class="cs-p"><strong>Supply chains are messy.</strong> Cargo moves through multiple handoffs, documents are often exchanged manually and routes change in ways the system does not always capture cleanly.</p>
+<p class="cs-p">At the same time, Zencargo was moving from a monolith toward microservices. That exposed a bigger constraint. The existing data model and information architecture could not accurately represent the complexity of real cargo journeys, especially around transshipments, exceptions and partial confirmations.</p>
+<p class="cs-p">The challenge was not just to redesign a page. It was to create a model that was three things.</p>
+<ul class="cs-list">
+  <li>Trustworthy enough for customers to act on</li>
+  <li>Flexible enough to handle real-world variability</li>
+  <li>Structured enough to support future platform capabilities</li>
+</ul>
+<figure class="cs-figure">
+  <svg xmlns="http://www.w3.org/2000/svg" id="fig-zen-problems" viewBox="0 0 1200 652" width="1200" height="652" role="img" aria-labelledby="fig-zen-problems-t fig-zen-problems-d">
+  <title id="fig-zen-problems-t">The problems the work set out to solve</title>
+  <desc id="fig-zen-problems-d">Two columns of notes. The first lists the problems the team would face, such as not knowing which data points matter and being unable to show trans-shipment or several pieces of cargo moving. The second lists why they mattered, such as customers asking the operations team for data the platform did not show and a platform too inflexible for journeys that change quickly.</desc>
+  <style>#fig-zen-problems text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
+  <defs><marker id="fig-zen-problems-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
+  <rect width="1200" height="652" fill="#F7F7F5"/>
+  <text x="32" y="64" font-size="24" font-weight="600" fill="#181818" text-anchor="start">What are the problems we will face?</text>
+  <text x="616" y="64" font-size="24" font-weight="600" fill="#181818" text-anchor="start">Why are they a problem for us?</text>
+  <rect x="32" y="96" width="552" height="92" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="56" y="136" font-size="20" font-weight="400" fill="#181818" text-anchor="start">We&#x27;re not sure which data points matter most to</text>
+  <text x="56" y="162" font-size="20" font-weight="400" fill="#181818" text-anchor="start">our users.</text>
+  <rect x="32" y="204" width="552" height="92" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="56" y="244" font-size="20" font-weight="400" fill="#181818" text-anchor="start">Our new proposed data model isn&#x27;t supported by</text>
+  <text x="56" y="270" font-size="20" font-weight="400" fill="#181818" text-anchor="start">current UI patterns.</text>
+  <rect x="32" y="312" width="552" height="92" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="56" y="352" font-size="20" font-weight="400" fill="#181818" text-anchor="start">Customers want greater visibility of the location</text>
+  <text x="56" y="378" font-size="20" font-weight="400" fill="#181818" text-anchor="start">of their goods in the platform.</text>
+  <rect x="32" y="420" width="552" height="92" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="56" y="473" font-size="20" font-weight="400" fill="#181818" text-anchor="start">We cannot represent trans-shipment within our UI.</text>
+  <rect x="32" y="528" width="552" height="92" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="56" y="568" font-size="20" font-weight="400" fill="#181818" text-anchor="start">We cannot show the movement of multiple pieces of</text>
+  <text x="56" y="594" font-size="20" font-weight="400" fill="#181818" text-anchor="start">cargo within our UI.</text>
+  <rect x="616" y="96" width="552" height="92" rx="4" fill="#EAEAE6" stroke="#EAEAE6" stroke-width="1.6"/>
+  <text x="640" y="136" font-size="20" font-weight="400" fill="#181818" text-anchor="start">Our customers want to see data we do not present</text>
+  <text x="640" y="162" font-size="20" font-weight="400" fill="#181818" text-anchor="start">to them on the platform.</text>
+  <rect x="616" y="204" width="552" height="92" rx="4" fill="#EAEAE6" stroke="#EAEAE6" stroke-width="1.6"/>
+  <text x="640" y="244" font-size="20" font-weight="400" fill="#181818" text-anchor="start">If we want to bring more data points and greater</text>
+  <text x="640" y="270" font-size="20" font-weight="400" fill="#181818" text-anchor="start">visibility we will need to adjust our current UI.</text>
+  <rect x="616" y="312" width="552" height="92" rx="4" fill="#EAEAE6" stroke="#EAEAE6" stroke-width="1.6"/>
+  <text x="640" y="338" font-size="20" font-weight="400" fill="#181818" text-anchor="start">Customers are taking up our operations teams time</text>
+  <text x="640" y="365" font-size="20" font-weight="400" fill="#181818" text-anchor="start">with requests that could be handled by the</text>
+  <text x="640" y="392" font-size="20" font-weight="400" fill="#181818" text-anchor="start">platform.</text>
+  <rect x="616" y="420" width="552" height="92" rx="4" fill="#EAEAE6" stroke="#EAEAE6" stroke-width="1.6"/>
+  <text x="640" y="473" font-size="20" font-weight="400" fill="#181818" text-anchor="start">Information is not shared or stored in one place.</text>
+  <rect x="616" y="528" width="552" height="92" rx="4" fill="#EAEAE6" stroke="#EAEAE6" stroke-width="1.6"/>
+  <text x="640" y="568" font-size="20" font-weight="400" fill="#181818" text-anchor="start">We know that journeys can change quickly but our</text>
+  <text x="640" y="594" font-size="20" font-weight="400" fill="#181818" text-anchor="start">platform is very inflexible.</text>
+</svg>
+
+  <figcaption>The problems the team set out to solve, from the kick off board. The wording is the original, redrawn.</figcaption>
+</figure>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">My role and scope.</h2>
+<p class="cs-p"><strong>I led the design work across discovery, framing, concept development, testing and stakeholder alignment.</strong></p>
+<figure class="cs-figure">
+  <img src="assets/zencargo/zencargo-sketches.png" width="1364" height="775" loading="lazy" alt="Three hand drawn sketches on dotted paper. A collapsible list of journey stages from booking creation to delivery, a template for a milestone row with cargo items, dates and delays, and two collection milestones showing containers collected and a warning to upload a packing list." />
+  <figcaption>Sketches from the first sketching workshop. A collapsible list of journey stages, a template for a milestone row and the collection states with a prompt to upload a packing list.</figcaption>
+</figure>
+<p class="cs-p">I owned four areas.</p>
+<ul class="cs-list">
+  <li>UX direction</li>
+  <li>Research plan and synthesis</li>
+  <li>Decision-making on the customer experience</li>
+  <li>Launch readiness from a design perspective</li>
+</ul>
+<p class="cs-p">I also influenced product direction, success criteria, the service model and information structure and cross-team alignment as the scope expanded.</p>
+<p class="cs-p">This was not limited to interface design. I helped shape how the team understood the problem, what we prioritised and what foundation we needed to build before the experience could genuinely improve.</p>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">The constraints and tension.</h2>
+<p class="cs-p"><strong>Early research showed the issue was not simply clutter.</strong> The deeper problem was that the product was organised around the wrong unit of understanding.</p>
+<p class="cs-p">Shipment and purchase order information was difficult to scan because the information architecture did not reflect how users actually reasoned about cargo movement and exceptions. Through research, journey mapping and collaboration with domain experts, I identified that <strong>cargo, not shipments or orders, needed to become the primary organising model.</strong></p>
+<p class="cs-p">That changed the direction of the work. Instead of forcing transshipment handling into the existing structure, I helped the team shift toward a cargo-centred model that could better represent route progress, milestones and exceptions.</p>
+<figure class="cs-figure">
+  <a class="cs-figure-zoom" href="assets/zencargo/zencargo-cargo-journey.svg" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" id="fig-zen-journey" viewBox="0 0 1600 640" width="1600" height="640" role="img" aria-labelledby="fig-zen-journey-t fig-zen-journey-d">
+  <title id="fig-zen-journey-t">Three bookings travelling as one container</title>
+  <desc id="fig-zen-journey-d">Three bookings load bananas and broccoli, apples and carrots at separate stops. At stop D the goods are consolidated into one container that travels by road, sea and road to stop G, where it is unpacked and each good travels on to its own delivery stop.</desc>
+  <style>#fig-zen-journey text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
+  <defs><marker id="fig-zen-journey-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
+  <rect width="1600" height="640" fill="#F7F7F5"/>
+  <path d="M200,130 H328" fill="none" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-journey-a)"/>
+  <text x="265" y="114" font-size="15" font-weight="400" fill="#525252" text-anchor="middle">Road · Bananas</text>
+  <path d="M390,130 H608 Q620,130 620,142 V308 Q620,320 632,320 H668" fill="none" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-journey-a)"/>
+  <text x="505" y="114" font-size="15" font-weight="400" fill="#525252" text-anchor="middle">Road · Bananas, broccoli</text>
+  <path d="M200,320 H668" fill="none" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-journey-a)"/>
+  <text x="435" y="304" font-size="15" font-weight="400" fill="#525252" text-anchor="middle">Road · Apples</text>
+  <path d="M200,510 H608 Q620,510 620,498 V332 Q620,320 632,320 H668" fill="none" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-journey-a)"/>
+  <text x="410" y="494" font-size="15" font-weight="400" fill="#525252" text-anchor="middle">Road · Carrots</text>
+  <path d="M730,320 H828" fill="none" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-journey-a)"/>
+  <text x="780" y="304" font-size="15" font-weight="400" fill="#525252" text-anchor="middle">Road</text>
+  <path d="M890,320 H988" fill="none" stroke="#616161" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#fig-zen-journey-a)"/>
+  <text x="940" y="304" font-size="15" font-weight="400" fill="#525252" text-anchor="middle">Sea</text>
+  <path d="M1050,320 H1148" fill="none" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-journey-a)"/>
+  <text x="1100" y="304" font-size="15" font-weight="400" fill="#525252" text-anchor="middle">Road</text>
+  <path d="M1210,320 H1238 Q1250,320 1250,308 V142 Q1250,130 1262,130 H1468" fill="none" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-journey-a)"/>
+  <text x="1360" y="114" font-size="15" font-weight="400" fill="#525252" text-anchor="middle">Road · Apples</text>
+  <path d="M1210,320 H1468" fill="none" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-journey-a)"/>
+  <text x="1340" y="304" font-size="15" font-weight="400" fill="#525252" text-anchor="middle">Road · Bananas</text>
+  <path d="M1210,320 H1238 Q1250,320 1250,332 V498 Q1250,510 1262,510 H1338" fill="none" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-journey-a)"/>
+  <text x="1357" y="445" font-size="15" font-weight="400" fill="#525252" text-anchor="middle">Road · Carrots, broccoli</text>
+  <path d="M1400,510 H1498" fill="none" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-journey-a)"/>
+  <text x="1450" y="494" font-size="15" font-weight="400" fill="#525252" text-anchor="middle">Road · Broccoli</text>
+  <rect x="140" y="100" width="60" height="60" rx="4" fill="#181818"/>
+  <text x="170" y="136" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">AA</text>
+  <text x="170" y="186" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Load bananas</text>
+  <rect x="330" y="100" width="60" height="60" rx="4" fill="#181818"/>
+  <text x="360" y="136" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">AB</text>
+  <text x="360" y="186" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Load broccoli</text>
+  <rect x="140" y="290" width="60" height="60" rx="4" fill="#181818"/>
+  <text x="170" y="326" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">B</text>
+  <text x="170" y="376" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Load apples</text>
+  <rect x="140" y="480" width="60" height="60" rx="4" fill="#181818"/>
+  <text x="170" y="516" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">C</text>
+  <text x="170" y="566" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Load carrots</text>
+  <rect x="670" y="290" width="60" height="60" rx="4" fill="#181818"/>
+  <text x="700" y="326" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">D</text>
+  <text x="700" y="376" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Consolidate into</text>
+  <text x="700" y="395" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">one container</text>
+  <rect x="830" y="290" width="60" height="60" rx="4" fill="#181818"/>
+  <text x="860" y="326" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">E</text>
+  <rect x="990" y="290" width="60" height="60" rx="4" fill="#181818"/>
+  <text x="1020" y="326" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">F</text>
+  <rect x="1150" y="290" width="60" height="60" rx="4" fill="#181818"/>
+  <text x="1180" y="326" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">G</text>
+  <text x="1180" y="376" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Unpack the</text>
+  <text x="1180" y="395" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">container</text>
+  <rect x="1470" y="100" width="60" height="60" rx="4" fill="#181818"/>
+  <text x="1500" y="136" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">H</text>
+  <text x="1500" y="186" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Unload apples</text>
+  <rect x="1470" y="290" width="60" height="60" rx="4" fill="#181818"/>
+  <text x="1500" y="326" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">I</text>
+  <text x="1500" y="376" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Unload bananas</text>
+  <rect x="1340" y="480" width="60" height="60" rx="4" fill="#181818"/>
+  <text x="1370" y="516" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">JJ</text>
+  <text x="1370" y="566" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Unload carrots</text>
+  <rect x="1500" y="480" width="60" height="60" rx="4" fill="#181818"/>
+  <text x="1530" y="516" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">JK</text>
+  <text x="1530" y="566" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Unload broccoli</text>
+  <text x="40" y="136" font-size="16" font-weight="600" fill="#525252" text-anchor="start">Booking 1</text>
+  <text x="40" y="326" font-size="16" font-weight="600" fill="#525252" text-anchor="start">Booking 2</text>
+  <text x="40" y="516" font-size="16" font-weight="600" fill="#525252" text-anchor="start">Booking 3</text>
+  <text x="40" y="612" font-size="15" font-weight="400" fill="#616161" text-anchor="start">Each square is a stop with a place and a time. Solid lines are road legs, the dashed line is the sea leg.</text>
+</svg>
+<span class="cs-figure-zoom-hint">Open full size</span></a>
+  <figcaption>Three bookings travelling as one container. Goods are loaded at separate stops, consolidated at D, shipped, then unpacked at G and sent on to their own delivery stops. The old interface could not show this. Redrawn from the original diagram.</figcaption>
+</figure>
+<div class="cs-outcome">
+  <p class="cs-outcome-label">Strategic outcome.</p>
+  <p>The team moved from local UI fixes to a more foundational redesign based on a clearer mental model.</p>
+</div>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">Key decisions I drove.</h2>
+<div class="cs-decision">
+  <h3 class="cs-h2">1. Shifted the team away from cosmetic fixes</h3>
+  <p class="cs-p"><strong>The PM initially wanted to keep the scope small and work within the existing model.</strong> I pushed back, using research and service mapping to show that this would still leave customers with partial and misleading visibility.</p>
+  <figure class="cs-figure">
+    <a class="cs-figure-zoom" href="assets/zencargo/zencargo-concepts.svg" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" id="fig-zen-concepts" viewBox="0 0 1600 760" width="1600" height="760" role="img" aria-labelledby="fig-zen-concepts-t fig-zen-concepts-d">
+    <title id="fig-zen-concepts-t">Four concepts from the rounds of testing</title>
+    <desc id="fig-zen-concepts-d">Four simplified screens in sequence. Concept one organises the journey by carriage stage with every container listed under each milestone. Concept two puts a shipment checklist first and gives each container its own tab. Concept three uses a container table and one route timeline of stops and legs. Concept four trims that timeline to what comes next and adds a route map on top.</desc>
+    <style>#fig-zen-concepts text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
+    <defs><marker id="fig-zen-concepts-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
+    <rect width="1600" height="760" fill="#F7F7F5"/>
+    <text x="40" y="44" font-size="16" font-weight="600" fill="#525252" text-anchor="start">Concept 1</text>
+    <text x="40" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">Stages first</text>
+    <rect x="40" y="110" width="350" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="60" y="130" width="150" height="16" rx="3" fill="#181818"/>
+    <rect x="60" y="166" width="120" height="12" rx="3" fill="#525252"/>
+    <rect x="60" y="192" width="170" height="10" rx="3" fill="#181818"/>
+    <circle cx="68" cy="215" r="5" fill="#616161"/>
+    <rect x="60" y="210" width="220" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="320" y="210" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="68" cy="233" r="5" fill="#616161"/>
+    <rect x="60" y="228" width="220" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="320" y="228" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="60" y="252" width="170" height="10" rx="3" fill="#181818"/>
+    <circle cx="68" cy="275" r="5" fill="#616161"/>
+    <rect x="60" y="270" width="220" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="320" y="270" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="68" cy="293" r="5" fill="#616161"/>
+    <rect x="60" y="288" width="220" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="320" y="288" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="60" y="322" width="120" height="12" rx="3" fill="#525252"/>
+    <rect x="60" y="348" width="170" height="10" rx="3" fill="#181818"/>
+    <circle cx="68" cy="371" r="5" fill="#616161"/>
+    <rect x="60" y="366" width="220" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="320" y="366" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="68" cy="389" r="5" fill="#616161"/>
+    <rect x="60" y="384" width="220" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="320" y="384" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="60" y="408" width="170" height="10" rx="3" fill="#181818"/>
+    <circle cx="68" cy="431" r="5" fill="#616161"/>
+    <rect x="60" y="426" width="220" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="320" y="426" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="68" cy="449" r="5" fill="#616161"/>
+    <rect x="60" y="444" width="220" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="320" y="444" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="60" y="478" width="120" height="12" rx="3" fill="#525252"/>
+    <rect x="60" y="504" width="170" height="10" rx="3" fill="#181818"/>
+    <circle cx="68" cy="527" r="5" fill="#616161"/>
+    <rect x="60" y="522" width="220" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="320" y="522" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="68" cy="545" r="5" fill="#616161"/>
+    <rect x="60" y="540" width="220" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="320" y="540" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="60" y="564" width="170" height="10" rx="3" fill="#181818"/>
+    <circle cx="68" cy="587" r="5" fill="#616161"/>
+    <rect x="60" y="582" width="220" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="320" y="582" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="68" cy="605" r="5" fill="#616161"/>
+    <rect x="60" y="600" width="220" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="320" y="600" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <text x="40" y="704" font-size="16" font-weight="400" fill="#525252" text-anchor="start">Journey split into carriage stages, each</text>
+    <text x="40" y="726" font-size="16" font-weight="400" fill="#525252" text-anchor="start">milestone lists every container on its</text>
+    <text x="40" y="748" font-size="16" font-weight="400" fill="#525252" text-anchor="start">own row.</text>
+    <path d="M396,390.0 H422" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-concepts-a)"/>
+    <text x="430" y="44" font-size="16" font-weight="600" fill="#525252" text-anchor="start">Concept 2</text>
+    <text x="430" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">Containers first</text>
+    <rect x="430" y="110" width="350" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="450" y="130" width="150" height="16" rx="3" fill="#181818"/>
+    <circle cx="458" cy="171" r="5" fill="#616161"/>
+    <rect x="474" y="166" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="458" cy="193" r="5" fill="#616161"/>
+    <rect x="474" y="188" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="458" cy="215" r="5" fill="#616161"/>
+    <rect x="474" y="210" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="458" cy="237" r="5" fill="#616161"/>
+    <rect x="474" y="232" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="458" cy="259" r="5" fill="#616161"/>
+    <rect x="474" y="254" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="458" cy="281" r="5" fill="#616161"/>
+    <rect x="474" y="276" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="450" y="312" width="88" height="24" rx="3" fill="#181818"/>
+    <rect x="546" y="312" width="88" height="24" rx="3" fill="#EAEAE6"/>
+    <rect x="642" y="312" width="88" height="24" rx="3" fill="#EAEAE6"/>
+    <circle cx="510" cy="361" r="4" fill="#181818"/>
+    <rect x="450" y="356" width="44" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="530" y="356" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="510" cy="385" r="4" fill="#181818"/>
+    <rect x="450" y="380" width="44" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="530" y="380" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="510" cy="409" r="4" fill="#181818"/>
+    <rect x="450" y="404" width="44" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="530" y="404" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="510" cy="433" r="4" fill="#181818"/>
+    <rect x="450" y="428" width="44" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="530" y="428" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="510" cy="457" r="4" fill="#181818"/>
+    <rect x="450" y="452" width="44" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="530" y="452" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="510" cy="481" r="4" fill="#181818"/>
+    <rect x="450" y="476" width="44" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="530" y="476" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="510" cy="505" r="4" fill="#181818"/>
+    <rect x="450" y="500" width="44" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="530" y="500" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <circle cx="510" cy="529" r="4" fill="#181818"/>
+    <rect x="450" y="524" width="44" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="530" y="524" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <text x="430" y="704" font-size="16" font-weight="400" fill="#525252" text-anchor="start">A milestone checklist for the shipment,</text>
+    <text x="430" y="726" font-size="16" font-weight="400" fill="#525252" text-anchor="start">then one tab per container with its own</text>
+    <text x="430" y="748" font-size="16" font-weight="400" fill="#525252" text-anchor="start">timeline.</text>
+    <path d="M786,390.0 H812" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-concepts-a)"/>
+    <text x="820" y="44" font-size="16" font-weight="600" fill="#525252" text-anchor="start">Concept 3</text>
+    <text x="820" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">One route timeline</text>
+    <rect x="820" y="110" width="350" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="840" y="130" width="150" height="16" rx="3" fill="#181818"/>
+    <rect x="840" y="166" width="310" height="14" rx="3" fill="#EAEAE6"/>
+    <rect x="840" y="186" width="310" height="14" rx="3" fill="#EAEAE6"/>
+    <rect x="840" y="206" width="310" height="14" rx="3" fill="#EAEAE6"/>
+    <rect x="840" y="242" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+    <rect x="940" y="254" width="90" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="940" y="274" width="140" height="10" rx="3" fill="#181818"/>
+    <rect x="856" y="308" width="278" height="26" rx="3" fill="#EAEAE6"/>
+    <rect x="840" y="342" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+    <rect x="940" y="354" width="90" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="940" y="374" width="140" height="10" rx="3" fill="#181818"/>
+    <rect x="856" y="408" width="278" height="26" rx="3" fill="#EAEAE6"/>
+    <rect x="840" y="442" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+    <rect x="940" y="454" width="90" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="940" y="474" width="140" height="10" rx="3" fill="#181818"/>
+    <rect x="856" y="508" width="278" height="26" rx="3" fill="#EAEAE6"/>
+    <rect x="840" y="542" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+    <rect x="940" y="554" width="90" height="10" rx="3" fill="#EAEAE6"/>
+    <path d="M924,242 V600" stroke="#616161" stroke-width="2"/>
+    <rect x="940" y="574" width="140" height="10" rx="3" fill="#181818"/>
+    <text x="820" y="704" font-size="16" font-weight="400" fill="#525252" text-anchor="start">A container table on top, then one</text>
+    <text x="820" y="726" font-size="16" font-weight="400" fill="#525252" text-anchor="start">timeline of stops and transit legs for</text>
+    <text x="820" y="748" font-size="16" font-weight="400" fill="#525252" text-anchor="start">the whole route.</text>
+    <path d="M1176,390.0 H1202" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-concepts-a)"/>
+    <text x="1210" y="44" font-size="16" font-weight="600" fill="#525252" text-anchor="start">Concept 4</text>
+    <text x="1210" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">Map on top</text>
+    <rect x="1210" y="110" width="350" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1230" y="130" width="150" height="16" rx="3" fill="#181818"/>
+    <rect x="1230" y="166" width="310" height="90" rx="3" fill="#EAEAE6"/>
+    <path d="M1260,236 C1350,176 1430,246 1510,190" stroke="#181818" stroke-width="2.5" fill="none" stroke-dasharray="6 5"/>
+    <rect x="1230" y="276" width="310" height="14" rx="3" fill="#EAEAE6"/>
+    <rect x="1230" y="296" width="310" height="14" rx="3" fill="#EAEAE6"/>
+    <rect x="1230" y="316" width="310" height="14" rx="3" fill="#EAEAE6"/>
+    <rect x="1230" y="352" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+    <rect x="1330" y="364" width="90" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="1330" y="384" width="140" height="10" rx="3" fill="#181818"/>
+    <rect x="1246" y="418" width="278" height="26" rx="3" fill="#EAEAE6"/>
+    <rect x="1230" y="452" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+    <rect x="1330" y="464" width="90" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="1330" y="484" width="140" height="10" rx="3" fill="#181818"/>
+    <rect x="1246" y="518" width="278" height="26" rx="3" fill="#EAEAE6"/>
+    <rect x="1230" y="552" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+    <rect x="1330" y="564" width="90" height="10" rx="3" fill="#EAEAE6"/>
+    <path d="M1314,352 V610" stroke="#616161" stroke-width="2"/>
+    <rect x="1330" y="584" width="140" height="10" rx="3" fill="#181818"/>
+    <text x="1210" y="704" font-size="16" font-weight="400" fill="#525252" text-anchor="start">The same timeline trimmed to what comes</text>
+    <text x="1210" y="726" font-size="16" font-weight="400" fill="#525252" text-anchor="start">next, with a route map across the top.</text>
+  </svg>
+  <span class="cs-figure-zoom-hint">Open full size</span></a>
+    <figcaption>Four of the concepts tested across five rounds, each with five to seven people. The organising idea changed as testing went on, from stages to containers to one route timeline. Redrawn as wireframes.</figcaption>
+  </figure>
+  <p class="cs-p">This project produced more than a redesigned page.</p>
+  <ul class="cs-list">
+    <li>A cargo-centred information model</li>
+    <li>A clearer milestone taxonomy</li>
+    <li>A stronger logic for route progress and exceptions</li>
+    <li>Clearer service definitions for engineering</li>
+    <li>A foundation that could support future digital twin capabilities</li>
+  </ul>
+  <p class="cs-p">That was the real value of the work. Not just a better interface, but a better model underneath it.</p>
+  <div class="cs-outcome">
+    <p class="cs-outcome-label">Outcome.</p>
+    <p>The team invested in a broader redesign that addressed the root problem rather than patching symptoms.</p>
+  </div>
+</div>
+<div class="cs-decision">
+  <h3 class="cs-h2">2. Set the trust model for the experience</h3>
+  <p class="cs-p">One of the most important trade-offs was choosing data confidence over apparent visibility.</p>
+  <p class="cs-p">We decided not to imply that cargo had progressed unless that event had been confirmed. Instead, the experience distinguished between what had been confirmed, what was expected next and where uncertainty remained.</p>
+  <p class="cs-p">This mattered because false certainty in logistics creates downstream risk.</p>
+  <div class="cs-outcome">
+    <p class="cs-outcome-label">Outcome.</p>
+    <p>The experience became more honest, more actionable and more defensible in a high-consequence environment.</p>
+  </div>
+  <figure class="cs-figure">
+    <a class="cs-figure-zoom" href="assets/zencargo/zencargo-milestones.svg" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" id="fig-zen-milestones" viewBox="0 0 1600 656" width="1600" height="656" role="img" aria-labelledby="fig-zen-milestones-t fig-zen-milestones-d">
+    <title id="fig-zen-milestones-t">The milestones and the data points each one needs</title>
+    <desc id="fig-zen-milestones-d">A timeline of six milestones from cargo ready date to cargo aboard. Under each milestone sits the list of data points it needs, such as location, planned, estimated and completed date and time, delay and reason, and for road legs the vehicle, driver and plate.</desc>
+    <style>#fig-zen-milestones text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
+    <defs><marker id="fig-zen-milestones-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
+    <rect width="1600" height="656" fill="#F7F7F5"/>
+    <path d="M40,170 H1570" stroke="#181818" stroke-width="2.5" marker-end="url(#fig-zen-milestones-a)"/>
+    <circle cx="40" cy="170" r="7" fill="#F7F7F5" stroke="#181818" stroke-width="2.5"/>
+    <rect x="60.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+    <text x="165" y="85" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">Cargo ready date</text>
+    <path d="M84.0,116 V460" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
+    <circle cx="84.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
+    <circle cx="84.0" cy="230" r="5" fill="#181818"/>
+    <rect x="102.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="114" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
+    <circle cx="84.0" cy="276" r="5" fill="#181818"/>
+    <rect x="102.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="114" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Planned date &amp; time</text>
+    <circle cx="84.0" cy="322" r="5" fill="#181818"/>
+    <rect x="102.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="114" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Estimate date &amp; time</text>
+    <circle cx="84.0" cy="368" r="5" fill="#181818"/>
+    <rect x="102.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="114" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Completed date &amp; time</text>
+    <circle cx="84.0" cy="414" r="5" fill="#181818"/>
+    <rect x="102.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="114" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
+    <circle cx="84.0" cy="460" r="5" fill="#181818"/>
+    <rect x="102.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="114" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Purchase order</text>
+    <rect x="308.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+    <text x="413" y="73" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">En route to</text>
+    <text x="413" y="97" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">pick-up</text>
+    <path d="M332.0,116 V598" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
+    <circle cx="332.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
+    <circle cx="332.0" cy="230" r="5" fill="#181818"/>
+    <rect x="350.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="362" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
+    <circle cx="332.0" cy="276" r="5" fill="#181818"/>
+    <rect x="350.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="362" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Planned date &amp; time</text>
+    <circle cx="332.0" cy="322" r="5" fill="#181818"/>
+    <rect x="350.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="362" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Estimate date &amp; time</text>
+    <circle cx="332.0" cy="368" r="5" fill="#181818"/>
+    <rect x="350.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="362" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Completed date &amp; time</text>
+    <circle cx="332.0" cy="414" r="5" fill="#181818"/>
+    <rect x="350.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="362" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
+    <circle cx="332.0" cy="460" r="5" fill="#181818"/>
+    <rect x="350.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="362" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Vehicle type</text>
+    <circle cx="332.0" cy="506" r="5" fill="#181818"/>
+    <rect x="350.0" y="488" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="362" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Driver name</text>
+    <circle cx="332.0" cy="552" r="5" fill="#181818"/>
+    <rect x="350.0" y="534" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="362" y="558" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Plate number</text>
+    <circle cx="332.0" cy="598" r="5" fill="#181818"/>
+    <rect x="350.0" y="580" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="362" y="604" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Container number</text>
+    <rect x="556.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+    <text x="661" y="85" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">Collection</text>
+    <path d="M580.0,116 V506" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
+    <circle cx="580.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
+    <circle cx="580.0" cy="230" r="5" fill="#181818"/>
+    <rect x="598.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="610" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
+    <circle cx="580.0" cy="276" r="5" fill="#181818"/>
+    <rect x="598.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="610" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Planned date &amp; time</text>
+    <circle cx="580.0" cy="322" r="5" fill="#181818"/>
+    <rect x="598.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="610" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Estimate date &amp; time</text>
+    <circle cx="580.0" cy="368" r="5" fill="#181818"/>
+    <rect x="598.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="610" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Completed date &amp; time</text>
+    <circle cx="580.0" cy="414" r="5" fill="#181818"/>
+    <rect x="598.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="610" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
+    <circle cx="580.0" cy="460" r="5" fill="#181818"/>
+    <rect x="598.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="610" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Purchase order</text>
+    <circle cx="580.0" cy="506" r="5" fill="#181818"/>
+    <rect x="598.0" y="488" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="610" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Container number</text>
+    <rect x="804.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+    <text x="909" y="73" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">In transit to</text>
+    <text x="909" y="97" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">port of origin</text>
+    <path d="M828.0,116 V552" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
+    <circle cx="828.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
+    <circle cx="828.0" cy="230" r="5" fill="#181818"/>
+    <rect x="846.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="858" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
+    <circle cx="828.0" cy="276" r="5" fill="#181818"/>
+    <rect x="846.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="858" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Transit time</text>
+    <circle cx="828.0" cy="322" r="5" fill="#181818"/>
+    <rect x="846.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="858" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
+    <circle cx="828.0" cy="368" r="5" fill="#181818"/>
+    <rect x="846.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="858" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Vehicle type</text>
+    <circle cx="828.0" cy="414" r="5" fill="#181818"/>
+    <rect x="846.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="858" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Driver name</text>
+    <circle cx="828.0" cy="460" r="5" fill="#181818"/>
+    <rect x="846.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="858" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Plate number</text>
+    <circle cx="828.0" cy="506" r="5" fill="#181818"/>
+    <rect x="846.0" y="488" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="858" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Purchase orders</text>
+    <circle cx="828.0" cy="552" r="5" fill="#181818"/>
+    <rect x="846.0" y="534" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="858" y="558" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Container number</text>
+    <rect x="1052.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+    <text x="1157" y="85" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">Gated in</text>
+    <path d="M1076.0,116 V552" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
+    <circle cx="1076.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
+    <circle cx="1076.0" cy="230" r="5" fill="#181818"/>
+    <rect x="1094.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1106" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
+    <circle cx="1076.0" cy="276" r="5" fill="#181818"/>
+    <rect x="1094.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1106" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Planned date &amp; time</text>
+    <circle cx="1076.0" cy="322" r="5" fill="#181818"/>
+    <rect x="1094.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1106" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Estimate date &amp; time</text>
+    <circle cx="1076.0" cy="368" r="5" fill="#181818"/>
+    <rect x="1094.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1106" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Completed date &amp; time</text>
+    <circle cx="1076.0" cy="414" r="5" fill="#181818"/>
+    <rect x="1094.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1106" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
+    <circle cx="1076.0" cy="460" r="5" fill="#181818"/>
+    <rect x="1094.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1106" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Purchase order</text>
+    <circle cx="1076.0" cy="506" r="5" fill="#181818"/>
+    <rect x="1094.0" y="488" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1106" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Container number</text>
+    <circle cx="1076.0" cy="552" r="5" fill="#181818"/>
+    <rect x="1094.0" y="534" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1106" y="558" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Cut off date &amp; time</text>
+    <rect x="1300.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+    <text x="1405" y="85" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">Cargo aboard</text>
+    <path d="M1324.0,116 V506" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
+    <circle cx="1324.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
+    <circle cx="1324.0" cy="230" r="5" fill="#181818"/>
+    <rect x="1342.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1354" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
+    <circle cx="1324.0" cy="276" r="5" fill="#181818"/>
+    <rect x="1342.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1354" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Planned date &amp; time</text>
+    <circle cx="1324.0" cy="322" r="5" fill="#181818"/>
+    <rect x="1342.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1354" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Estimate date &amp; time</text>
+    <circle cx="1324.0" cy="368" r="5" fill="#181818"/>
+    <rect x="1342.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1354" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Completed date &amp; time</text>
+    <circle cx="1324.0" cy="414" r="5" fill="#181818"/>
+    <rect x="1342.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1354" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
+    <circle cx="1324.0" cy="460" r="5" fill="#181818"/>
+    <rect x="1342.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1354" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Purchase order</text>
+    <circle cx="1324.0" cy="506" r="5" fill="#181818"/>
+    <rect x="1342.0" y="488" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <text x="1354" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Container number</text>
+  </svg>
+  <span class="cs-figure-zoom-hint">Open full size</span></a>
+    <figcaption>The milestone and data point map behind the cargo model, showing what was planned, estimated and completed at each step. Redrawn from the event storm, field labels only with no shipment data.</figcaption>
+  </figure>
+</div>
+<div class="cs-decision">
+  <h3 class="cs-h2">3. Protected focus by cutting lower-value ideas</h3>
+  <p class="cs-p">Customers who bought the product often asked for a map. Research showed that day-to-day users found route status, exceptions and scannable text updates more useful than map-based visualisation.</p>
+  <p class="cs-p">I used that evidence to deprioritise the map and protect the team's focus on information that genuinely helped users make decisions.</p>
+  <figure class="cs-figure">
+    <img src="assets/zencargo/zencargo-final-design.png" width="650" height="1425" loading="lazy" alt="The Zencargo shipment page for one booking in transit to its delivery warehouse. A container table with current locations and estimated delivery, cargo details, then a route progress timeline of stops and transit legs, with the late milestones showing original and expected times and the reason for the delay." />
+    <figcaption>The final design tested with users, a shipment page with its full route progress. Status reads as text, stops and legs sit on one timeline and a late milestone says why it is late. Company and person names are covered, the rest is the original screen.</figcaption>
+  </figure>
+  <div class="cs-outcome">
+    <p class="cs-outcome-label">Outcome.</p>
+    <p>We avoided spending time on a visually appealing but lower-value solution.</p>
+  </div>
+</div>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">How I influenced direction.</h2>
+<p class="cs-p"><strong>As the work developed, we realised the impact reached beyond one team.</strong> Multiple product teams were working on the same page and adjacent workflows, creating overlap, rework and conflicting changes.</p>
+<p class="cs-p">We had to stop and restart several times as new dependencies surfaced. To stabilise progress, I helped introduce a review mechanism so impacted teams could be consulted and sign off on direction as the work evolved.</p>
+<div class="cs-outcome">
+  <p class="cs-outcome-label">Outcome.</p>
+  <p>The project exposed ownership and coordination gaps. The governance approach helped reduce overlap and improve decision quality on a shared surface.</p>
+</div>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">Outcomes.</h2>
+<p class="cs-p"><strong>Because I left Zencargo before the work was fully rolled out, I am not claiming shipped performance metrics.</strong> The outcomes I can credibly stand behind are the decisions, alignment and foundations the work created.</p>
+<div class="cs-outcomes-grid">
+  <div class="outcome-row">
+    <p class="outcome-type">Customer.</p>
+    <p class="outcome-text">The proposed experience made cargo status easier to scan, easier to interpret and more trustworthy in ambiguous situations. Testing showed users responded better to clear status updates, route progression and exception signalling than to more decorative concepts like map-based tracking.</p>
+  </div>
+  <div class="outcome-row">
+    <p class="outcome-type">Product.</p>
+    <p class="outcome-text">The team shifted from solving for transshipments as an isolated feature problem to solving for visibility as a broader modelling and information architecture problem.</p>
+  </div>
+  <div class="outcome-row">
+    <p class="outcome-type">Engineering.</p>
+    <p class="outcome-text">The work gave engineering a clearer service definition and a more scalable model for representing real-world cargo movement.</p>
+  </div>
+  <div class="outcome-row">
+    <p class="outcome-type">Organisational.</p>
+    <p class="outcome-text">The initiative aligned PM, engineering and domain experts around a shared cargo-centred model and exposed the need for stronger cross-team governance on shared surfaces.</p>
+  </div>
+  <div class="outcome-row">
+    <p class="outcome-type">Strategic.</p>
+    <p class="outcome-text">This became an early foundation for Zencargo's digital twin direction by establishing a more reusable structure for milestones, route progress and operational visibility.</p>
+  </div>
+</div>
+<br>
+<div class="cs-note">
+  <p>I left Zencargo before full rollout, so this case study focuses on the strategic decisions, cross-functional influence and foundational outcomes that shaped the work.</p>
+</div>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">Why this demonstrates principal level capability.</h2>
+<p class="cs-p"><strong>This project demonstrates how I work at a broader level than feature delivery alone.</strong> I did not just redesign a page. I identified the deeper problem beneath the interface, influenced the team to invest in a more durable direction, shaped a key product principle around trust and visibility and helped create a reusable foundation that extended beyond one release.</p>
+<p class="cs-p">The skills this shows are service design, domain modelling, cross functional facilitation, research strategy and product strategy.</p>
+<p class="cs-p"><strong>That is the kind of work I want to do more of, connecting user needs, product direction and systems-level thinking to create value that lasts.</strong></p>
+</div>
+
+<hr class="cs-divider">
+
     <div class="cs-section">
-      <p class="cs-section-label">Why this was harder than it looked</p>
-      <p class="cs-p">Supply chains are messy. Cargo moves through multiple handoffs, documents are often exchanged manually, and routes change in ways the system does not always capture cleanly.</p>
-      <p class="cs-p">At the same time, Zencargo was moving from a monolith toward microservices. That exposed a bigger constraint. The existing data model and information architecture could not accurately represent the complexity of real cargo journeys, especially around transshipments, exceptions, and partial confirmations.</p>
-      <p class="cs-p">The challenge was not just to redesign a page. It was to create a model that was:</p>
-      <ul class="cs-list">
-        <li>Trustworthy enough for customers to act on</li>
-        <li>Flexible enough to handle real-world variability</li>
-        <li>Structured enough to support future platform capabilities</li>
-      </ul>
-    </div>
-
-    <hr class="cs-divider">
-
-    <!-- ROLE -->
-    <div class="cs-section">
-      <p class="cs-section-label">My role and level of ownership</p>
-      <p class="cs-p">I led the design work across discovery, framing, concept development, testing, and stakeholder alignment.</p>
-      <p class="cs-p">I owned:</p>
-      <ul class="cs-list">
-        <li>UX direction</li>
-        <li>Research plan and synthesis</li>
-        <li>Decision-making on the customer experience</li>
-        <li>Launch readiness from a design perspective</li>
-      </ul>
-      <p class="cs-p">I also influenced product direction, success criteria, the service model and information structure, and cross-team alignment as the scope expanded.</p>
-      <p class="cs-p">This was not limited to interface design. I helped shape how the team understood the problem, what we prioritised, and what foundation we needed to build before the experience could genuinely improve.</p>
-    </div>
-
-    <hr class="cs-divider">
-
-    <!-- REFRAMING -->
-    <div class="cs-section">
-      <p class="cs-section-label">Reframing the problem</p>
-      <p class="cs-p">Early research showed the issue was not simply clutter. The deeper problem was that the product was organised around the wrong unit of understanding.</p>
-      <p class="cs-p">Shipment and purchase order information was difficult to scan because the information architecture did not reflect how users actually reasoned about cargo movement and exceptions. Through research, journey mapping, and collaboration with domain experts, I identified that <strong>cargo, not shipments or orders, needed to become the primary organising model.</strong></p>
-      <p class="cs-p">That changed the direction of the work. Instead of forcing transshipment handling into the existing structure, I helped the team shift toward a cargo-centred model that could better represent route progress, milestones, and exceptions.</p>
-      <div class="cs-outcome">
-        <p class="cs-outcome-label">Strategic outcome</p>
-        <p>The team moved from local UI fixes to a more foundational redesign based on a clearer mental model.</p>
-      </div>
-    </div>
-
-    <hr class="cs-divider">
-
-    <!-- KEY DECISIONS -->
-    <div class="cs-section">
-      <p class="cs-section-label">Key decisions I drove</p>
-
-      <div class="cs-decision">
-        <p class="cs-decision-num">1</p>
-        <h2 class="cs-h2">Shifted the team away from cosmetic fixes</h2>
-        <p class="cs-p">The PM initially wanted to keep the scope small and work within the existing model. I pushed back, using research and service mapping to show that this would still leave customers with partial and misleading visibility.</p>
-        <div class="cs-outcome">
-          <p class="cs-outcome-label">Outcome</p>
-          <p>The team invested in a broader redesign that addressed the root problem rather than patching symptoms.</p>
-        </div>
-      </div>
-
-      <div class="cs-decision">
-        <p class="cs-decision-num">2</p>
-        <h2 class="cs-h2">Set the trust model for the experience</h2>
-        <p class="cs-p">One of the most important trade-offs was choosing data confidence over apparent visibility.</p>
-        <p class="cs-p">We decided not to imply that cargo had progressed unless that event had been confirmed. Instead, the experience distinguished between what had been confirmed, what was expected next, and where uncertainty remained.</p>
-        <p class="cs-p">This mattered because false certainty in logistics creates downstream risk.</p>
-        <div class="cs-outcome">
-          <p class="cs-outcome-label">Outcome</p>
-          <p>The experience became more honest, more actionable, and more defensible in a high-consequence environment.</p>
-        </div>
-      </div>
-
-      <div class="cs-decision">
-        <p class="cs-decision-num">3</p>
-        <h2 class="cs-h2">Protected focus by cutting lower-value ideas</h2>
-        <p class="cs-p">Customers who bought the product often asked for a map. Research showed that day-to-day users found route status, exceptions, and scannable text updates more useful than map-based visualisation.</p>
-        <p class="cs-p">I used that evidence to deprioritise the map and protect the team's focus on information that genuinely helped users make decisions.</p>
-        <div class="cs-outcome">
-          <p class="cs-outcome-label">Outcome</p>
-          <p>We avoided spending time on a visually appealing but lower-value solution.</p>
-        </div>
-      </div>
-    </div>
-
-    <hr class="cs-divider">
-
-    <!-- CROSS-FUNCTIONAL -->
-    <div class="cs-section">
-      <p class="cs-section-label">Leading through cross-functional complexity</p>
-      <p class="cs-p">As the work developed, we realised the impact reached beyond one team. Multiple product teams were working on the same page and adjacent workflows, creating overlap, rework, and conflicting changes.</p>
-      <p class="cs-p">We had to stop and restart several times as new dependencies surfaced. To stabilise progress, I helped introduce a review mechanism so impacted teams could be consulted and sign off on direction as the work evolved.</p>
-      <div class="cs-outcome">
-        <p class="cs-outcome-label">Organisational outcome</p>
-        <p>The project exposed ownership and coordination gaps, and the governance approach helped reduce overlap and improve decision quality on a shared surface.</p>
-      </div>
-    </div>
-
-    <hr class="cs-divider">
-
-    <!-- WHAT I CREATED -->
-    <div class="cs-section">
-      <p class="cs-section-label">What I created</p>
-      <p class="cs-p">This project produced more than a redesigned page.</p>
-      <ul class="cs-list">
-        <li>A cargo-centred information model</li>
-        <li>A clearer milestone taxonomy</li>
-        <li>A stronger logic for route progress and exceptions</li>
-        <li>Clearer service definitions for engineering</li>
-        <li>A foundation that could support future digital twin capabilities</li>
-      </ul>
-      <p class="cs-p">That was the real value of the work. Not just a better interface, but a better model underneath it.</p>
-    </div>
-
-    <hr class="cs-divider">
-
-    <!-- OUTCOMES -->
-    <div class="cs-section">
-      <p class="cs-section-label">Outcomes</p>
-      <p class="cs-p">Because I left Zencargo before the work was fully rolled out, I am not claiming shipped performance metrics. The outcomes I can credibly stand behind are the decisions, alignment, and foundations the work created.</p>
-
-      <div class="cs-outcomes-grid">
-        <div class="outcome-row">
-          <p class="outcome-type">Customer</p>
-          <p class="outcome-text">The proposed experience made cargo status easier to scan, easier to interpret, and more trustworthy in ambiguous situations. Testing showed users responded better to clear status updates, route progression, and exception signalling than to more decorative concepts like map-based tracking.</p>
-        </div>
-        <div class="outcome-row">
-          <p class="outcome-type">Product</p>
-          <p class="outcome-text">The team shifted from solving for transshipments as an isolated feature problem to solving for visibility as a broader modelling and information architecture problem.</p>
-        </div>
-        <div class="outcome-row">
-          <p class="outcome-type">Engineering</p>
-          <p class="outcome-text">The work gave engineering a clearer service definition and a more scalable model for representing real-world cargo movement.</p>
-        </div>
-        <div class="outcome-row">
-          <p class="outcome-type">Organisational</p>
-          <p class="outcome-text">The initiative aligned PM, engineering, and domain experts around a shared cargo-centred model and exposed the need for stronger cross-team governance on shared surfaces.</p>
-        </div>
-        <div class="outcome-row">
-          <p class="outcome-type">Strategic</p>
-          <p class="outcome-text">This became an early foundation for Zencargo's digital twin direction by establishing a more reusable structure for milestones, route progress, and operational visibility.</p>
-        </div>
-      </div>
-    </div>
-
-    <hr class="cs-divider">
-
-    <!-- WHY THIS MATTERS -->
-    <div class="cs-section">
-      <p class="cs-section-label">Why this matters</p>
-      <p class="cs-p">This project demonstrates how I work at a broader level than feature delivery alone. I did not just redesign a page. I identified the deeper problem beneath the interface, influenced the team to invest in a more durable direction, shaped a key product principle around trust and visibility, and helped create a reusable foundation that extended beyond one release.</p>
-      <p class="cs-p"><strong>That is the kind of work I want to do more of, connecting user needs, product direction, and systems-level thinking to create value that lasts.</strong></p>
-    </div>
+<h2 class="cs-section-label">Reflection.</h2>
+<p class="cs-p"><strong>The work I want to do more of is the work that connects user needs, product direction and systems level thinking.</strong> Zencargo is the clearest case I have of the three meeting on one problem. The user need was a trustworthy answer about where cargo was. The product direction was whether to patch a page or change the model underneath it. The systems level thinking was the cargo centred structure that made a trustworthy answer possible at all.</p>
+<p class="cs-p">Value that lasts is the part I would still test for. What I would point to here is not the interface. It is the shared model, which became an early foundation for the digital twin direction rather than a fix for one release.</p>
+<div class="cs-note">
+  <p><em>The principal move. I changed what success meant, from a fixed page to a modelled journey, then got product, engineering and the domain experts to build on the same model.</em></p>
+</div>
+<p class="cs-eyebrow">&rarr; Full story and decisions in an interview</p>
+</div>
 
   </div>
+
+<!-- footer -->
+  <footer class="site-footer">
+    <p class="footer-name">Adam Males.</p>
+    <ul class="footer-links">
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="mailto:adammales@me.com">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/adam-males" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+  </footer>
+<!-- /footer -->
 
 </body>
 </html>
