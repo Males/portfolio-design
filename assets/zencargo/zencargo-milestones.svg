@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fig-zen-milestones" viewBox="0 0 1600 656" width="1600" height="656" role="img" aria-labelledby="fig-zen-milestones-t fig-zen-milestones-d">
+  <title id="fig-zen-milestones-t">The milestones and the data points each one needs</title>
+  <desc id="fig-zen-milestones-d">A timeline of six milestones from cargo ready date to cargo aboard. Under each milestone sits the list of data points it needs, such as location, planned, estimated and completed date and time, delay and reason, and for road legs the vehicle, driver and plate.</desc>
+  <style>#fig-zen-milestones text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
+  <defs><marker id="fig-zen-milestones-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
+  <rect width="1600" height="656" fill="#F7F7F5"/>
+  <path d="M40,170 H1570" stroke="#181818" stroke-width="2.5" marker-end="url(#fig-zen-milestones-a)"/>
+  <circle cx="40" cy="170" r="7" fill="#F7F7F5" stroke="#181818" stroke-width="2.5"/>
+  <rect x="60.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+  <text x="165" y="85" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">Cargo ready date</text>
+  <path d="M84.0,116 V460" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
+  <circle cx="84.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
+  <circle cx="84.0" cy="230" r="5" fill="#181818"/>
+  <rect x="102.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="114" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
+  <circle cx="84.0" cy="276" r="5" fill="#181818"/>
+  <rect x="102.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="114" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Planned date &amp; time</text>
+  <circle cx="84.0" cy="322" r="5" fill="#181818"/>
+  <rect x="102.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="114" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Estimate date &amp; time</text>
+  <circle cx="84.0" cy="368" r="5" fill="#181818"/>
+  <rect x="102.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="114" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Completed date &amp; time</text>
+  <circle cx="84.0" cy="414" r="5" fill="#181818"/>
+  <rect x="102.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="114" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
+  <circle cx="84.0" cy="460" r="5" fill="#181818"/>
+  <rect x="102.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="114" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Purchase order</text>
+  <rect x="308.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+  <text x="413" y="73" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">En route to</text>
+  <text x="413" y="97" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">pick-up</text>
+  <path d="M332.0,116 V598" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
+  <circle cx="332.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
+  <circle cx="332.0" cy="230" r="5" fill="#181818"/>
+  <rect x="350.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="362" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
+  <circle cx="332.0" cy="276" r="5" fill="#181818"/>
+  <rect x="350.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="362" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Planned date &amp; time</text>
+  <circle cx="332.0" cy="322" r="5" fill="#181818"/>
+  <rect x="350.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="362" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Estimate date &amp; time</text>
+  <circle cx="332.0" cy="368" r="5" fill="#181818"/>
+  <rect x="350.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="362" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Completed date &amp; time</text>
+  <circle cx="332.0" cy="414" r="5" fill="#181818"/>
+  <rect x="350.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="362" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
+  <circle cx="332.0" cy="460" r="5" fill="#181818"/>
+  <rect x="350.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="362" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Vehicle type</text>
+  <circle cx="332.0" cy="506" r="5" fill="#181818"/>
+  <rect x="350.0" y="488" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="362" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Driver name</text>
+  <circle cx="332.0" cy="552" r="5" fill="#181818"/>
+  <rect x="350.0" y="534" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="362" y="558" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Plate number</text>
+  <circle cx="332.0" cy="598" r="5" fill="#181818"/>
+  <rect x="350.0" y="580" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="362" y="604" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Container number</text>
+  <rect x="556.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+  <text x="661" y="85" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">Collection</text>
+  <path d="M580.0,116 V506" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
+  <circle cx="580.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
+  <circle cx="580.0" cy="230" r="5" fill="#181818"/>
+  <rect x="598.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="610" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
+  <circle cx="580.0" cy="276" r="5" fill="#181818"/>
+  <rect x="598.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="610" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Planned date &amp; time</text>
+  <circle cx="580.0" cy="322" r="5" fill="#181818"/>
+  <rect x="598.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="610" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Estimate date &amp; time</text>
+  <circle cx="580.0" cy="368" r="5" fill="#181818"/>
+  <rect x="598.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="610" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Completed date &amp; time</text>
+  <circle cx="580.0" cy="414" r="5" fill="#181818"/>
+  <rect x="598.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="610" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
+  <circle cx="580.0" cy="460" r="5" fill="#181818"/>
+  <rect x="598.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="610" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Purchase order</text>
+  <circle cx="580.0" cy="506" r="5" fill="#181818"/>
+  <rect x="598.0" y="488" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="610" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Container number</text>
+  <rect x="804.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+  <text x="909" y="73" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">In transit to</text>
+  <text x="909" y="97" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">port of origin</text>
+  <path d="M828.0,116 V552" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
+  <circle cx="828.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
+  <circle cx="828.0" cy="230" r="5" fill="#181818"/>
+  <rect x="846.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="858" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
+  <circle cx="828.0" cy="276" r="5" fill="#181818"/>
+  <rect x="846.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="858" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Transit time</text>
+  <circle cx="828.0" cy="322" r="5" fill="#181818"/>
+  <rect x="846.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="858" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
+  <circle cx="828.0" cy="368" r="5" fill="#181818"/>
+  <rect x="846.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="858" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Vehicle type</text>
+  <circle cx="828.0" cy="414" r="5" fill="#181818"/>
+  <rect x="846.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="858" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Driver name</text>
+  <circle cx="828.0" cy="460" r="5" fill="#181818"/>
+  <rect x="846.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="858" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Plate number</text>
+  <circle cx="828.0" cy="506" r="5" fill="#181818"/>
+  <rect x="846.0" y="488" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="858" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Purchase orders</text>
+  <circle cx="828.0" cy="552" r="5" fill="#181818"/>
+  <rect x="846.0" y="534" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="858" y="558" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Container number</text>
+  <rect x="1052.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+  <text x="1157" y="85" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">Gated in</text>
+  <path d="M1076.0,116 V552" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
+  <circle cx="1076.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
+  <circle cx="1076.0" cy="230" r="5" fill="#181818"/>
+  <rect x="1094.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1106" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
+  <circle cx="1076.0" cy="276" r="5" fill="#181818"/>
+  <rect x="1094.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1106" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Planned date &amp; time</text>
+  <circle cx="1076.0" cy="322" r="5" fill="#181818"/>
+  <rect x="1094.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1106" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Estimate date &amp; time</text>
+  <circle cx="1076.0" cy="368" r="5" fill="#181818"/>
+  <rect x="1094.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1106" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Completed date &amp; time</text>
+  <circle cx="1076.0" cy="414" r="5" fill="#181818"/>
+  <rect x="1094.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1106" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
+  <circle cx="1076.0" cy="460" r="5" fill="#181818"/>
+  <rect x="1094.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1106" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Purchase order</text>
+  <circle cx="1076.0" cy="506" r="5" fill="#181818"/>
+  <rect x="1094.0" y="488" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1106" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Container number</text>
+  <circle cx="1076.0" cy="552" r="5" fill="#181818"/>
+  <rect x="1094.0" y="534" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1106" y="558" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Cut off date &amp; time</text>
+  <rect x="1300.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+  <text x="1405" y="85" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">Cargo aboard</text>
+  <path d="M1324.0,116 V506" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
+  <circle cx="1324.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
+  <circle cx="1324.0" cy="230" r="5" fill="#181818"/>
+  <rect x="1342.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1354" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
+  <circle cx="1324.0" cy="276" r="5" fill="#181818"/>
+  <rect x="1342.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1354" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Planned date &amp; time</text>
+  <circle cx="1324.0" cy="322" r="5" fill="#181818"/>
+  <rect x="1342.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1354" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Estimate date &amp; time</text>
+  <circle cx="1324.0" cy="368" r="5" fill="#181818"/>
+  <rect x="1342.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1354" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Completed date &amp; time</text>
+  <circle cx="1324.0" cy="414" r="5" fill="#181818"/>
+  <rect x="1342.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1354" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
+  <circle cx="1324.0" cy="460" r="5" fill="#181818"/>
+  <rect x="1342.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1354" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Purchase order</text>
+  <circle cx="1324.0" cy="506" r="5" fill="#181818"/>
+  <rect x="1342.0" y="488" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <text x="1354" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Container number</text>
+</svg>

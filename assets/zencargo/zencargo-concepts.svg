@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="fig-zen-concepts" viewBox="0 0 1600 760" width="1600" height="760" role="img" aria-labelledby="fig-zen-concepts-t fig-zen-concepts-d">
+  <title id="fig-zen-concepts-t">Four concepts from the rounds of testing</title>
+  <desc id="fig-zen-concepts-d">Four simplified screens in sequence. Concept one organises the journey by carriage stage with every container listed under each milestone. Concept two puts a shipment checklist first and gives each container its own tab. Concept three uses a container table and one route timeline of stops and legs. Concept four trims that timeline to what comes next and adds a route map on top.</desc>
+  <style>#fig-zen-concepts text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
+  <defs><marker id="fig-zen-concepts-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
+  <rect width="1600" height="760" fill="#F7F7F5"/>
+  <text x="40" y="44" font-size="16" font-weight="600" fill="#525252" text-anchor="start">Concept 1</text>
+  <text x="40" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">Stages first</text>
+  <rect x="40" y="110" width="350" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <rect x="60" y="130" width="150" height="16" rx="3" fill="#181818"/>
+  <rect x="60" y="166" width="120" height="12" rx="3" fill="#525252"/>
+  <rect x="60" y="192" width="170" height="10" rx="3" fill="#181818"/>
+  <circle cx="68" cy="215" r="5" fill="#616161"/>
+  <rect x="60" y="210" width="220" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="320" y="210" width="50" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="68" cy="233" r="5" fill="#616161"/>
+  <rect x="60" y="228" width="220" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="320" y="228" width="50" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="60" y="252" width="170" height="10" rx="3" fill="#181818"/>
+  <circle cx="68" cy="275" r="5" fill="#616161"/>
+  <rect x="60" y="270" width="220" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="320" y="270" width="50" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="68" cy="293" r="5" fill="#616161"/>
+  <rect x="60" y="288" width="220" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="320" y="288" width="50" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="60" y="322" width="120" height="12" rx="3" fill="#525252"/>
+  <rect x="60" y="348" width="170" height="10" rx="3" fill="#181818"/>
+  <circle cx="68" cy="371" r="5" fill="#616161"/>
+  <rect x="60" y="366" width="220" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="320" y="366" width="50" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="68" cy="389" r="5" fill="#616161"/>
+  <rect x="60" y="384" width="220" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="320" y="384" width="50" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="60" y="408" width="170" height="10" rx="3" fill="#181818"/>
+  <circle cx="68" cy="431" r="5" fill="#616161"/>
+  <rect x="60" y="426" width="220" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="320" y="426" width="50" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="68" cy="449" r="5" fill="#616161"/>
+  <rect x="60" y="444" width="220" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="320" y="444" width="50" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="60" y="478" width="120" height="12" rx="3" fill="#525252"/>
+  <rect x="60" y="504" width="170" height="10" rx="3" fill="#181818"/>
+  <circle cx="68" cy="527" r="5" fill="#616161"/>
+  <rect x="60" y="522" width="220" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="320" y="522" width="50" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="68" cy="545" r="5" fill="#616161"/>
+  <rect x="60" y="540" width="220" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="320" y="540" width="50" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="60" y="564" width="170" height="10" rx="3" fill="#181818"/>
+  <circle cx="68" cy="587" r="5" fill="#616161"/>
+  <rect x="60" y="582" width="220" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="320" y="582" width="50" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="68" cy="605" r="5" fill="#616161"/>
+  <rect x="60" y="600" width="220" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="320" y="600" width="50" height="10" rx="3" fill="#EAEAE6"/>
+  <text x="40" y="704" font-size="16" font-weight="400" fill="#525252" text-anchor="start">Journey split into carriage stages, each</text>
+  <text x="40" y="726" font-size="16" font-weight="400" fill="#525252" text-anchor="start">milestone lists every container on its</text>
+  <text x="40" y="748" font-size="16" font-weight="400" fill="#525252" text-anchor="start">own row.</text>
+  <path d="M396,390.0 H422" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-concepts-a)"/>
+  <text x="430" y="44" font-size="16" font-weight="600" fill="#525252" text-anchor="start">Concept 2</text>
+  <text x="430" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">Containers first</text>
+  <rect x="430" y="110" width="350" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <rect x="450" y="130" width="150" height="16" rx="3" fill="#181818"/>
+  <circle cx="458" cy="171" r="5" fill="#616161"/>
+  <rect x="474" y="166" width="170" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="458" cy="193" r="5" fill="#616161"/>
+  <rect x="474" y="188" width="170" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="458" cy="215" r="5" fill="#616161"/>
+  <rect x="474" y="210" width="170" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="458" cy="237" r="5" fill="#616161"/>
+  <rect x="474" y="232" width="170" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="458" cy="259" r="5" fill="#616161"/>
+  <rect x="474" y="254" width="170" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="458" cy="281" r="5" fill="#616161"/>
+  <rect x="474" y="276" width="170" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="450" y="312" width="88" height="24" rx="3" fill="#181818"/>
+  <rect x="546" y="312" width="88" height="24" rx="3" fill="#EAEAE6"/>
+  <rect x="642" y="312" width="88" height="24" rx="3" fill="#EAEAE6"/>
+  <circle cx="510" cy="361" r="4" fill="#181818"/>
+  <rect x="450" y="356" width="44" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="530" y="356" width="170" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="510" cy="385" r="4" fill="#181818"/>
+  <rect x="450" y="380" width="44" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="530" y="380" width="170" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="510" cy="409" r="4" fill="#181818"/>
+  <rect x="450" y="404" width="44" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="530" y="404" width="170" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="510" cy="433" r="4" fill="#181818"/>
+  <rect x="450" y="428" width="44" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="530" y="428" width="170" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="510" cy="457" r="4" fill="#181818"/>
+  <rect x="450" y="452" width="44" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="530" y="452" width="170" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="510" cy="481" r="4" fill="#181818"/>
+  <rect x="450" y="476" width="44" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="530" y="476" width="170" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="510" cy="505" r="4" fill="#181818"/>
+  <rect x="450" y="500" width="44" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="530" y="500" width="170" height="10" rx="3" fill="#EAEAE6"/>
+  <circle cx="510" cy="529" r="4" fill="#181818"/>
+  <rect x="450" y="524" width="44" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="530" y="524" width="170" height="10" rx="3" fill="#EAEAE6"/>
+  <text x="430" y="704" font-size="16" font-weight="400" fill="#525252" text-anchor="start">A milestone checklist for the shipment,</text>
+  <text x="430" y="726" font-size="16" font-weight="400" fill="#525252" text-anchor="start">then one tab per container with its own</text>
+  <text x="430" y="748" font-size="16" font-weight="400" fill="#525252" text-anchor="start">timeline.</text>
+  <path d="M786,390.0 H812" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-concepts-a)"/>
+  <text x="820" y="44" font-size="16" font-weight="600" fill="#525252" text-anchor="start">Concept 3</text>
+  <text x="820" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">One route timeline</text>
+  <rect x="820" y="110" width="350" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <rect x="840" y="130" width="150" height="16" rx="3" fill="#181818"/>
+  <rect x="840" y="166" width="310" height="14" rx="3" fill="#EAEAE6"/>
+  <rect x="840" y="186" width="310" height="14" rx="3" fill="#EAEAE6"/>
+  <rect x="840" y="206" width="310" height="14" rx="3" fill="#EAEAE6"/>
+  <rect x="840" y="242" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+  <rect x="940" y="254" width="90" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="940" y="274" width="140" height="10" rx="3" fill="#181818"/>
+  <rect x="856" y="308" width="278" height="26" rx="3" fill="#EAEAE6"/>
+  <rect x="840" y="342" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+  <rect x="940" y="354" width="90" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="940" y="374" width="140" height="10" rx="3" fill="#181818"/>
+  <rect x="856" y="408" width="278" height="26" rx="3" fill="#EAEAE6"/>
+  <rect x="840" y="442" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+  <rect x="940" y="454" width="90" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="940" y="474" width="140" height="10" rx="3" fill="#181818"/>
+  <rect x="856" y="508" width="278" height="26" rx="3" fill="#EAEAE6"/>
+  <rect x="840" y="542" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+  <rect x="940" y="554" width="90" height="10" rx="3" fill="#EAEAE6"/>
+  <path d="M924,242 V600" stroke="#616161" stroke-width="2"/>
+  <rect x="940" y="574" width="140" height="10" rx="3" fill="#181818"/>
+  <text x="820" y="704" font-size="16" font-weight="400" fill="#525252" text-anchor="start">A container table on top, then one</text>
+  <text x="820" y="726" font-size="16" font-weight="400" fill="#525252" text-anchor="start">timeline of stops and transit legs for</text>
+  <text x="820" y="748" font-size="16" font-weight="400" fill="#525252" text-anchor="start">the whole route.</text>
+  <path d="M1176,390.0 H1202" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-concepts-a)"/>
+  <text x="1210" y="44" font-size="16" font-weight="600" fill="#525252" text-anchor="start">Concept 4</text>
+  <text x="1210" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">Map on top</text>
+  <rect x="1210" y="110" width="350" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <rect x="1230" y="130" width="150" height="16" rx="3" fill="#181818"/>
+  <rect x="1230" y="166" width="310" height="90" rx="3" fill="#EAEAE6"/>
+  <path d="M1260,236 C1350,176 1430,246 1510,190" stroke="#181818" stroke-width="2.5" fill="none" stroke-dasharray="6 5"/>
+  <rect x="1230" y="276" width="310" height="14" rx="3" fill="#EAEAE6"/>
+  <rect x="1230" y="296" width="310" height="14" rx="3" fill="#EAEAE6"/>
+  <rect x="1230" y="316" width="310" height="14" rx="3" fill="#EAEAE6"/>
+  <rect x="1230" y="352" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+  <rect x="1330" y="364" width="90" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="1330" y="384" width="140" height="10" rx="3" fill="#181818"/>
+  <rect x="1246" y="418" width="278" height="26" rx="3" fill="#EAEAE6"/>
+  <rect x="1230" y="452" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+  <rect x="1330" y="464" width="90" height="10" rx="3" fill="#EAEAE6"/>
+  <rect x="1330" y="484" width="140" height="10" rx="3" fill="#181818"/>
+  <rect x="1246" y="518" width="278" height="26" rx="3" fill="#EAEAE6"/>
+  <rect x="1230" y="552" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+  <rect x="1330" y="564" width="90" height="10" rx="3" fill="#EAEAE6"/>
+  <path d="M1314,352 V610" stroke="#616161" stroke-width="2"/>
+  <rect x="1330" y="584" width="140" height="10" rx="3" fill="#181818"/>
+  <text x="1210" y="704" font-size="16" font-weight="400" fill="#525252" text-anchor="start">The same timeline trimmed to what comes</text>
+  <text x="1210" y="726" font-size="16" font-weight="400" fill="#525252" text-anchor="start">next, with a route map across the top.</text>
+</svg>
