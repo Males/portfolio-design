@@ -47,11 +47,7 @@
 
     @media (max-width: 1140px) { :root { --pad: 80px; } }
     @media (max-width: 720px)  { :root { --pad: 40px; } }
-    @media (max-width: 480px)  {
-      :root { --pad: 24px; }
-      .work-item { flex-direction: column; align-items: flex-start; gap: var(--micro); }
-      .work-meta { display: flex; gap: var(--sml); }
-    }
+    @media (max-width: 480px)  { :root { --pad: 24px; } }
 
     html, body {
       background: var(--bg);
@@ -182,8 +178,14 @@
       font-weight: 300;
     }
 
+    /* Phones stack the meta under the title 4px away. A coming soon title
+       truncates so its label still fits on the same line. */
     @media (max-width: 480px) {
-      span.work-title::after { content: none; }
+      .work-item { flex-direction: column; align-items: flex-start; gap: var(--micro); }
+      .work-main { width: 100%; }
+      span.work-title { display: flex; align-items: baseline; }
+      span.work-title::after { flex: none; padding-left: 0.3em; content: '(coming soon)'; }
+      .work-title-text { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     }
 
     .work-item--soon .work-title,
@@ -272,6 +274,14 @@
       font-variant-numeric: tabular-nums;
       flex-shrink: 0;
     }
+    /* footer */
+    .site-footer { padding: 40px var(--pad) 96px; border-top: 1px solid #E0E0DE; }
+    .footer-name { font-size: 32px; font-weight: 600; line-height: 1; letter-spacing: -0.8px; color: #181818; }
+    .footer-links { display: flex; gap: 32px; padding-top: 12px; list-style: none; }
+    .footer-links a { font-size: 13px; line-height: 1.5; color: #181818; text-decoration: underline; text-decoration-color: #616161; text-underline-offset: 3px; border-radius: 3px; padding: 2px 4px; margin: -2px -4px; }
+    .footer-links a:hover { color: #F7F7F5; background-color: #181818; text-decoration: none; }
+    @media (max-width: 480px) { .footer-links { flex-direction: column; gap: 4px; } }
+    /* /footer */
   </style>
 </head>
 <body>
@@ -291,11 +301,11 @@
 
   <ul class="work-list">
     <li class="work-item work-item--soon">
-      <div class="work-main"><span class="work-title">AI UX review agent</span></div>
+      <div class="work-main"><span class="work-title"><span class="work-title-text">AI UX review agent</span></span></div>
       <div class="work-meta"><span class="work-company">Algolia</span><span class="work-year">2026</span></div>
     </li>
     <li class="work-item work-item--soon">
-      <div class="work-main"><span class="work-title">Search diagnostics and debugger tool</span></div>
+      <div class="work-main"><span class="work-title"><span class="work-title-text">Search diagnostics and debugger tool</span></span></div>
       <div class="work-meta"><span class="work-company">Algolia</span><span class="work-year">2026</span></div>
     </li>
     <li class="work-item">
@@ -303,7 +313,7 @@
       <div class="work-meta"><span class="work-company">Algolia</span><span class="work-year">2025</span></div>
     </li>
     <li class="work-item work-item--soon">
-      <div class="work-main"><span class="work-title">Data transformation AI copilot</span></div>
+      <div class="work-main"><span class="work-title"><span class="work-title-text">Data transformation AI copilot</span></span></div>
       <div class="work-meta"><span class="work-company">Matillion</span><span class="work-year">2024</span></div>
     </li>
     <li class="work-item">
@@ -317,22 +327,32 @@
 
   <ul class="work-list">
     <li class="work-item work-item--soon">
-      <div class="work-main"><span class="work-title">A daily curated list, shared with friends</span></div>
+      <div class="work-main"><span class="work-title"><span class="work-title-text">A daily curated list, shared with friends</span></span></div>
       <div class="work-meta"><span class="work-year">2026</span></div>
     </li>
     <li class="work-item work-item--soon">
-      <div class="work-main"><span class="work-title">Split household chores fairly</span></div>
+      <div class="work-main"><span class="work-title"><span class="work-title-text">Split household chores fairly</span></span></div>
       <div class="work-meta"><span class="work-year">2026</span></div>
     </li>
     <li class="work-item work-item--soon">
-      <div class="work-main"><span class="work-title">Dog friendly walks with sights and beers</span></div>
+      <div class="work-main"><span class="work-title"><span class="work-title-text">Dog friendly walks with sights and beers</span></span></div>
       <div class="work-meta"><span class="work-year">2026</span></div>
     </li>
     <li class="work-item work-item--soon">
-      <div class="work-main"><span class="work-title">A Yorkshire takeaway decider</span></div>
+      <div class="work-main"><span class="work-title"><span class="work-title-text">A Yorkshire takeaway decider</span></span></div>
       <div class="work-meta"><span class="work-year">2026</span></div>
     </li>
   </ul>
 
+<!-- footer -->
+  <footer class="site-footer">
+    <p class="footer-name">Adam Males.</p>
+    <ul class="footer-links">
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="mailto:adammales@me.com">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/adam-males" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+  </footer>
+<!-- /footer -->
 </body>
 </html>

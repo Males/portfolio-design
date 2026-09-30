@@ -3,11 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- meta+icons -->
+  <meta name="description" content="Design system work by Adam Males, product designer." />
+  <meta property="og:title" content="Adam Males — Design System" />
+  <meta property="og:description" content="Design system work by Adam Males, product designer." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <!-- /meta+icons -->
   <title>Adam Males — Design System</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
-  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -50,8 +59,6 @@
     .ds-title {
       font-size: var(--t-xs);
       font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
       color: var(--ink-3);
       margin-bottom: 12px;
     }
@@ -78,11 +85,10 @@
     }
 
     .ds-section-title {
-      font-size: var(--t-xs);
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ink-3);
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--ink);
       margin-bottom: 48px;
     }
 
@@ -148,9 +154,7 @@
     .type-token {
       font-size: var(--t-xs);
       font-weight: 500;
-      letter-spacing: 0.06em;
       color: var(--ink-3);
-      text-transform: uppercase;
     }
 
     .type-spec {
@@ -159,7 +163,8 @@
       color: var(--ink-3);
     }
 
-    .type-sample-xs   { font-size: var(--t-xs);   font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); }
+    .type-sample-xs   { font-size: 12px; font-weight: 600; color: var(--ink-2); }
+    .type-sample-head { font-size: 24px; font-weight: 600; color: var(--ink); line-height: 1.25; }
     .type-sample-sm   { font-size: var(--t-sm);   font-weight: 400; color: var(--ink-2); }
     .type-sample-base { font-size: var(--t-base); font-weight: 300; color: var(--ink-2); line-height: 1.7; }
     .type-sample-md   { font-size: var(--t-md);   font-weight: 500; color: var(--ink); letter-spacing: -0.015em; }
@@ -183,8 +188,6 @@
       font-size: var(--t-xs);
       font-weight: 500;
       color: var(--ink-3);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
       width: 80px;
       flex-shrink: 0;
     }
@@ -214,8 +217,6 @@
     .component-label {
       font-size: var(--t-xs);
       font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
       color: var(--ink-3);
       padding-bottom: 12px;
       border-bottom: 1px solid var(--rule);
@@ -317,8 +318,6 @@
     .demo-sec-label {
       font-size: var(--t-xs);
       font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
       color: var(--ink-3);
     }
 
@@ -382,8 +381,6 @@
     .rule-label {
       font-size: var(--t-xs);
       font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
       color: var(--ink-3);
     }
 
@@ -393,6 +390,32 @@
       color: var(--ink-2);
       line-height: 1.6;
     }
+    /* phones and small tablets, same breakpoints as the rest of the site */
+    @media (max-width: 720px) {
+      :root { --pad: 40px; }
+      .color-grid { grid-template-columns: repeat(2, 1fr); }
+      .type-row { grid-template-columns: 1fr; gap: 12px; }
+      .component-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      :root { --pad: 24px; }
+      .type-sample-hero { font-size: 44px; }
+      .type-sample-lg, .type-sample-head, .type-sample-base { overflow-wrap: anywhere; }
+    }
+
+    /* footer */
+    .site-footer { padding: 40px var(--pad) 96px; border-top: 1px solid #E0E0DE; }
+    .footer-name { font-size: 32px; font-weight: 600; line-height: 1; letter-spacing: -0.8px; color: #181818; }
+    .footer-links { display: flex; gap: 32px; padding-top: 12px; list-style: none; }
+    .footer-links a { font-size: 13px; line-height: 1.5; color: #181818; text-decoration: underline; text-decoration-color: #616161; text-underline-offset: 3px; border-radius: 3px; padding: 2px 4px; margin: -2px -4px; }
+    .footer-links a:hover { color: #F7F7F5; background-color: #181818; text-decoration: none; }
+    @media (max-width: 480px) { .footer-links { flex-direction: column; gap: 4px; } }
+    /* /footer */
+    .cs-ph-demo { aspect-ratio: 16 / 10; border-radius: 4px; border: 1px solid var(--rule); display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center;
+      background-color: #EFEFEC;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 2L22 12L12 22L2 12Z' fill='%23E2E2DF'/%3E%3C/svg%3E");
+      background-size: 24px 24px; }
+    .cs-ph-demo span { background: var(--bg); padding: 8px 12px; border-radius: 4px; font-size: 13px; color: var(--ink-2); }
   </style>
 </head>
 <body>
@@ -406,7 +429,7 @@
 
   <!-- COLOUR -->
   <div class="ds-section">
-    <p class="ds-section-title">Colour</p>
+    <h2 class="ds-section-title">Colour.</h2>
     <div class="color-grid">
       <div class="color-swatch">
         <div class="swatch-block" style="background:#F7F7F5;"></div>
@@ -452,14 +475,21 @@
 
   <!-- TYPOGRAPHY -->
   <div class="ds-section">
-    <p class="ds-section-title">Typography · Inter Variable</p>
+    <h2 class="ds-section-title">Typography, Inter Variable.</h2>
     <div class="type-rows">
       <div class="type-row">
         <div class="type-meta">
-          <span class="type-token">--t-xs</span>
-          <span class="type-spec">11px · 500 · 0.1em tracking</span>
+          <span class="type-token">Label</span>
+          <span class="type-spec">12px · 600 · sentence case, no tracking</span>
         </div>
-        <span class="type-sample-xs">Section Label</span>
+        <span class="type-sample-xs">My role.</span>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">
+          <span class="type-token">--t-head</span>
+          <span class="type-spec">24px · 600 · section headings</span>
+        </div>
+        <span class="type-sample-head">Why this mattered.</span>
       </div>
       <div class="type-row">
         <div class="type-meta">
@@ -501,7 +531,7 @@
 
   <!-- SPACING -->
   <div class="ds-section">
-    <p class="ds-section-title">Spacing</p>
+    <h2 class="ds-section-title">Spacing.</h2>
     <div class="spacing-rows">
       <div class="spacing-row">
         <span class="spacing-label">4px</span>
@@ -543,7 +573,7 @@
 
   <!-- COMPONENTS -->
   <div class="ds-section">
-    <p class="ds-section-title">Components</p>
+    <h2 class="ds-section-title">Components.</h2>
     <div class="component-grid">
 
       <div class="component-block">
@@ -598,9 +628,35 @@
     </div>
   </div>
 
+  <!-- CASE STUDY BLOCKS -->
+  <div class="ds-section">
+    <h2 class="ds-section-title">Case study blocks.</h2>
+    <p class="ds-desc" style="margin-bottom:32px;">Corners are 4px. Summary, callout, note and image blocks break the text column by 40px each side (16px on phones) while their text stays on the column. Labels are sentence case with a full stop.</p>
+    <div class="component-grid">
+      <div class="component-block">
+        <p class="component-label">Summary</p>
+        <div style="background:rgba(24,24,24,0.03);border-radius:4px;padding:20px 24px;">
+          <p style="font-size:24px;font-weight:600;letter-spacing:-0.8px;line-height:32px;margin-bottom:12px;">Too long, didn’t read.</p>
+          <p style="font-size:16px;font-weight:300;line-height:1.5;"><strong style="font-weight:600;">Bold lead sentence.</strong> Supporting sentence in light.</p>
+        </div>
+      </div>
+      <div class="component-block">
+        <p class="component-label">Callout</p>
+        <div style="background:rgba(24,24,24,0.03);border-radius:4px;padding:20px 24px;">
+          <p style="font-size:13px;font-weight:600;color:var(--ink-2);line-height:1.65;margin-bottom:4px;">Outcome.</p>
+          <p style="font-size:13px;color:var(--ink-2);line-height:1.65;">What the decision changed, in one or two sentences.</p>
+        </div>
+      </div>
+      <div class="component-block">
+        <p class="component-label">Image placeholder</p>
+        <div class="cs-ph-demo"><span>Planned image. What it shows goes here.</span></div>
+      </div>
+    </div>
+  </div>
+
   <!-- RULES -->
   <div class="ds-section" style="border-bottom:none;">
-    <p class="ds-section-title">Dividers — used sparingly</p>
+    <h2 class="ds-section-title">Dividers, used sparingly.</h2>
     <div class="rule-usage">
       <div class="rule-item">
         <div class="demo-rule"></div>
@@ -620,5 +676,15 @@
     </div>
   </div>
 
+<!-- footer -->
+  <footer class="site-footer">
+    <p class="footer-name">Adam Males.</p>
+    <ul class="footer-links">
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="mailto:adammales@me.com">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/adam-males" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+  </footer>
+<!-- /footer -->
 </body>
 </html>
