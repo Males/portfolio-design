@@ -3,11 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- meta+icons -->
+  <meta name="description" content="Resume of Adam Males, product designer. AI search, ranking and diagnostics at Algolia, before that Matillion and Zencargo." />
+  <meta property="og:title" content="Adam Males — Resume" />
+  <meta property="og:description" content="Resume of Adam Males, product designer. AI search, ranking and diagnostics at Algolia, before that Matillion and Zencargo." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <!-- /meta+icons -->
   <title>Adam Males — Resume</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
-  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -171,9 +180,10 @@
 
     /* ─── SECTION LABEL ─────────────────────────────────────── */
     .section-label {
-      font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--ink);
       margin-bottom: var(--med);
     }
 
@@ -258,8 +268,8 @@
 
     .aside-label {
       font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
+      font-weight: 600;
+      color: var(--ink-2);
       margin-bottom: var(--base);
       padding-bottom: var(--sml);
       border-bottom: 1px solid var(--rule);
@@ -294,6 +304,14 @@
       font-weight: 300;
       color: var(--ink-3);
     }
+    /* footer */
+    .site-footer { padding: 40px var(--pad) 96px; border-top: 1px solid #E0E0DE; }
+    .footer-name { font-size: 32px; font-weight: 600; line-height: 1; letter-spacing: -0.8px; color: #181818; }
+    .footer-links { display: flex; gap: 32px; padding-top: 12px; list-style: none; }
+    .footer-links a { font-size: 13px; line-height: 1.5; color: #181818; text-decoration: underline; text-decoration-color: #616161; text-underline-offset: 3px; border-radius: 3px; padding: 2px 4px; margin: -2px -4px; }
+    .footer-links a:hover { color: #F7F7F5; background-color: #181818; text-decoration: none; }
+    @media (max-width: 480px) { .footer-links { flex-direction: column; gap: 4px; } }
+    /* /footer */
   </style>
 </head>
 <body>
@@ -314,7 +332,7 @@
     </div>
     <div class="rh-contact-block">
       <a class="rh-contact" href="mailto:adammales@me.com">adammales@me.com</a>
-      <a class="rh-contact" href="#">linkedin.com/in/adam-males</a>
+      <a class="rh-contact" href="https://www.linkedin.com/in/adam-males" target="_blank" rel="noopener">linkedin.com/in/adam-males</a>
       <span class="rh-contact">England, United Kingdom</span>
     </div>
   </div>
@@ -323,7 +341,7 @@
   <div class="resume-body">
 
     <div>
-      <p class="section-label">Experience — 2014 to present</p>
+      <h2 class="section-label">Experience, 2014 to present.</h2>
 
       <div class="exp-entry">
         <div class="exp-top">
@@ -402,7 +420,7 @@
     <!-- ASIDE -->
     <div>
       <div class="aside-block">
-        <p class="aside-label">Domains</p>
+        <h2 class="aside-label">Domains.</h2>
         <ul class="aside-list">
           <li>B2B SaaS &amp; data products</li>
           <li>AI-assisted experiences</li>
@@ -413,7 +431,7 @@
       </div>
 
       <div class="aside-block">
-        <p class="aside-label">Capabilities</p>
+        <h2 class="aside-label">Capabilities.</h2>
         <ul class="aside-list">
           <li>Design leadership and team building</li>
           <li>Product strategy and direction</li>
@@ -425,7 +443,7 @@
       </div>
 
       <div class="aside-block">
-        <p class="aside-label">Tools</p>
+        <h2 class="aside-label">Tools.</h2>
         <ul class="aside-list">
           <li>Figma <em>— primary</em></li>
           <li>Prototyping &amp; interaction</li>
@@ -435,7 +453,7 @@
       </div>
 
       <div class="aside-block">
-        <p class="aside-label">Education</p>
+        <h2 class="aside-label">Education.</h2>
         <div class="edu-item">
           <p class="edu-school">York St. John University</p>
           <p class="edu-degree">BA, Art &amp; Design · 2:1 · 2005–2008</p>
@@ -445,5 +463,15 @@
 
   </div>
 
+<!-- footer -->
+  <footer class="site-footer">
+    <p class="footer-name">Adam Males.</p>
+    <ul class="footer-links">
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="mailto:adammales@me.com">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/adam-males" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+  </footer>
+<!-- /footer -->
 </body>
 </html>
