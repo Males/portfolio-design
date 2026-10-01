@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Search diagnostics and debugger tool — Adam Males</title>
+  <meta name="description" content="A six week tool brief returned as a diagnosis of why the tool kept dying. Direction endorsed, ownership conversation opened, no shipped tool claimed." />
+  <meta property="og:title" content="Search diagnostics and debugger tool — Adam Males" />
+  <meta property="og:description" content="A six week tool brief returned as a diagnosis of why the tool kept dying. Direction endorsed, ownership conversation opened, no shipped tool claimed." />
+  <meta property="og:type" content="article" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:    #F7F7F5;
+      --ink:   #181818;
+      --ink-2: #525252;
+      --ink-3: #616161;
+      --rule:  #E0E0DE;
+      --f:     'Inter', system-ui, sans-serif;
+
+      /* spacing */
+      --micro: 4px;
+      --sml:   12px;
+      --base:  20px;
+      --med:   32px;
+      --xl:    64px;
+      --hero:  96px;
+
+      /* type */
+      --t-sm:    12px;
+      --t-body:  13px;
+      --t-base:  16px;
+      --t-md:    18px;
+      --t-title: clamp(36px, 5vw, 52px);
+      --t-head:  24px;
+      --radius:  4px;
+
+      --pad: 300px;
+      --content: 680px;
+
+      /* callouts and figures break the text column by this much each side */
+      --bleed: 40px;
+    }
+
+    @media (max-width: 1140px) { :root { --pad: 80px; } }
+    @media (max-width: 720px)  { :root { --pad: 40px; } }
+    @media (max-width: 480px)  { :root { --pad: 24px; --bleed: 16px; } }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--f);
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: 'ss01' 1, 'cv05' 1;
+    }
+
+    /* ─── BACK NAV ─────────────────────────────────────────── */
+    .cs-nav {
+      padding: var(--med) var(--pad);
+    }
+
+    .cs-back {
+      font-size: var(--t-body);
+      font-weight: 400;
+      color: var(--ink-3);
+      text-decoration: none;
+      transition: color 0.15s ease, background-color 0.15s ease;
+      border-radius: 3px;
+      padding: 2px 5px;
+      margin: -2px -5px;
+    }
+
+    .cs-back:hover {
+      color: var(--bg);
+      background-color: var(--ink);
+    }
+
+    .cs-back:active {
+      color: var(--bg);
+      background-color: var(--ink-2);
+    }
+
+    /* ─── HEADER ───────────────────────────────────────────── */
+    .cs-header {
+      padding: var(--xl) var(--pad) var(--med);
+      max-width: calc(var(--content) + var(--pad) * 2);
+    }
+
+    .cs-eyebrow {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      margin-bottom: var(--base);
+    }
+
+    .cs-title {
+      font-size: var(--t-title);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      color: var(--ink);
+      margin-bottom: var(--med);
+    }
+
+    .cs-overview {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-2);
+    }
+
+    .cs-overview strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    /* ─── METADATA ─────────────────────────────────────────── */
+    .cs-meta {
+      padding: var(--med) var(--pad);
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      gap: var(--xl);
+      justify-content: start;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: var(--xl);
+    }
+
+    @media (max-width: 720px) {
+      .cs-meta {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--med);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cs-meta {
+        grid-template-columns: 1fr;
+        gap: var(--base);
+      }
+    }
+
+    .meta-item {}
+
+    .meta-label {
+      font-size: var(--t-sm);
+      font-weight: 600;
+      color: var(--ink-2);
+      margin-bottom: var(--micro);
+    }
+
+    .meta-value {
+      font-size: var(--t-body);
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    /* ─── BODY ─────────────────────────────────────────────── */
+    .cs-body {
+      padding: 0 var(--pad) var(--hero);
+      max-width: calc(var(--content) + var(--pad) * 2);
+    }
+
+    .cs-section {
+      margin-bottom: var(--xl);
+    }
+
+    .cs-section-label {
+      font-size: var(--t-head);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: var(--med);
+    }
+
+    .cs-header .cs-section-label { margin-top: var(--xl); }
+
+    .cs-h2 {
+      font-size: var(--t-md);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: var(--base);
+    }
+
+    .cs-h3 {
+      font-size: var(--t-base);
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: var(--sml);
+    }
+
+    .cs-p {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-2);
+      margin-bottom: var(--base);
+    }
+
+    .cs-p:last-child { margin-bottom: 0; }
+
+    .cs-p strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .cs-list {
+      list-style: none;
+      margin-bottom: var(--base);
+    }
+
+    .cs-list li {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-2);
+      padding: 3px 0 3px 16px;
+      position: relative;
+    }
+
+    .cs-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 13px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--ink-3);
+    }
+
+    /* ─── NOTE ─────────────────────────────────────────────── */
+    .cs-note {
+      padding: var(--base);
+      border-left: 2px solid var(--rule);
+      margin: 0 calc(var(--bleed) * -1) var(--xl);
+    }
+
+    .cs-note p {
+      font-size: var(--t-body);
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-3);
+      font-style: italic;
+    }
+
+    /* ─── OUTCOME CALLOUT ──────────────────────────────────── */
+    .cs-outcome {
+      margin: var(--base) calc(var(--bleed) * -1) var(--med);
+      padding: var(--base) var(--bleed);
+      background: rgba(24,24,24,0.03);
+      border-radius: var(--radius);
+    }
+
+    .cs-outcome .cs-outcome-label {
+      font-size: var(--t-body);
+      font-weight: 600;
+      line-height: 1.65;
+      color: var(--ink-2);
+      margin-bottom: var(--micro);
+    }
+
+    .cs-outcome p {
+      font-size: var(--t-body);
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--ink-2);
+    }
+
+    /* ─── DIVIDER ───────────────────────────────────────────── */
+    .cs-divider {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: var(--xl) 0;
+    }
+
+    /* ─── DECISION ─────────────────────────────────────────── */
+    .cs-decision {
+      margin-bottom: var(--xl);
+    }
+
+    .cs-decision { padding-top: var(--sml); }
+
+    /* ─── OUTCOMES GRID ────────────────────────────────────── */
+    .cs-outcomes-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--med);
+    }
+
+    .outcome-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: var(--med);
+      align-items: start;
+    }
+
+    @media (max-width: 600px) {
+      .outcome-row {
+        grid-template-columns: 1fr;
+        gap: var(--sml);
+      }
+    }
+
+    .outcome-type {
+      font-size: var(--t-sm);
+      font-weight: 600;
+      color: var(--ink-2);
+      padding-top: 3px;
+    }
+
+    .outcome-text {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+  
+    /* ─── FIGURE ───────────────────────────────────────────── */
+    .cs-figure { margin: var(--med) calc(var(--bleed) * -1) var(--xl); }
+    .cs-figure svg, .cs-figure img { display: block; width: 100%; height: auto; border-radius: var(--radius); }
+    .cs-figure figcaption { font-size: var(--t-sm); font-weight: 400; color: var(--ink-3); margin: var(--base) var(--bleed) 0; }
+    .cs-decision .cs-figure { margin-bottom: var(--med); }
+    .cs-fig-narrow { display: none; }
+    @media (max-width: 480px) { .cs-fig-wide { display: none; } .cs-fig-narrow { display: block; max-width: 300px; margin: 0 auto; } }
+    .cs-figure-zoom { position: relative; display: block; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+    .cs-figure-zoom-hint { position: absolute; right: var(--sml); bottom: var(--sml); background: var(--ink); color: var(--bg); font-size: var(--t-sm); font-weight: 500; padding: var(--micro) var(--sml); border-radius: var(--radius); }
+    .cs-figure-zoom:hover .cs-figure-zoom-hint, .cs-figure-zoom:focus-visible .cs-figure-zoom-hint { background: var(--ink-2); }
+
+    /* ─── IMAGE PLACEHOLDER ──────────────────────────────── */
+    .cs-ph {
+      aspect-ratio: 16 / 10;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      padding: var(--med);
+      background-color: #EFEFEC;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 2L22 12L12 22L2 12Z' fill='%23E2E2DF'/%3E%3C/svg%3E");
+      background-size: 24px 24px;
+    }
+    .cs-ph p { max-width: 440px; background: var(--bg); border-radius: var(--radius); padding: var(--sml) var(--base); font-size: var(--t-body); line-height: 1.6; color: var(--ink-2); text-align: center; }
+    .cs-ph-tag { display: block; font-weight: 600; color: var(--ink); margin-bottom: var(--micro); }
+    @media (max-width: 480px) { .cs-ph { aspect-ratio: 4 / 3; padding: var(--base); } }
+
+    /* ─── TL;DR ────────────────────────────────────────────── */
+    .cs-tldr { margin: var(--med) calc(var(--bleed) * -1) 0; padding: var(--base) var(--bleed); background: rgba(24,24,24,0.03); border-radius: var(--radius); }
+    .cs-tldr-label { font-size: var(--t-head); font-weight: 600; line-height: 32px; letter-spacing: -0.8px; color: var(--ink); margin-bottom: var(--sml); }
+    .cs-tldr-item { font-size: var(--t-base); font-weight: 300; line-height: 1.5; color: var(--ink); margin-bottom: 24px; }
+    .cs-tldr-item:last-child { margin-bottom: 0; }
+    .cs-tldr-item strong { font-weight: 600; }
+
+    /* ─── LINKS IN COPY ────────────────────────────────────── */
+    .cs-eyebrow a, .cs-p a, .cs-overview a, .cs-tldr-item a { color: inherit; text-decoration: underline; text-decoration-color: var(--ink-3); text-underline-offset: 3px; }
+    .cs-eyebrow a:hover, .cs-p a:hover, .cs-overview a:hover, .cs-tldr-item a:hover { text-decoration-color: var(--ink); }
+
+    /* footer */
+    .site-footer { padding: 40px var(--pad) 96px; border-top: 1px solid #E0E0DE; }
+    .footer-name { font-size: 32px; font-weight: 600; line-height: 1; letter-spacing: -0.8px; color: #181818; }
+    .footer-links { display: flex; gap: 32px; padding-top: 12px; list-style: none; }
+    .footer-links a { font-size: 13px; line-height: 1.5; color: #181818; text-decoration: underline; text-decoration-color: #616161; text-underline-offset: 3px; border-radius: 3px; padding: 2px 4px; margin: -2px -4px; }
+    .footer-links a:hover { color: #F7F7F5; background-color: #181818; text-decoration: none; }
+    @media (max-width: 480px) { .footer-links { flex-direction: column; gap: 4px; } }
+    /* /footer */
+</style>
+</head>
+<body>
+
+  <nav class="cs-nav">
+    <a class="cs-back" href="/">← Back</a>
+  </nav>
+
+  <header class="cs-header">
+    <p class="cs-eyebrow"><a href="https://www.algolia.com" target="_blank" rel="noopener">Algolia</a> · 2026, in progress · Design lead for research, diagnosis, strategy and the V1 designs</p>
+    <h1 class="cs-title">Search diagnostics and debugger tool.</h1>
+    <section class="cs-tldr" aria-label="Summary">
+  <h2 class="cs-tldr-label">Too long, didn’t read.</h2>
+  <p class="cs-tldr-item"><strong>A six week tool brief, returned as a diagnosis of why the tool kept dying.</strong></p>
+  <p class="cs-tldr-item"><strong>Algolia sells search to businesses.</strong> Their customers tune how results rank inside a dashboard, then look at a page of results and cannot tell why each one landed where it did. A tool would answer that in one place.</p>
+  <p class="cs-tldr-item"><strong>I was asked to scope six weeks of build.</strong> I mapped the earlier attempts, built a five claim evidence base, designed and prototyped a first version and ran nine feedback sessions, two of them with the people who diagnose by hand today.</p>
+  <p class="cs-tldr-item"><strong>The direction is now endorsed by the VP of Product and the conversation moved from whether to build a tool to who owns it.</strong> I cannot claim a shipped tool, so I do not.</p>
+  <p class="cs-tldr-item"><strong>The principal move was spending a build brief on finding out why the build kept failing.</strong> Legibility, turned on the organisation itself.</p>
+</section>
+    <h2 class="cs-section-label">Introduction.</h2>
+<p class="cs-overview">Algolia sells search to businesses. Their customers tune how results rank inside a dashboard, then look at a page of results and ask two questions. Why these? Why in this order? The answer is spread across half a dozen screens, so most people give up and ask a human. A tool to answer it in one place had been attempted several times inside the company and binned every time.</p>
+<br>
+<p class="cs-overview">I was asked to scope what six weeks of build could achieve. <strong>Instead of designing the tool again, I spent the time finding out why it kept dying, built the evidence base and the first version anyway, then put it through nine feedback sessions, two of them with the people who do the job by hand.</strong> The direction is now endorsed by the VP of Product. The conversation moved from whether to build a tool to who owns it. I cannot claim a shipped tool, so I do not.</p>
+  </header>
+
+  <div class="cs-meta">
+    <div class="meta-item">
+  <p class="meta-label">My role.</p>
+  <p class="meta-value">Design lead</p>
+</div>
+<div class="meta-item">
+  <p class="meta-label">Scope.</p>
+  <p class="meta-value">Prior art and ownership research<br>Five-claim evidence base<br>Problem framing<br>V1 diagnostics design and prototype<br>Nine-session feedback programme</p>
+</div>
+<div class="meta-item">
+  <p class="meta-label">Influenced.</p>
+  <p class="meta-value">What the organisation was solving for<br>Product direction, endorsed by the VP of Product<br>The ownership conversation<br>The front-end capacity case</p>
+</div>
+<div class="meta-item">
+  <p class="meta-label">Outcome.</p>
+  <p class="meta-value">Nine feedback sessions<br>Sixty-eight findings on the designs<br>Direction endorsed<br>No shipped tool, stated plainly</p>
+</div>
+  </div>
+
+  <div class="cs-body">
+
+    <div class="cs-section">
+<h2 class="cs-section-label">Why this mattered.</h2>
+<p class="cs-p"><strong>The problem hides inside a stack.</strong> A search result comes out of layers of features, keyword matching, ranking, rules, synonyms, NeuralSearch, re-ranking. When the order looks wrong, the cause is buried in there somewhere. Two different failures wear the same mask. Either the results are wrong, which is a relevance problem, or they are right and badly ordered, an out-of-stock item sitting at the top, which is a ranking problem. You cannot fix either until you know which one you have.</p>
+<p class="cs-p">The person staring at that page mostly cannot tell. Diagnosis today is manual, reassessing hundreds of queries one at a time. It gets worse as AI features stack up, because every new layer is one more place the cause can hide.</p>
+<p class="cs-p"><strong>The features people cannot explain are the ones they switch off.</strong> The usage data is blunt about this. Close to one in four activations of one opaque AI feature were rolled back within the hour, while a comparable feature that showed its working stuck. Explainability here is trust and retention, not a nicety. Every unexplained ranking is a customer one step closer to turning something off.</p>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">The problem I chose to solve.</h2>
+<p class="cs-p"><strong>On the surface this was a tool brief. Underneath, it was an ownership problem.</strong> I was asked to scope what six weeks of build could achieve. The easy reading was to design the tool. It would have demoed well. But mapping the prior art on day one showed this was not a new idea. Several teams had each built a version independently and every one had stalled. So I asked the question nobody had stopped on. If it is so obviously needed and so often attempted, why does it keep dying?</p>
+<figure class="cs-figure">
+  <img src="assets/diagnostics/diag-storyboard.jpg" width="1428" height="750" loading="lazy" alt="A six frame storyboard of a merchandiser. She wonders why a result is where it is, is overwhelmed by rules, ranking, personalisation, synonyms and NeuralSearch, switches NeuralSearch off, sees a why these results panel, sees a whole index before and after view, then relaxes with the feature back on." />
+  <figcaption>The storyboard that opened the proposal. A merchandiser asks why a result is where it is, chases the cause across five settings, turns the feature off, then gets an answer. Frame five, the whole-index view, is the step nobody has built. The figures in the frames are illustrative.</figcaption>
+</figure>
+<p class="cs-p">That was a gamble with six weeks, no mandate and no team. The visible win was a concept that would stall like the others. I took the quieter one and it changed what the organisation was solving for.</p>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">My role and scope.</h2>
+<p class="cs-p"><strong>I did not invent the idea of explaining search ranking. Several people had, before me.</strong> My job was to work out why none of their versions had become a product, then build enough of one to test that answer.</p>
+<p class="cs-p">I owned the prior-art research, the evidence base, the framing, the V1 design and prototype, the nine-session feedback programme and the ownership argument that came out of it. When the build stopped, I wrote the front-end capacity case that followed.</p>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">The constraints and tension.</h2>
+<p class="cs-p"><strong>The demand was over-proven and re-proving it was the trap.</strong> The need was documented across half a dozen teams, so re-running discovery would have burned the six weeks on the one thing nobody disputed. Yet a design with no sponsor was exactly what had killed every previous attempt.</p>
+<p class="cs-p">The people who feel this pain, solutions engineers, merchandisers, the customers themselves, cannot build the fix. The team who can build it does not feel the pain. That split is structural rather than personal, which is why no amount of better design had ever moved it.</p>
+<figure class="cs-figure">
+  <svg xmlns="http://www.w3.org/2000/svg" id="fig-diag-trust" viewBox="0 0 1200 560" width="1200" height="560" role="img" aria-labelledby="fig-diag-trust-t fig-diag-trust-d">
+  <title id="fig-diag-trust-t">How far the diagnostics tool goes</title>
+  <desc id="fig-diag-trust-d">A ladder of five steps, detect, diagnose, explain, recommend and auto-apply. The first three are in scope and the last two are deliberately not yet. Beside it, three constraints, grounded and traceable, legible to non-engineers, and assistive not autonomous.</desc>
+  <style>#fig-diag-trust text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
+  <rect width="1200" height="560" fill="#F7F7F5"/>
+  <text x="60" y="56" font-size="22" font-weight="600" fill="#181818" text-anchor="start">How far the tool goes</text>
+  <text x="60" y="86" font-size="16" font-weight="400" fill="#525252" text-anchor="start">Trust falls as autonomy rises. This work stops at explain, on purpose.</text>
+  <rect x="60" y="360" width="130" height="100" rx="4" fill="#181818" stroke="#181818" stroke-width="1.6"/>
+  <text x="125" y="394" font-size="17" font-weight="600" fill="#FFFFFF" text-anchor="middle">Detect</text>
+  <rect x="210" y="310" width="130" height="150" rx="4" fill="#181818" stroke="#181818" stroke-width="1.6"/>
+  <text x="275" y="344" font-size="17" font-weight="600" fill="#FFFFFF" text-anchor="middle">Diagnose</text>
+  <rect x="360" y="260" width="130" height="200" rx="4" fill="#181818" stroke="#181818" stroke-width="1.6"/>
+  <text x="425" y="294" font-size="17" font-weight="600" fill="#FFFFFF" text-anchor="middle">Explain</text>
+  <rect x="510" y="210" width="130" height="250" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6" stroke-dasharray="6 5"/>
+  <text x="575" y="244" font-size="17" font-weight="600" fill="#525252" text-anchor="middle">Recommend</text>
+  <rect x="660" y="160" width="130" height="300" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6" stroke-dasharray="6 5"/>
+  <text x="725" y="194" font-size="17" font-weight="600" fill="#525252" text-anchor="middle">Auto-apply</text>
+  <path d="M60,480 H490" stroke="#181818" stroke-width="2"/>
+  <text x="60" y="508" font-size="15" font-weight="600" fill="#181818" text-anchor="start">In scope</text>
+  <text x="510" y="508" font-size="15" font-weight="600" fill="#525252" text-anchor="start">Deliberately not yet</text>
+  <text x="860" y="150" font-size="18" font-weight="600" fill="#181818" text-anchor="start">Held to three constraints</text>
+  <rect x="860" y="180" width="300" height="68" rx="4" fill="#EAEAE6"/>
+  <text x="880" y="221" font-size="17" font-weight="600" fill="#181818" text-anchor="start">Grounded and traceable</text>
+  <rect x="860" y="264" width="300" height="68" rx="4" fill="#EAEAE6"/>
+  <text x="880" y="305" font-size="17" font-weight="600" fill="#181818" text-anchor="start">Legible to non-engineers</text>
+  <rect x="860" y="348" width="300" height="68" rx="4" fill="#EAEAE6"/>
+  <text x="880" y="389" font-size="17" font-weight="600" fill="#181818" text-anchor="start">Assistive, not autonomous</text>
+</svg>
+
+  <figcaption>The trust ladder from the proposal. The tool detects, diagnoses and explains. It stops short of recommending or applying changes, on purpose. Redrawn from the proposal.</figcaption>
+</figure>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">Key decisions I drove.</h2>
+<div class="cs-decision">
+  <h3 class="cs-h2">1. Built a five-claim evidence base instead of re-running discovery</h3>
+  <p class="cs-p"><strong>I paired every claim with a customer voice and a usage number.</strong> Customers cannot tell why results are poor. Diagnosis is manual. It worsens as features stack. It carries a cost. The demand is repeated. Each of the five had a quote and a figure behind it, pulled from sales calls and product analytics. The rollback pattern turned the cost claim from the weakest leg into the strongest, because it showed people abandoning a feature within the hour rather than complaining about it.</p>
+  <div class="cs-outcome">
+    <p class="cs-outcome-label">Outcome.</p>
+    <p>The proposal became the front door for the whole effort, something a sponsor could pick up and own rather than a sixth restart.</p>
+  </div>
+</div>
+<div class="cs-decision">
+  <h3 class="cs-h2">2. Scoped around the gap, then designed the step below it</h3>
+  <p class="cs-p"><strong>Every prior attempt could compare one query. None could show whether a change helped or hurt across the whole index.</strong> That gap is what I argued should be owned. It is unbuilt. It was new even to the builders of the most mature prototype, which is the test I wanted the framing to pass.</p>
+  <p class="cs-p">What I designed and built is deliberately narrower. V1 is one view answering why one result landed where it did. Five panels on the real dashboard chrome, built on the company design system's own components and tokens, pulling the scattered "why" into one place. It holds back any sandbox, any verdict on relevance versus ranking and real data, so the one thing under test stayed clean. Does consolidating the explanation actually help someone understand?</p>
+  <figure class="cs-figure">
+    <img src="assets/diagnostics/diag-v1-why.png" width="1440" height="900" loading="lazy" alt="A wireframe of the dashboard with results three and four outlined and an explanation panel on the right titled why is this below result 3, listing deciding factors each marked tie, won or lost." />
+    <figcaption>The explanation panel from the first proposal. Why one result landed below the one above it, with each deciding factor marked won, tied or lost. Sandbox data throughout, the rest of the dashboard reduced to a wireframe.</figcaption>
+  </figure>
+  <div class="cs-outcome">
+    <p class="cs-outcome-label">Outcome.</p>
+    <p>A code prototype and a Figma set that had drifted apart, reconciled, plus a screen real enough to be argued with.</p>
+  </div>
+</div>
+<div class="cs-decision">
+  <h3 class="cs-h2">3. Showed it to the hardest audiences first, then set the rule that resolved them</h3>
+  <p class="cs-p"><strong>I stopped polishing and put the prototype in front of the two hardest audiences on the same day.</strong> A domain expert on correctness, then the PM who owns retrieval, who is the technical ground truth. Then I kept going. Nine sessions over five weeks, published as a dated trail so every design decision traces back to who said what. Two of those sessions were with the people who diagnose this by hand today, a solutions architect and an enterprise merchandiser who used to do the job as a customer.</p>
+  <div class="cs-note">
+    <p>"To apply the actual ranking is hard, but then to know if it's in effect, you really can't see it anywhere." An enterprise merchandiser who used to do the job as a customer, in an internal feedback session.</p>
+  </div>
+  <p class="cs-p">Three findings changed the design and I had none of them going in. The way my prototype expressed one of the ranking steps was not merely complex but technically wrong, so I fixed the claim rather than the presentation. The settings a person has manually changed were the least visible thing on the screen, found independently by two people. Three people separately said the page fires everything at once, so the next pass was subtraction rather than addition.</p>
+  <figure class="cs-figure">
+    <img src="assets/diagnostics/diag-proposal-v2.png" width="1440" height="1174" loading="lazy" alt="Two panels side by side. The first proposal lists deciding factors marked tie, won or lost. V2 is titled ranked number 4 on popularity and walks through found, ranked and overridden." />
+    <figcaption>The same question in the first proposal and in V2. V2 leads with the answer, then shows how the product was found, ranked and whether a rule overrode it. Sandbox data throughout.</figcaption>
+  </figure>
+  <p class="cs-p">Two reviewers also pulled in opposite directions, simplify aggressively against represent the engine accurately. The rule I set to resolve it now governs the tool. Simplify the presentation, never assert something technically false.</p>
+  <figure class="cs-figure">
+    <img src="assets/diagnostics/diag-v1-breakdown.png" width="1440" height="900" loading="lazy" alt="A wireframe of the dashboard with several result cards outlined and a result breakdown panel on the right showing how results split across a category, with a highlight toggle switched on." />
+    <figcaption>The whole-result-set view. How one query's results distribute across facets, tied back to individual cards by a highlight toggle. Sandbox data throughout, the rest of the dashboard reduced to a wireframe.</figcaption>
+  </figure>
+  <div class="cs-outcome">
+    <p class="cs-outcome-label">Outcome.</p>
+    <p>Sixty-eight findings went back onto the designs they judge, colour-coded four ways, working, broken, open question, opportunity. Recording what worked was as deliberate as recording what did not, because the green notes are the argument when this reaches a sponsor.</p>
+  </div>
+</div>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">How I influenced direction.</h2>
+<p class="cs-p"><strong>The highest-value move was naming the split, not drawing the screen.</strong> The people who had each built a version gave me the same diagnosis without prompting. The idea is sound and wanted, it just has no owner. I put that in writing and made it the spine of the proposal.</p>
+<p class="cs-p">The rules panel shows what the same discipline bought on the screen itself. I made several rules on one query in the live product, found only one of them did anything and found nothing anywhere that explained why. Engine ground truth showed the behaviour presents as "the first rule I made wins". That reading is correct for the wrong reason. Dashboard-created rules are tie-broken on an internal identifier that happens to sort by creation time and nothing in the product exposes it. So the design retires the claim my own panel had been making and refuses the plausible rebuttal too, because both were wrong.</p>
+<div class="cs-outcome">
+  <p class="cs-outcome-label">Strategic outcome.</p>
+  <p>The conversation moved from "should we build this" to "who owns it and what is the smallest useful slice".</p>
+</div>
+<figure class="cs-figure">
+  <img src="assets/diagnostics/diag-v2-family.png" width="1440" height="580" loading="lazy" alt="Four V2 panels in a row, why these results, rules, query alternatives and results breakdown." />
+  <figcaption>V2 splits the explanation into one question per panel. Why these results, the rules in play, the other readings of the query and how the results split. Sandbox data throughout.</figcaption>
+</figure>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">Outcomes.</h2>
+<p class="cs-p"><strong>The outcome is a shift, not a screen.</strong> The direction is endorsed by the VP of Product, whose framing matched mine independently. A missing sponsor was what stalled every previous attempt, so that endorsement is the outcome that matters most.</p>
+<p class="cs-p">When front-end capacity said no, I stopped pushing code into production. The feature flag I shipped is merged. The draft pull requests were parked behind a published handover rather than closed, because the specs and the verified traps are what a future engineer actually inherits. The effort went into prototypes, which needed no reviewer, plus the capacity case, written as an argument with a cost attached rather than a gallery of unbuilt work. A gallery earns sympathy and not capacity.</p>
+<div class="cs-outcomes-grid">
+  <div class="outcome-row">
+    <p class="outcome-type">Product.</p>
+    <p class="outcome-text">A diagnosis, a scrutinised first design and an endorsed direction, where before there was a string of stalled prototypes and no owner.</p>
+  </div>
+  <div class="outcome-row">
+    <p class="outcome-type">Engineering.</p>
+    <p class="outcome-text">A merged feature flag, two specs and a published handover, so the work can be picked up rather than rediscovered.</p>
+  </div>
+  <div class="outcome-row">
+    <p class="outcome-type">Design.</p>
+    <p class="outcome-text">The rule the tool now runs on, set by nine sessions of scrutiny. Simplify the presentation, never assert something technically false.</p>
+  </div>
+  <div class="outcome-row">
+    <p class="outcome-type">Organisational.</p>
+    <p class="outcome-text">The front-end capacity gap this work exposed became a written case with a cost attached rather than a complaint.</p>
+  </div>
+</div>
+<br>
+<div class="cs-note">
+  <p>I cannot claim a shipped tool, revenue impact or a measured drop in diagnosis time, so I do not. Every session was internal. Two participants are strong customer proxies, but no customer has used this and no moderated usability study has been run, so I do not claim validated customer demand either. Those limits sit here rather than waiting for someone to find them.</p>
+</div>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">Why this demonstrates principal level capability.</h2>
+<p class="cs-p"><strong>The principal signal is not that I designed a diagnostics panel.</strong> It is that, handed a tool to design, I asked why the tool kept dying and returned a diagnosis of the organisation instead.</p>
+<p class="cs-p">This work shows that I can take an ambiguous brief and find the real problem underneath it, build an evidence base that survives scrutiny from the technical ground truth, design and build a working prototype on the production design system, run a feedback programme and publish its trail, then hold a technically honest line when reviewers pull in opposite directions. It also shows where I spend effort once a route closes. The version of this where I keep pushing code into production is the version where the argument gets weaker, because the strongest artifact was never the code.</p>
+</div>
+
+<hr class="cs-divider">
+
+    <div class="cs-section">
+<h2 class="cs-section-label">Reflection.</h2>
+<p class="cs-p"><strong>The tool was never the problem.</strong> The design had been proved doable several times over. What none of those attempts had was an owner. No amount of polish fixes that.</p>
+<div class="cs-note">
+  <p>"This is not fundamentally a UI problem." An advisory strategist, in an internal feedback session.</p>
+</div>
+<p class="cs-p">If I was to do it again, I would show the prototype before it felt ready. I polished for longer than I needed to. The day I finally put it in front of the two hardest audiences did more for the design than the polishing had. The limits stay in the open too. Saying that no customer has used this yet costs nothing and makes every other claim on this page easier to believe.</p>
+<div class="cs-note">
+  <p><em>The principal move. I was handed a tool to design and returned a diagnosis of why the tool kept dying. Legibility, turned on the organisation itself.</em></p>
+</div>
+<p class="cs-eyebrow">&rarr; Full story and decisions in an interview</p>
+</div>
+
+  </div>
+
+<!-- footer -->
+  <footer class="site-footer">
+    <p class="footer-name">Adam Males.</p>
+    <ul class="footer-links">
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="mailto:adammales@me.com">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/adam-males" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+  </footer>
+<!-- /footer -->
+
+</body>
+</html>
