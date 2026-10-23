@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Leading and growing designers — Adam Males</title>
+  <meta name="description" content="Managing three designers at Matillion, taking one from junior to mid level and helping hire four designers across the organisation." />
+  <meta property="og:title" content="Leading and growing designers — Adam Males" />
+  <meta property="og:description" content="Managing three designers at Matillion, taking one from junior to mid level and helping hire four designers across the organisation." />
+  <meta property="og:type" content="article" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:    #F7F7F5;
+      --ink:   #181818;
+      --ink-2: #525252;
+      --ink-3: #616161;
+      --rule:  #E0E0DE;
+      --f:     'Inter', system-ui, sans-serif;
+
+      /* spacing */
+      --micro: 4px;
+      --sml:   12px;
+      --base:  20px;
+      --med:   32px;
+      --xl:    64px;
+      --hero:  96px;
+
+      /* type */
+      --t-sm:    12px;
+      --t-body:  13px;
+      --t-base:  16px;
+      --t-md:    18px;
+      --t-title: clamp(36px, 5vw, 52px);
+      --t-head:  24px;
+      --radius:  4px;
+
+      --pad: 300px;
+      --content: 680px;
+
+      /* callouts and figures break the text column by this much each side */
+      --bleed: 40px;
+    }
+
+    @media (max-width: 1140px) { :root { --pad: 80px; } }
+    @media (max-width: 720px)  { :root { --pad: 40px; } }
+    @media (max-width: 480px)  { :root { --pad: 24px; --bleed: 16px; } }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--f);
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: 'ss01' 1, 'cv05' 1;
+    }
+
+    /* ─── BACK NAV ─────────────────────────────────────────── */
+    .cs-nav {
+      padding: var(--med) var(--pad);
+    }
+
+    .cs-back {
+      font-size: var(--t-body);
+      font-weight: 400;
+      color: var(--ink-3);
+      text-decoration: none;
+      transition: color 0.15s ease, background-color 0.15s ease;
+      border-radius: 3px;
+      padding: 2px 5px;
+      margin: -2px -5px;
+    }
+
+    .cs-back:hover {
+      color: var(--bg);
+      background-color: var(--ink);
+    }
+
+    .cs-back:active {
+      color: var(--bg);
+      background-color: var(--ink-2);
+    }
+
+    /* ─── HEADER ───────────────────────────────────────────── */
+    .cs-header {
+      padding: var(--xl) var(--pad) var(--med);
+      max-width: calc(var(--content) + var(--pad) * 2);
+    }
+
+    .cs-eyebrow {
+      font-size: var(--t-sm);
+      font-weight: 400;
+      color: var(--ink-3);
+      margin-bottom: var(--base);
+    }
+
+    .cs-title {
+      font-size: var(--t-title);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      color: var(--ink);
+      margin-bottom: var(--med);
+    }
+
+    .cs-overview {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-2);
+    }
+
+    .cs-overview strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    /* ─── METADATA ─────────────────────────────────────────── */
+    .cs-meta {
+      padding: var(--med) var(--pad);
+      display: grid;
+      grid-template-columns: repeat(4, auto);
+      gap: var(--xl);
+      justify-content: start;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: var(--xl);
+    }
+
+    @media (max-width: 720px) {
+      .cs-meta {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--med);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cs-meta {
+        grid-template-columns: 1fr;
+        gap: var(--base);
+      }
+    }
+
+    .meta-item {}
+
+    .meta-label {
+      font-size: var(--t-sm);
+      font-weight: 600;
+      color: var(--ink-2);
+      margin-bottom: var(--micro);
+    }
+
+    .meta-value {
+      font-size: var(--t-body);
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    /* ─── BODY ─────────────────────────────────────────────── */
+    .cs-body {
+      padding: 0 var(--pad) var(--hero);
+      max-width: calc(var(--content) + var(--pad) * 2);
+    }
+
+    .cs-section {
+      margin-bottom: var(--xl);
+    }
+
+    .cs-section-label {
+      font-size: var(--t-head);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: var(--med);
+    }
+
+    .cs-header .cs-section-label { margin-top: var(--xl); }
+
+    .cs-h2 {
+      font-size: var(--t-md);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: var(--base);
+    }
+
+    .cs-h3 {
+      font-size: var(--t-base);
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: var(--sml);
+    }
+
+    .cs-p {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-2);
+      margin-bottom: var(--base);
+    }
+
+    .cs-p:last-child { margin-bottom: 0; }
+
+    .cs-p strong {
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .cs-list {
+      list-style: none;
+      margin-bottom: var(--base);
+    }
+
+    .cs-list li {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--ink-2);
+      padding: 3px 0 3px 16px;
+      position: relative;
+    }
+
+    .cs-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 13px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--ink-3);
+    }
+
+    /* ─── NOTE ─────────────────────────────────────────────── */
+    .cs-note {
+      padding: var(--base);
+      border-left: 2px solid var(--rule);
+      margin: 0 calc(var(--bleed) * -1) var(--xl);
+    }
+
+    .cs-note p {
+      font-size: var(--t-body);
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-3);
+      font-style: italic;
+    }
+
+    /* ─── OUTCOME CALLOUT ──────────────────────────────────── */
+    .cs-outcome {
+      margin: var(--base) calc(var(--bleed) * -1) var(--med);
+      padding: var(--base) var(--bleed);
+      background: rgba(24,24,24,0.03);
+      border-radius: var(--radius);
+    }
+
+    .cs-outcome .cs-outcome-label {
+      font-size: var(--t-body);
+      font-weight: 600;
+      line-height: 1.65;
+      color: var(--ink-2);
+      margin-bottom: var(--micro);
+    }
+
+    .cs-outcome p {
+      font-size: var(--t-body);
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--ink-2);
+    }
+
+    /* ─── DIVIDER ───────────────────────────────────────────── */
+    .cs-divider {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: var(--xl) 0;
+    }
+
+    /* ─── DECISION ─────────────────────────────────────────── */
+    .cs-decision {
+      margin-bottom: var(--xl);
+    }
+
+    .cs-decision { padding-top: var(--sml); }
+
+    /* ─── OUTCOMES GRID ────────────────────────────────────── */
+    .cs-outcomes-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--med);
+    }
+
+    .outcome-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: var(--med);
+      align-items: start;
+    }
+
+    @media (max-width: 600px) {
+      .outcome-row {
+        grid-template-columns: 1fr;
+        gap: var(--sml);
+      }
+    }
+
+    .outcome-type {
+      font-size: var(--t-sm);
+      font-weight: 600;
+      color: var(--ink-2);
+      padding-top: 3px;
+    }
+
+    .outcome-text {
+      font-size: var(--t-base);
+      font-weight: 300;
+      line-height: 1.7;
+      color: var(--ink-2);
+    }
+  
+    /* ─── FIGURE ───────────────────────────────────────────── */
+    .cs-figure { margin: var(--med) calc(var(--bleed) * -1) var(--xl); }
+    .cs-figure svg, .cs-figure img { display: block; width: 100%; height: auto; border-radius: var(--radius); }
+    .cs-figure figcaption { font-size: var(--t-sm); font-weight: 400; color: var(--ink-3); margin: var(--base) var(--bleed) 0; }
+    .cs-decision .cs-figure { margin-bottom: var(--med); }
+    .cs-fig-narrow { display: none; }
+    @media (max-width: 480px) { .cs-fig-wide { display: none; } .cs-fig-narrow { display: block; max-width: 300px; margin: 0 auto; } }
+    .cs-figure-zoom { position: relative; display: block; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+    .cs-figure-zoom-hint { position: absolute; right: var(--sml); bottom: var(--sml); background: var(--ink); color: var(--bg); font-size: var(--t-sm); font-weight: 500; padding: var(--micro) var(--sml); border-radius: var(--radius); }
+    .cs-figure-zoom:hover .cs-figure-zoom-hint, .cs-figure-zoom:focus-visible .cs-figure-zoom-hint { background: var(--ink-2); }
+
+    /* ─── IMAGE PLACEHOLDER ──────────────────────────────── */
+    .cs-ph {
+      aspect-ratio: 16 / 10;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      padding: var(--med);
+      background-color: #EFEFEC;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 2L22 12L12 22L2 12Z' fill='%23E2E2DF'/%3E%3C/svg%3E");
+      background-size: 24px 24px;
+    }
+    .cs-ph p { max-width: 440px; background: var(--bg); border-radius: var(--radius); padding: var(--sml) var(--base); font-size: var(--t-body); line-height: 1.6; color: var(--ink-2); text-align: center; }
+    .cs-ph-tag { display: block; font-weight: 600; color: var(--ink); margin-bottom: var(--micro); }
+    @media (max-width: 480px) { .cs-ph { aspect-ratio: 4 / 3; padding: var(--base); } }
+
+    /* ─── TL;DR ────────────────────────────────────────────── */
+    .cs-tldr { margin: var(--med) calc(var(--bleed) * -1) 0; padding: var(--base) var(--bleed); background: rgba(24,24,24,0.03); border-radius: var(--radius); }
+    .cs-tldr-label { font-size: var(--t-head); font-weight: 600; line-height: 32px; letter-spacing: -0.8px; color: var(--ink); margin-bottom: var(--sml); }
+    .cs-tldr-item { font-size: var(--t-base); font-weight: 300; line-height: 1.5; color: var(--ink); margin-bottom: 24px; }
+    .cs-tldr-item:last-child { margin-bottom: 0; }
+    .cs-tldr-item strong { font-weight: 600; }
+
+    /* ─── LINKS IN COPY ────────────────────────────────────── */
+    .cs-eyebrow a, .cs-p a, .cs-overview a, .cs-tldr-item a { color: inherit; text-decoration: underline; text-decoration-color: var(--ink-3); text-underline-offset: 3px; }
+    .cs-eyebrow a:hover, .cs-p a:hover, .cs-overview a:hover, .cs-tldr-item a:hover { text-decoration-color: var(--ink); }
+
+    /* footer */
+    .site-footer { padding: 40px var(--pad) 96px; border-top: 1px solid #E0E0DE; }
+    .footer-name { font-size: 32px; font-weight: 600; line-height: 1; letter-spacing: -0.8px; color: #181818; }
+    .footer-links { display: flex; gap: 32px; padding-top: 12px; list-style: none; }
+    .footer-links a { font-size: 13px; line-height: 1.5; color: #181818; text-decoration: underline; text-decoration-color: #616161; text-underline-offset: 3px; border-radius: 3px; padding: 2px 4px; margin: -2px -4px; }
+    .footer-links a:hover { color: #F7F7F5; background-color: #181818; text-decoration: none; }
+    @media (max-width: 480px) { .footer-links { flex-direction: column; gap: 4px; } }
+    /* /footer */
+</style>
+</head>
+<body>
+
+  <nav class="cs-nav">
+    <a class="cs-back" href="/">← Back</a>
+  </nav>
+
+  <header class="cs-header">
+    <p class="cs-eyebrow"><a href="https://www.matillion.com" target="_blank" rel="noopener">Matillion</a> · 2023 to 2025 · Group Product Designer, managing three designers</p>
+    <h1 class="cs-title">Leading and growing designers.</h1>
+    <section class="cs-tldr" aria-label="Summary">
+  <h2 class="cs-tldr-label">Too long, didn’t read.</h2>
+  <p class="cs-tldr-item"><strong>I managed three designers at Matillion for my whole time there.</strong> They ranged from a senior designer to placement students.</p>
+  <p class="cs-tldr-item"><strong>One of them asked to be promoted, so I turned the wish into a plan.</strong> I mapped their skill gaps against our levelling framework and built a mentoring plan with continuous assessment. Then I helped write the promotion proposal that went to the VP of Product and the CPO.</p>
+  <p class="cs-tldr-item"><strong>The proposal met no pushback.</strong> By then the designer was presenting more of their work and producing better work. They were also exploring problems more deeply.</p>
+  <p class="cs-tldr-item"><strong>I worked with the Director of Product on levelling and on hiring a principal designer.</strong> I also helped hire four designers across the organisation. Only one of them joined my team.</p>
+  <p class="cs-tldr-item"><strong>The principal move was treating a career wish as a design problem with a method.</strong></p>
+</section>
+    <h2 class="cs-section-label">Introduction.</h2>
+<p class="cs-overview">A designer who asks for a promotion and gets warm encouragement usually leaves within a year. A designer who gets a plan stays, because they can see the next step and who is judging it.</p>
+<br>
+<p class="cs-overview"><strong>At Matillion I managed three designers and took one of them from junior to mid level.</strong> I did it by making the criteria visible and measuring against them over time. Alongside that I worked with the Director of Product on how the company levels designers and how it hires them.</p>
+  </header>
+
+  <div class="cs-meta">
+    <div class="meta-item">
+  <p class="meta-label">My role.</p>
+  <p class="meta-value">Group Product Designer<br>Manager of three designers</p>
+</div>
+<div class="meta-item">
+  <p class="meta-label">Scope.</p>
+  <p class="meta-value">One junior designer's path to mid level<br>Levelling and hiring for design<br>Four design hires across the organisation</p>
+</div>
+<div class="meta-item">
+  <p class="meta-label">Influenced.</p>
+  <p class="meta-value">How promotion cases for designers were built<br>What a principal designer hire was expected to look like</p>
+</div>
+<div class="meta-item">
+  <p class="meta-label">Outcome.</p>
+  <p class="meta-value">One promotion from junior to mid level with no pushback from senior leadership<br>Four designers hired across the organisation</p>
+</div>
+  </div>
+
+  <div class="cs-body">
+
+    <div class="cs-section">
+<h2 class="cs-section-label">Why this mattered.</h2>
+<p class="cs-p"><strong>A promotion that rests on a manager saying trust me fails at the first hard question.</strong> The people deciding sit above the manager. They have not watched the work week by week. They need the case laid out against criteria they already recognise.</p>
+<p class="cs-p">It also matters to the designer. Without a method they are left guessing whether they are one project away or a year away. Guessing is how good people quietly start looking elsewhere.</p>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">The call I made.</h2>
+<p class="cs-p"><strong>I treated the request as a design problem and not a favour.</strong> The designer raised it in our weekly one to one. I could have encouraged them and promised to raise it later. Instead I took the company levelling framework as the brief and set out to close the gap between where they were and what the next level asked for.</p>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">How I made it real.</h2>
+<figure class="cs-figure">
+  <svg xmlns="http://www.w3.org/2000/svg" id="fig-lead-method" viewBox="0 0 1200 590" width="1200" height="590" role="img" aria-labelledby="fig-lead-method-t fig-lead-method-d">
+  <title id="fig-lead-method-t">The mentoring method behind one promotion</title>
+  <desc id="fig-lead-method-d">Four steps run left to right. The designer names their own gaps. The gaps are mapped to the levelling framework. A plan covers six preparation areas. A promotion proposal goes to the VP of Product and the CPO. The six areas are assess readiness, enhance visibility, develop skills, expand your perspective, support your mindset and making the call. Continuous assessment against the framework runs underneath the whole plan.</desc>
+  <style>#fig-lead-method text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
+  <rect width="1200" height="590" fill="#F7F7F5"/>
+  <text x="60" y="58" font-size="30" font-weight="700" fill="#181818">How one promotion was built</text>
+  <text x="60" y="90" font-size="17" font-weight="400" fill="#525252">The method I used with a junior designer. Their own notes are left out.</text>
+  <rect x="60" y="124" width="246" height="146" rx="4" fill="#EAEAE6"/>
+  <text x="76" y="152" font-size="13" font-weight="700" fill="#525252">1</text>
+  <text x="76" y="176" font-size="16" font-weight="700" fill="#181818">They name the gaps</text>
+  <text x="76" y="202" font-size="13.5" font-weight="400" fill="#525252">Skills they want to grow,</text>
+  <text x="76" y="220" font-size="13.5" font-weight="400" fill="#525252">where they sit on each range</text>
+  <text x="76" y="238" font-size="13.5" font-weight="400" fill="#525252">and which way to move.</text>
+  <line x1="310" y1="197.0" x2="328" y2="197.0" stroke="#181818" stroke-width="1.6"/>
+  <polygon points="334,197.0 326,192.0 326,202.0" fill="#181818"/>
+  <rect x="338" y="124" width="246" height="146" rx="4" fill="#EAEAE6"/>
+  <text x="354" y="152" font-size="13" font-weight="700" fill="#525252">2</text>
+  <text x="354" y="176" font-size="16" font-weight="700" fill="#181818">Mapped to the framework</text>
+  <text x="354" y="202" font-size="13.5" font-weight="400" fill="#525252">Each gap is read against</text>
+  <text x="354" y="220" font-size="13.5" font-weight="400" fill="#525252">our levelling framework to</text>
+  <text x="354" y="238" font-size="13.5" font-weight="400" fill="#525252">see what the next level</text>
+  <text x="354" y="256" font-size="13.5" font-weight="400" fill="#525252">asks for.</text>
+  <line x1="588" y1="197.0" x2="606" y2="197.0" stroke="#181818" stroke-width="1.6"/>
+  <polygon points="612,197.0 604,192.0 604,202.0" fill="#181818"/>
+  <rect x="616" y="124" width="246" height="146" rx="4" fill="#EAEAE6"/>
+  <text x="632" y="152" font-size="13" font-weight="700" fill="#525252">3</text>
+  <text x="632" y="176" font-size="16" font-weight="700" fill="#181818">Six preparation areas</text>
+  <text x="632" y="202" font-size="13.5" font-weight="400" fill="#525252">A plan with continuous</text>
+  <text x="632" y="220" font-size="13.5" font-weight="400" fill="#525252">assessment, so progress is</text>
+  <text x="632" y="238" font-size="13.5" font-weight="400" fill="#525252">checked as we go and not</text>
+  <text x="632" y="256" font-size="13.5" font-weight="400" fill="#525252">only at the end.</text>
+  <line x1="866" y1="197.0" x2="884" y2="197.0" stroke="#181818" stroke-width="1.6"/>
+  <polygon points="890,197.0 882,192.0 882,202.0" fill="#181818"/>
+  <rect x="894" y="124" width="246" height="146" rx="4" fill="#181818"/>
+  <text x="910" y="152" font-size="13" font-weight="700" fill="#EAEAE6">4</text>
+  <text x="910" y="176" font-size="16" font-weight="700" fill="#FFFFFF">The proposal</text>
+  <text x="910" y="202" font-size="13.5" font-weight="400" fill="#EAEAE6">Written together and sent</text>
+  <text x="910" y="220" font-size="13.5" font-weight="400" fill="#EAEAE6">to the VP of Product</text>
+  <text x="910" y="238" font-size="13.5" font-weight="400" fill="#EAEAE6">and the CPO.</text>
+  <text x="910" y="256" font-size="13.5" font-weight="400" fill="#EAEAE6">It met no pushback.</text>
+  <line x1="739.0" y1="270" x2="739.0" y2="296" stroke="#616161" stroke-width="1.6"/>
+  <line x1="145" y1="296" x2="1055" y2="296" stroke="#616161" stroke-width="1.6"/>
+  <line x1="145.0" y1="296" x2="145.0" y2="316" stroke="#616161" stroke-width="1.6"/>
+  <rect x="60" y="316" width="170" height="178" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"/>
+  <text x="76" y="344" font-size="13" font-weight="700" fill="#525252">1</text>
+  <text x="76" y="368" font-size="16" font-weight="700" fill="#181818">Assess</text>
+  <text x="76" y="388" font-size="16" font-weight="700" fill="#181818">readiness</text>
+  <text x="76" y="428" font-size="13" font-weight="400" fill="#525252">Gap analysis of</text>
+  <text x="76" y="446" font-size="13" font-weight="400" fill="#525252">strengths and</text>
+  <text x="76" y="464" font-size="13" font-weight="400" fill="#525252">weaknesses against</text>
+  <text x="76" y="482" font-size="13" font-weight="400" fill="#525252">the next level</text>
+  <line x1="327.0" y1="296" x2="327.0" y2="316" stroke="#616161" stroke-width="1.6"/>
+  <rect x="242" y="316" width="170" height="178" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"/>
+  <text x="258" y="344" font-size="13" font-weight="700" fill="#525252">2</text>
+  <text x="258" y="368" font-size="16" font-weight="700" fill="#181818">Enhance</text>
+  <text x="258" y="388" font-size="16" font-weight="700" fill="#181818">visibility</text>
+  <text x="258" y="428" font-size="13" font-weight="400" fill="#525252">Ways to show their</text>
+  <text x="258" y="446" font-size="13" font-weight="400" fill="#525252">achievements to the</text>
+  <text x="258" y="464" font-size="13" font-weight="400" fill="#525252">people who decide</text>
+  <line x1="509.0" y1="296" x2="509.0" y2="316" stroke="#616161" stroke-width="1.6"/>
+  <rect x="424" y="316" width="170" height="178" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"/>
+  <text x="440" y="344" font-size="13" font-weight="700" fill="#525252">3</text>
+  <text x="440" y="368" font-size="16" font-weight="700" fill="#181818">Develop</text>
+  <text x="440" y="388" font-size="16" font-weight="700" fill="#181818">skills</text>
+  <text x="440" y="428" font-size="13" font-weight="400" fill="#525252">Tools and feedback</text>
+  <text x="440" y="446" font-size="13" font-weight="400" fill="#525252">for the skills the</text>
+  <text x="440" y="464" font-size="13" font-weight="400" fill="#525252">next level asks for</text>
+  <line x1="691.0" y1="296" x2="691.0" y2="316" stroke="#616161" stroke-width="1.6"/>
+  <rect x="606" y="316" width="170" height="178" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"/>
+  <text x="622" y="344" font-size="13" font-weight="700" fill="#525252">4</text>
+  <text x="622" y="368" font-size="16" font-weight="700" fill="#181818">Expand your</text>
+  <text x="622" y="388" font-size="16" font-weight="700" fill="#181818">perspective</text>
+  <text x="622" y="428" font-size="13" font-weight="400" fill="#525252">Seeing the bigger</text>
+  <text x="622" y="446" font-size="13" font-weight="400" fill="#525252">picture and learning</text>
+  <text x="622" y="464" font-size="13" font-weight="400" fill="#525252">from leaders who</text>
+  <text x="622" y="482" font-size="13" font-weight="400" fill="#525252">made the step</text>
+  <line x1="873.0" y1="296" x2="873.0" y2="316" stroke="#616161" stroke-width="1.6"/>
+  <rect x="788" y="316" width="170" height="178" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"/>
+  <text x="804" y="344" font-size="13" font-weight="700" fill="#525252">5</text>
+  <text x="804" y="368" font-size="16" font-weight="700" fill="#181818">Support your</text>
+  <text x="804" y="388" font-size="16" font-weight="700" fill="#181818">mindset</text>
+  <text x="804" y="428" font-size="13" font-weight="400" fill="#525252">Fears and limiting</text>
+  <text x="804" y="446" font-size="13" font-weight="400" fill="#525252">beliefs, plus a</text>
+  <text x="804" y="464" font-size="13" font-weight="400" fill="#525252">growth mindset</text>
+  <line x1="1055.0" y1="296" x2="1055.0" y2="316" stroke="#616161" stroke-width="1.6"/>
+  <rect x="970" y="316" width="170" height="178" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"/>
+  <text x="986" y="344" font-size="13" font-weight="700" fill="#525252">6</text>
+  <text x="986" y="368" font-size="16" font-weight="700" fill="#181818">Making</text>
+  <text x="986" y="388" font-size="16" font-weight="700" fill="#181818">the call</text>
+  <text x="986" y="428" font-size="13" font-weight="400" fill="#525252">How to present</text>
+  <text x="986" y="446" font-size="13" font-weight="400" fill="#525252">themselves and make</text>
+  <text x="986" y="464" font-size="13" font-weight="400" fill="#525252">the case for the</text>
+  <text x="986" y="482" font-size="13" font-weight="400" fill="#525252">promotion</text>
+  <rect x="60" y="516" width="1080" height="44" rx="4" fill="#EAEAE6"/>
+  <text x="600" y="544" font-size="15" font-weight="700" fill="#181818" text-anchor="middle">Continuous assessment against the levelling framework, from the first step to the proposal</text>
+</svg>
+
+  <figcaption>The method with the designer's own notes left out. Redrawn from the working board.</figcaption>
+</figure>
+<p class="cs-p"><strong>I started by letting them describe their own gaps.</strong> We ran a mentoring workshop on a shared board. They marked the skills they wanted to develop and the work they loved and hated. They placed themselves on a range for each skill and drew an arrow for which way they wanted to move. We also wrote down what each of us was committing to.</p>
+<p class="cs-p"><strong>I then mapped those gaps against the levelling framework.</strong> We agreed six areas to prepare for promotion and I turned them into a mentoring plan. The plan carried continuous assessment, so we checked progress against the framework as we went and not at the end.</p>
+<p class="cs-p"><strong>When the evidence was there I helped write the promotion proposal.</strong> It went to the VP of Product and the CPO.</p>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">Where it landed.</h2>
+<p class="cs-p"><strong>The proposal met no pushback from senior leadership.</strong> The designer became more confident in their work and presented it more often. The quality of the work improved. They explored problems more deeply and generated more ideas before settling.</p>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">Beyond my own team.</h2>
+<p class="cs-p"><strong>I worked with the Director of Product to define levelling and the hiring profile for a principal designer role.</strong> I then helped hire two principal designers, a staff designer and a junior designer. Only the junior joined my team. The others were placed elsewhere in the organisation, so the hiring shaped design well beyond the people who reported to me.</p>
+</div>
+
+<hr class="cs-divider">
+
+<div class="cs-section">
+<h2 class="cs-section-label">What I cannot claim.</h2>
+<p class="cs-p"><strong>This is one promotion on one small team.</strong> I do not pretend otherwise. I have no measured result beyond the outcome and the changes I saw in the work. The designer did the work and I cannot say what would have happened without the plan. I also helped hire and did not lead hiring on my own. Beyond Matillion I have mentored five designers through an online mentoring platform, with one or two sessions each.</p>
+</div>
+
+<hr class="cs-divider">
+
+    <div class="cs-section">
+<h2 class="cs-section-label">Reflection.</h2>
+<p class="cs-p"><strong>What I would keep is the order.</strong> Let the person describe the gaps first, then measure against the criteria the company already uses, then write the case. What I would change is capturing the evidence as I went. The plan tracked progress, but I did not keep a record that would let me show you the before and after.</p>
+<p class="cs-p"><em>The principal move was making the criteria visible to the person being judged and to the people judging them.</em></p>
+</div>
+
+  </div>
+
+<!-- footer -->
+  <footer class="site-footer">
+    <p class="footer-name">Adam Males.</p>
+    <ul class="footer-links">
+      <li><a href="resume.html">Resume</a></li>
+      <li><a href="mailto:adammales@me.com">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/adam-males" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+  </footer>
+<!-- /footer -->
+
+</body>
+</html>
