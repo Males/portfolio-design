@@ -14,367 +14,8 @@
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:    #F7F7F5;
-      --ink:   #181818;
-      --ink-2: #525252;
-      --ink-3: #616161;
-      --rule:  #E0E0DE;
-      --f:     'Inter', system-ui, sans-serif;
-
-      /* spacing */
-      --micro: 4px;
-      --sml:   12px;
-      --base:  20px;
-      --med:   32px;
-      --xl:    64px;
-      --hero:  96px;
-
-      /* type */
-      --t-sm:    12px;
-      --t-body:  13px;
-      --t-base:  16px;
-      --t-md:    18px;
-      --t-title: clamp(36px, 5vw, 52px);
-      --t-head:  24px;
-      --radius:  4px;
-
-      --pad: 300px;
-      --content: 680px;
-
-      /* callouts and figures break the text column by this much each side */
-      --bleed: 40px;
-    }
-
-    @media (max-width: 1140px) { :root { --pad: 80px; } }
-    @media (max-width: 720px)  { :root { --pad: 40px; } }
-    @media (max-width: 480px)  { :root { --pad: 24px; --bleed: 16px; } }
-
-    html, body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--f);
-      max-width: 1440px;
-      width: 100%;
-      margin: 0 auto;
-      -webkit-font-smoothing: antialiased;
-      font-feature-settings: 'ss01' 1, 'cv05' 1;
-    }
-
-    /* ─── BACK NAV ─────────────────────────────────────────── */
-    .cs-nav {
-      padding: var(--med) var(--pad);
-    }
-
-    .cs-back {
-      font-size: var(--t-body);
-      font-weight: 400;
-      color: var(--ink-3);
-      text-decoration: none;
-      transition: color 0.15s ease, background-color 0.15s ease;
-      border-radius: 3px;
-      padding: 2px 5px;
-      margin: -2px -5px;
-    }
-
-    .cs-back:hover {
-      color: var(--bg);
-      background-color: var(--ink);
-    }
-
-    .cs-back:active {
-      color: var(--bg);
-      background-color: var(--ink-2);
-    }
-
-    /* ─── HEADER ───────────────────────────────────────────── */
-    .cs-header {
-      padding: var(--xl) var(--pad) var(--med);
-      max-width: calc(var(--content) + var(--pad) * 2);
-    }
-
-    .cs-eyebrow {
-      font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
-      margin-bottom: var(--base);
-    }
-
-    .cs-title {
-      font-size: var(--t-title);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.035em;
-      color: var(--ink);
-      margin-bottom: var(--med);
-    }
-
-    .cs-overview {
-      font-size: var(--t-base);
-      font-weight: 300;
-      line-height: 1.75;
-      color: var(--ink-2);
-    }
-
-    .cs-overview strong {
-      font-weight: 500;
-      color: var(--ink);
-    }
-
-    /* ─── METADATA ─────────────────────────────────────────── */
-    .cs-meta {
-      padding: var(--med) var(--pad);
-      display: grid;
-      grid-template-columns: repeat(4, auto);
-      gap: var(--xl);
-      justify-content: start;
-      border-top: 1px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
-      margin-bottom: var(--xl);
-    }
-
-    @media (max-width: 720px) {
-      .cs-meta {
-        grid-template-columns: 1fr 1fr;
-        gap: var(--med);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .cs-meta {
-        grid-template-columns: 1fr;
-        gap: var(--base);
-      }
-    }
-
-    .meta-item {}
-
-    .meta-label {
-      font-size: var(--t-sm);
-      font-weight: 600;
-      color: var(--ink-2);
-      margin-bottom: var(--micro);
-    }
-
-    .meta-value {
-      font-size: var(--t-body);
-      font-weight: 400;
-      color: var(--ink);
-      line-height: 1.5;
-    }
-
-    /* ─── BODY ─────────────────────────────────────────────── */
-    .cs-body {
-      padding: 0 var(--pad) var(--hero);
-      max-width: calc(var(--content) + var(--pad) * 2);
-    }
-
-    .cs-section {
-      margin-bottom: var(--xl);
-    }
-
-    .cs-section-label {
-      font-size: var(--t-head);
-      font-weight: 600;
-      line-height: 1.25;
-      color: var(--ink);
-      margin-bottom: var(--med);
-    }
-
-    .cs-header .cs-section-label { margin-top: var(--xl); }
-
-    .cs-h2 {
-      font-size: var(--t-md);
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-      margin-bottom: var(--base);
-    }
-
-    .cs-h3 {
-      font-size: var(--t-base);
-      font-weight: 500;
-      color: var(--ink);
-      margin-bottom: var(--sml);
-    }
-
-    .cs-p {
-      font-size: var(--t-base);
-      font-weight: 300;
-      line-height: 1.75;
-      color: var(--ink-2);
-      margin-bottom: var(--base);
-    }
-
-    .cs-p:last-child { margin-bottom: 0; }
-
-    .cs-p strong {
-      font-weight: 500;
-      color: var(--ink);
-    }
-
-    .cs-list {
-      list-style: none;
-      margin-bottom: var(--base);
-    }
-
-    .cs-list li {
-      font-size: var(--t-base);
-      font-weight: 300;
-      line-height: 1.75;
-      color: var(--ink-2);
-      padding: 3px 0 3px 16px;
-      position: relative;
-    }
-
-    .cs-list li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 13px;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: var(--ink-3);
-    }
-
-    /* ─── NOTE ─────────────────────────────────────────────── */
-    .cs-note {
-      padding: var(--base);
-      border-left: 2px solid var(--rule);
-      margin: 0 calc(var(--bleed) * -1) var(--xl);
-    }
-
-    .cs-note p {
-      font-size: var(--t-body);
-      font-weight: 300;
-      line-height: 1.7;
-      color: var(--ink-3);
-      font-style: italic;
-    }
-
-    /* ─── OUTCOME CALLOUT ──────────────────────────────────── */
-    .cs-outcome {
-      margin: var(--base) calc(var(--bleed) * -1) var(--med);
-      padding: var(--base) var(--bleed);
-      background: rgba(24,24,24,0.03);
-      border-radius: var(--radius);
-    }
-
-    .cs-outcome .cs-outcome-label {
-      font-size: var(--t-body);
-      font-weight: 600;
-      line-height: 1.65;
-      color: var(--ink-2);
-      margin-bottom: var(--micro);
-    }
-
-    .cs-outcome p {
-      font-size: var(--t-body);
-      font-weight: 400;
-      line-height: 1.65;
-      color: var(--ink-2);
-    }
-
-    /* ─── DIVIDER ───────────────────────────────────────────── */
-    .cs-divider {
-      border: none;
-      border-top: 1px solid var(--rule);
-      margin: var(--xl) 0;
-    }
-
-    /* ─── DECISION ─────────────────────────────────────────── */
-    .cs-decision {
-      margin-bottom: var(--xl);
-    }
-
-    .cs-decision { padding-top: var(--sml); }
-
-    /* ─── OUTCOMES GRID ────────────────────────────────────── */
-    .cs-outcomes-grid {
-      display: flex;
-      flex-direction: column;
-      gap: var(--med);
-    }
-
-    .outcome-row {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: var(--med);
-      align-items: start;
-    }
-
-    @media (max-width: 600px) {
-      .outcome-row {
-        grid-template-columns: 1fr;
-        gap: var(--sml);
-      }
-    }
-
-    .outcome-type {
-      font-size: var(--t-sm);
-      font-weight: 600;
-      color: var(--ink-2);
-      padding-top: 3px;
-    }
-
-    .outcome-text {
-      font-size: var(--t-base);
-      font-weight: 300;
-      line-height: 1.7;
-      color: var(--ink-2);
-    }
-  
-    /* ─── FIGURE ───────────────────────────────────────────── */
-    .cs-figure { margin: var(--med) calc(var(--bleed) * -1) var(--xl); }
-    .cs-figure svg, .cs-figure img { display: block; width: 100%; height: auto; border-radius: var(--radius); }
-    .cs-figure figcaption { font-size: var(--t-sm); font-weight: 400; color: var(--ink-3); margin: var(--base) var(--bleed) 0; }
-    .cs-decision .cs-figure { margin-bottom: var(--med); }
-    .cs-fig-narrow { display: none; }
-    @media (max-width: 480px) { .cs-fig-wide { display: none; } .cs-fig-narrow { display: block; max-width: 300px; margin: 0 auto; } }
-    .cs-figure-zoom { position: relative; display: block; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
-    .cs-figure-zoom-hint { position: absolute; right: var(--sml); bottom: var(--sml); background: var(--ink); color: var(--bg); font-size: var(--t-sm); font-weight: 500; padding: var(--micro) var(--sml); border-radius: var(--radius); }
-    .cs-figure-zoom:hover .cs-figure-zoom-hint, .cs-figure-zoom:focus-visible .cs-figure-zoom-hint { background: var(--ink-2); }
-
-    /* ─── IMAGE PLACEHOLDER ──────────────────────────────── */
-    .cs-ph {
-      aspect-ratio: 16 / 10;
-      border: 1px solid var(--rule);
-      border-radius: var(--radius);
-      display: flex; align-items: center; justify-content: center;
-      padding: var(--med);
-      background-color: #EFEFEC;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 2L22 12L12 22L2 12Z' fill='%23E2E2DF'/%3E%3C/svg%3E");
-      background-size: 24px 24px;
-    }
-    .cs-ph p { max-width: 440px; background: var(--bg); border-radius: var(--radius); padding: var(--sml) var(--base); font-size: var(--t-body); line-height: 1.6; color: var(--ink-2); text-align: center; }
-    .cs-ph-tag { display: block; font-weight: 600; color: var(--ink); margin-bottom: var(--micro); }
-    @media (max-width: 480px) { .cs-ph { aspect-ratio: 4 / 3; padding: var(--base); } }
-
-    /* ─── TL;DR ────────────────────────────────────────────── */
-    .cs-tldr { margin: var(--med) calc(var(--bleed) * -1) 0; padding: var(--base) var(--bleed); background: rgba(24,24,24,0.03); border-radius: var(--radius); }
-    .cs-tldr-label { font-size: var(--t-head); font-weight: 600; line-height: 32px; letter-spacing: -0.8px; color: var(--ink); margin-bottom: var(--sml); }
-    .cs-tldr-item { font-size: var(--t-base); font-weight: 300; line-height: 1.5; color: var(--ink); margin-bottom: 24px; }
-    .cs-tldr-item:last-child { margin-bottom: 0; }
-    .cs-tldr-item strong { font-weight: 600; }
-
-    /* ─── LINKS IN COPY ────────────────────────────────────── */
-    .cs-eyebrow a, .cs-p a, .cs-overview a, .cs-tldr-item a { color: inherit; text-decoration: underline; text-decoration-color: var(--ink-3); text-underline-offset: 3px; }
-    .cs-eyebrow a:hover, .cs-p a:hover, .cs-overview a:hover, .cs-tldr-item a:hover { text-decoration-color: var(--ink); }
-
-    /* footer */
-    .site-footer { padding: 40px var(--pad) 96px; border-top: 1px solid #E0E0DE; }
-    .footer-name { font-size: 32px; font-weight: 600; line-height: 1; letter-spacing: -0.8px; color: #181818; }
-    .footer-links { display: flex; gap: 32px; padding-top: 12px; list-style: none; }
-    .footer-links a { font-size: 13px; line-height: 1.5; color: #181818; text-decoration: underline; text-decoration-color: #616161; text-underline-offset: 3px; border-radius: 3px; padding: 2px 4px; margin: -2px -4px; }
-    .footer-links a:hover { color: #F7F7F5; background-color: #181818; text-decoration: none; }
-    @media (max-width: 480px) { .footer-links { flex-direction: column; gap: 4px; } }
-    /* /footer */
-</style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/site.css" />
 </head>
 <body>
 
@@ -443,7 +84,7 @@
   <desc id="fig-askai-v1-d">A branching flow from the Ask AI tab. A check for existing prompts and configurations splits into a table view and an empty state, which fan out into separate paths to delete, view, edit and analyse prompts and configurations, a six step configuration form and two routes to create a prompt.</desc>
   <style>#fig-askai-v1 text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
   <defs><marker id="fig-askai-v1-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
-  <rect width="3496" height="1718" fill="#F7F7F5"/>
+  <rect width="3496" height="1718" fill="#F4F4F0"/>
   <path d="M246,1286 H294" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
   <path d="M492,1286 H517" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
   <path d="M709,1286 H724 V1064 H738" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v1-a)"/>
@@ -503,24 +144,24 @@
   <text x="614" y="1282" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">and/or</text>
   <text x="614" y="1299" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">configs</text>
   <text x="614" y="1315" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">exist?</text>
-  <rect x="740" y="1032" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="740" y="1032" width="196" height="64" fill="#EAEAE6"/>
   <text x="838" y="1050" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Table view showing all</text>
   <text x="838" y="1069" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">existing prompts &amp;</text>
   <text x="838" y="1088" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">configurations</text>
-  <rect x="740" y="1476" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="740" y="1476" width="196" height="64" fill="#EAEAE6"/>
   <text x="838" y="1504" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Empty state pushing</text>
   <text x="838" y="1523" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">prompt creation</text>
   <rect x="1012" y="223" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="1110" y="246" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Delete a prompt /</text>
   <text x="1110" y="265" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">config</text>
-  <rect x="1460" y="218" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="1460" y="218" width="196" height="64" fill="#EAEAE6"/>
   <text x="1558" y="255" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Confirmation modal</text>
   <rect x="1012" y="683" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="1110" y="706" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Select an existing</text>
   <text x="1110" y="725" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">prompt / config</text>
-  <rect x="1460" y="520" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="1460" y="520" width="196" height="64" fill="#EAEAE6"/>
   <text x="1558" y="557" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">View config</text>
-  <rect x="1460" y="888" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="1460" y="888" width="196" height="64" fill="#EAEAE6"/>
   <text x="1558" y="925" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">View prompt</text>
   <rect x="1722" y="371" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="1820" y="403" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Delete prompt</text>
@@ -534,7 +175,7 @@
   <text x="1820" y="873" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Edit prompt</text>
   <rect x="1722" y="943" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="1820" y="975" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Delete prompt</text>
-  <rect x="2042" y="658" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="2042" y="658" width="196" height="64" fill="#EAEAE6"/>
   <text x="2140" y="695" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Analytics page</text>
   <rect x="1012" y="1081" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="1110" y="1104" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create a new</text>
@@ -543,7 +184,7 @@
   <text x="1366" y="1096" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">Config</text>
   <text x="1366" y="1113" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">creation</text>
   <text x="1366" y="1129" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">flow</text>
-  <rect x="1460" y="1162" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="1460" y="1162" width="196" height="64" fill="#EAEAE6"/>
   <text x="1558" y="1199" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Config creation form</text>
   <rect x="1718" y="1167" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="1816" y="1199" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Select provider</text>
@@ -569,7 +210,7 @@
   <text x="1366" y="1400" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">Prompt</text>
   <text x="1366" y="1417" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">creation</text>
   <text x="1366" y="1433" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">flow</text>
-  <rect x="1460" y="1380" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="1460" y="1380" width="196" height="64" fill="#EAEAE6"/>
   <text x="1558" y="1417" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Prompt creation form</text>
   <rect x="1718" y="1345" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="1816" y="1377" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Select template prompt</text>
@@ -587,7 +228,7 @@
   <text x="2566" y="1563" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Instruction</text>
   <rect x="2716" y="1531" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="2814" y="1563" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
-  <rect x="3000" y="1340" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="3000" y="1340" width="196" height="64" fill="#EAEAE6"/>
   <text x="3098" y="1368" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">How to implement</text>
   <text x="3098" y="1387" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">instructions</text>
 </svg>
@@ -600,7 +241,7 @@
   <desc id="fig-askai-v2-d">A revised branching flow from the Ask AI tab. Existing prompts and configurations open a view and edit screen with four separate edit paths. The empty state splits into creating a prompt, then optionally attaching it to a new or existing configuration, or creating a configuration, then choosing a template or a new prompt.</desc>
   <style>#fig-askai-v2 text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
   <defs><marker id="fig-askai-v2-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
-  <rect width="3516" height="1399" fill="#F7F7F5"/>
+  <rect width="3516" height="1399" fill="#F4F4F0"/>
   <path d="M246,784 H279" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
   <path d="M477,784 H486" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
   <path d="M678,784 H696 V628 H712" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-v2-a)"/>
@@ -660,11 +301,11 @@
   <text x="583" y="780" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">and/or</text>
   <text x="583" y="796" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">prompts</text>
   <text x="583" y="813" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">exist?</text>
-  <rect x="714" y="596" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="714" y="596" width="196" height="64" fill="#EAEAE6"/>
   <text x="812" y="615" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Table view showing all</text>
   <text x="812" y="634" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">existing prompts &amp;</text>
   <text x="812" y="652" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">configurations</text>
-  <rect x="714" y="913" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="714" y="913" width="196" height="64" fill="#EAEAE6"/>
   <text x="812" y="941" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Empty state pushing</text>
   <text x="812" y="960" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">creation</text>
   <rect x="989" y="242" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
@@ -673,11 +314,11 @@
   <text x="1087" y="440" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Delete config</text>
   <rect x="989" y="601" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="1087" y="634" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">View / Edit config</text>
-  <rect x="1243" y="596" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="1243" y="596" width="196" height="64" fill="#EAEAE6"/>
   <text x="1341" y="634" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">View / Edit screen</text>
   <rect x="1514" y="133" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="1612" y="165" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Edit config</text>
-  <rect x="1751" y="128" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="1751" y="128" width="196" height="64" fill="#EAEAE6"/>
   <text x="1849" y="165" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Config edit form</text>
   <rect x="2014" y="133" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="2112" y="165" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
@@ -692,35 +333,35 @@
   <text x="2112" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
   <rect x="1514" y="601" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="1612" y="634" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Edit prompt</text>
-  <rect x="1751" y="596" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="1751" y="596" width="196" height="64" fill="#EAEAE6"/>
   <text x="1849" y="634" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Prompt edit form</text>
   <rect x="989" y="816" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="1087" y="848" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create prompt</text>
   <path d="M1341,796 L1416,842 L1341,888 L1266,842 Z" fill="#FFFFFF" stroke="#525252" stroke-width="1.6" stroke-dasharray="5 4"/>
   <text x="1341" y="839" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">Creation</text>
   <text x="1341" y="855" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">flow</text>
-  <rect x="1468" y="810" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="1468" y="810" width="196" height="64" fill="#EAEAE6"/>
   <text x="1566" y="848" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create a prompt UI</text>
   <rect x="1709" y="816" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="1807" y="848" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create new prompt</text>
   <path d="M2026,772 L2120,842 L2026,912 L1930,842 Z" fill="#181818" stroke-linejoin="round"/>
   <text x="2026" y="839" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Add prompt</text>
   <text x="2026" y="855" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">to config</text>
-  <rect x="2219" y="693" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="2219" y="693" width="196" height="64" fill="#EAEAE6"/>
   <text x="2317" y="721" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Config select / create</text>
   <text x="2317" y="740" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">UI</text>
   <rect x="2222" y="902" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="2320" y="934" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
   <rect x="2480" y="614" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="2578" y="646" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Select existing config</text>
-  <rect x="2751" y="609" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="2751" y="609" width="196" height="64" fill="#EAEAE6"/>
   <text x="2849" y="646" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Overwrite confirmation</text>
   <rect x="2480" y="761" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="2578" y="793" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create config</text>
   <path d="M2851,742 L2926,788 L2851,834 L2776,788 Z" fill="#FFFFFF" stroke="#525252" stroke-width="1.6" stroke-dasharray="5 4"/>
   <text x="2851" y="784" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">Creation</text>
   <text x="2851" y="801" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">flow</text>
-  <rect x="2978" y="756" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="2978" y="756" width="196" height="64" fill="#EAEAE6"/>
   <text x="3076" y="793" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create a config UI</text>
   <rect x="3230" y="761" width="196" height="54" rx="27" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="3328" y="793" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Save</text>
@@ -729,9 +370,9 @@
   <path d="M1341,1103 L1416,1149 L1341,1195 L1266,1149 Z" fill="#FFFFFF" stroke="#525252" stroke-width="1.6" stroke-dasharray="5 4"/>
   <text x="1341" y="1146" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">Creation</text>
   <text x="1341" y="1162" font-size="13" font-weight="400" fill="#181818" text-anchor="middle">flow</text>
-  <rect x="1468" y="1117" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="1468" y="1117" width="196" height="64" fill="#EAEAE6"/>
   <text x="1566" y="1154" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Create a config UI</text>
-  <rect x="1709" y="1117" width="196" height="64" rx="4" fill="#EAEAE6"/>
+  <rect x="1709" y="1117" width="196" height="64" fill="#EAEAE6"/>
   <text x="1807" y="1154" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Select a prompt</text>
   <path d="M2026,1079 L2120,1149 L2026,1219 L1930,1149 Z" fill="#181818" stroke-linejoin="round"/>
   <text x="2026" y="1137" font-size="13" font-weight="600" fill="#FFFFFF" text-anchor="middle">Template or</text>
@@ -753,7 +394,7 @@
   <desc id="fig-askai-shipped-d">One path from the Ask AI landing page through the terms of use and three numbered steps, add domains, configure the model and define the assistant behaviour from a template or from scratch, to the created assistant and its analytics.</desc>
   <style>#fig-askai-shipped text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
   <defs><marker id="fig-askai-shipped-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
-  <rect width="1595" height="310" fill="#F7F7F5"/>
+  <rect width="1595" height="310" fill="#F4F4F0"/>
   <path d="M193,155 H230" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-a)"/>
   <path d="M388,155 H425" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-a)"/>
   <path d="M583,155 H620" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-a)"/>
@@ -763,19 +404,19 @@
   <path d="M1165,90 H1186 V155 H1205" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-a)"/>
   <path d="M1165,220 H1186 V155 H1205" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-a)"/>
   <path d="M1363,155 H1400" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-a)"/>
-  <rect x="37" y="107" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <rect x="37" y="107" width="156" height="96" fill="#EAEAE6"/>
   <text x="115" y="150" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Ask AI landing</text>
   <text x="115" y="172" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">page</text>
-  <rect x="232" y="107" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <rect x="232" y="107" width="156" height="96" fill="#EAEAE6"/>
   <text x="310" y="161" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Terms of use</text>
-  <rect x="427" y="107" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <rect x="427" y="107" width="156" height="96" fill="#EAEAE6"/>
   <text x="505" y="150" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Step 1 of 3.</text>
   <text x="505" y="172" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Add domains</text>
-  <rect x="622" y="107" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <rect x="622" y="107" width="156" height="96" fill="#EAEAE6"/>
   <text x="700" y="140" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Step 2 of 3.</text>
   <text x="700" y="161" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Configure model</text>
   <text x="700" y="182" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">and settings</text>
-  <rect x="817" y="107" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <rect x="817" y="107" width="156" height="96" fill="#EAEAE6"/>
   <text x="895" y="129" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Step 3 of 3.</text>
   <text x="895" y="150" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Define</text>
   <text x="895" y="172" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">assistant</text>
@@ -785,11 +426,11 @@
   <text x="1090" y="107" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">template</text>
   <rect x="1015" y="192" width="150" height="56" rx="28" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="1090" y="226" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Create new</text>
-  <rect x="1207" y="107" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <rect x="1207" y="107" width="156" height="96" fill="#EAEAE6"/>
   <text x="1285" y="140" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Assistant</text>
   <text x="1285" y="161" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">created, next</text>
   <text x="1285" y="182" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">step shown</text>
-  <rect x="1402" y="107" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <rect x="1402" y="107" width="156" height="96" fill="#EAEAE6"/>
   <text x="1480" y="150" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Assistant and</text>
   <text x="1480" y="172" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">its analytics</text>
 </svg>
@@ -798,7 +439,7 @@
   <desc id="fig-askai-shipped-v-d">One path from the Ask AI landing page through the terms of use and three numbered steps, add domains, configure the model and define the assistant behaviour from a template or from scratch, to the created assistant and its analytics.</desc>
   <style>#fig-askai-shipped-v text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
   <defs><marker id="fig-askai-shipped-v-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
-  <rect width="400" height="1125" fill="#F7F7F5"/>
+  <rect width="400" height="1125" fill="#F4F4F0"/>
   <path d="M200,138 V175" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-v-a)"/>
   <path d="M200,273 V310" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-v-a)"/>
   <path d="M200,408 V445" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-v-a)"/>
@@ -808,19 +449,19 @@
   <path d="M115,793 V822 H200 V850" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-v-a)"/>
   <path d="M285,793 V822 H200 V850" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-v-a)"/>
   <path d="M200,948 V985" fill="none" stroke="#616161" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#fig-askai-shipped-v-a)"/>
-  <rect x="122" y="42" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <rect x="122" y="42" width="156" height="96" fill="#EAEAE6"/>
   <text x="200" y="85" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Ask AI landing</text>
   <text x="200" y="107" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">page</text>
-  <rect x="122" y="177" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <rect x="122" y="177" width="156" height="96" fill="#EAEAE6"/>
   <text x="200" y="231" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Terms of use</text>
-  <rect x="122" y="312" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <rect x="122" y="312" width="156" height="96" fill="#EAEAE6"/>
   <text x="200" y="355" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Step 1 of 3.</text>
   <text x="200" y="377" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Add domains</text>
-  <rect x="122" y="447" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <rect x="122" y="447" width="156" height="96" fill="#EAEAE6"/>
   <text x="200" y="480" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Step 2 of 3.</text>
   <text x="200" y="501" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Configure model</text>
   <text x="200" y="522" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">and settings</text>
-  <rect x="122" y="582" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <rect x="122" y="582" width="156" height="96" fill="#EAEAE6"/>
   <text x="200" y="604" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Step 3 of 3.</text>
   <text x="200" y="625" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">Define</text>
   <text x="200" y="647" font-size="17" font-weight="600" fill="#181818" text-anchor="middle">assistant</text>
@@ -830,11 +471,11 @@
   <text x="115" y="782" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">template</text>
   <rect x="210" y="737" width="150" height="56" rx="28" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="285" y="771" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Create new</text>
-  <rect x="122" y="852" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <rect x="122" y="852" width="156" height="96" fill="#EAEAE6"/>
   <text x="200" y="885" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Assistant</text>
   <text x="200" y="906" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">created, next</text>
   <text x="200" y="927" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">step shown</text>
-  <rect x="122" y="987" width="156" height="96" rx="4" fill="#EAEAE6"/>
+  <rect x="122" y="987" width="156" height="96" fill="#EAEAE6"/>
   <text x="200" y="1030" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">Assistant and</text>
   <text x="200" y="1052" font-size="17" font-weight="400" fill="#181818" text-anchor="middle">its analytics</text>
 </svg>

@@ -14,367 +14,8 @@
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:    #F7F7F5;
-      --ink:   #181818;
-      --ink-2: #525252;
-      --ink-3: #616161;
-      --rule:  #E0E0DE;
-      --f:     'Inter', system-ui, sans-serif;
-
-      /* spacing */
-      --micro: 4px;
-      --sml:   12px;
-      --base:  20px;
-      --med:   32px;
-      --xl:    64px;
-      --hero:  96px;
-
-      /* type */
-      --t-sm:    12px;
-      --t-body:  13px;
-      --t-base:  16px;
-      --t-md:    18px;
-      --t-title: clamp(36px, 5vw, 52px);
-      --t-head:  24px;
-      --radius:  4px;
-
-      --pad: 300px;
-      --content: 680px;
-
-      /* callouts and figures break the text column by this much each side */
-      --bleed: 40px;
-    }
-
-    @media (max-width: 1140px) { :root { --pad: 80px; } }
-    @media (max-width: 720px)  { :root { --pad: 40px; } }
-    @media (max-width: 480px)  { :root { --pad: 24px; --bleed: 16px; } }
-
-    html, body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--f);
-      max-width: 1440px;
-      width: 100%;
-      margin: 0 auto;
-      -webkit-font-smoothing: antialiased;
-      font-feature-settings: 'ss01' 1, 'cv05' 1;
-    }
-
-    /* ─── BACK NAV ─────────────────────────────────────────── */
-    .cs-nav {
-      padding: var(--med) var(--pad);
-    }
-
-    .cs-back {
-      font-size: var(--t-body);
-      font-weight: 400;
-      color: var(--ink-3);
-      text-decoration: none;
-      transition: color 0.15s ease, background-color 0.15s ease;
-      border-radius: 3px;
-      padding: 2px 5px;
-      margin: -2px -5px;
-    }
-
-    .cs-back:hover {
-      color: var(--bg);
-      background-color: var(--ink);
-    }
-
-    .cs-back:active {
-      color: var(--bg);
-      background-color: var(--ink-2);
-    }
-
-    /* ─── HEADER ───────────────────────────────────────────── */
-    .cs-header {
-      padding: var(--xl) var(--pad) var(--med);
-      max-width: calc(var(--content) + var(--pad) * 2);
-    }
-
-    .cs-eyebrow {
-      font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
-      margin-bottom: var(--base);
-    }
-
-    .cs-title {
-      font-size: var(--t-title);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.035em;
-      color: var(--ink);
-      margin-bottom: var(--med);
-    }
-
-    .cs-overview {
-      font-size: var(--t-base);
-      font-weight: 300;
-      line-height: 1.75;
-      color: var(--ink-2);
-    }
-
-    .cs-overview strong {
-      font-weight: 500;
-      color: var(--ink);
-    }
-
-    /* ─── METADATA ─────────────────────────────────────────── */
-    .cs-meta {
-      padding: var(--med) var(--pad);
-      display: grid;
-      grid-template-columns: repeat(4, auto);
-      gap: var(--xl);
-      justify-content: start;
-      border-top: 1px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
-      margin-bottom: var(--xl);
-    }
-
-    @media (max-width: 720px) {
-      .cs-meta {
-        grid-template-columns: 1fr 1fr;
-        gap: var(--med);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .cs-meta {
-        grid-template-columns: 1fr;
-        gap: var(--base);
-      }
-    }
-
-    .meta-item {}
-
-    .meta-label {
-      font-size: var(--t-sm);
-      font-weight: 600;
-      color: var(--ink-2);
-      margin-bottom: var(--micro);
-    }
-
-    .meta-value {
-      font-size: var(--t-body);
-      font-weight: 400;
-      color: var(--ink);
-      line-height: 1.5;
-    }
-
-    /* ─── BODY ─────────────────────────────────────────────── */
-    .cs-body {
-      padding: 0 var(--pad) var(--hero);
-      max-width: calc(var(--content) + var(--pad) * 2);
-    }
-
-    .cs-section {
-      margin-bottom: var(--xl);
-    }
-
-    .cs-section-label {
-      font-size: var(--t-head);
-      font-weight: 600;
-      line-height: 1.25;
-      color: var(--ink);
-      margin-bottom: var(--med);
-    }
-
-    .cs-header .cs-section-label { margin-top: var(--xl); }
-
-    .cs-h2 {
-      font-size: var(--t-md);
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-      margin-bottom: var(--base);
-    }
-
-    .cs-h3 {
-      font-size: var(--t-base);
-      font-weight: 500;
-      color: var(--ink);
-      margin-bottom: var(--sml);
-    }
-
-    .cs-p {
-      font-size: var(--t-base);
-      font-weight: 300;
-      line-height: 1.75;
-      color: var(--ink-2);
-      margin-bottom: var(--base);
-    }
-
-    .cs-p:last-child { margin-bottom: 0; }
-
-    .cs-p strong {
-      font-weight: 500;
-      color: var(--ink);
-    }
-
-    .cs-list {
-      list-style: none;
-      margin-bottom: var(--base);
-    }
-
-    .cs-list li {
-      font-size: var(--t-base);
-      font-weight: 300;
-      line-height: 1.75;
-      color: var(--ink-2);
-      padding: 3px 0 3px 16px;
-      position: relative;
-    }
-
-    .cs-list li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 13px;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: var(--ink-3);
-    }
-
-    /* ─── NOTE ─────────────────────────────────────────────── */
-    .cs-note {
-      padding: var(--base);
-      border-left: 2px solid var(--rule);
-      margin: 0 calc(var(--bleed) * -1) var(--xl);
-    }
-
-    .cs-note p {
-      font-size: var(--t-body);
-      font-weight: 300;
-      line-height: 1.7;
-      color: var(--ink-3);
-      font-style: italic;
-    }
-
-    /* ─── OUTCOME CALLOUT ──────────────────────────────────── */
-    .cs-outcome {
-      margin: var(--base) calc(var(--bleed) * -1) var(--med);
-      padding: var(--base) var(--bleed);
-      background: rgba(24,24,24,0.03);
-      border-radius: var(--radius);
-    }
-
-    .cs-outcome .cs-outcome-label {
-      font-size: var(--t-body);
-      font-weight: 600;
-      line-height: 1.65;
-      color: var(--ink-2);
-      margin-bottom: var(--micro);
-    }
-
-    .cs-outcome p {
-      font-size: var(--t-body);
-      font-weight: 400;
-      line-height: 1.65;
-      color: var(--ink-2);
-    }
-
-    /* ─── DIVIDER ───────────────────────────────────────────── */
-    .cs-divider {
-      border: none;
-      border-top: 1px solid var(--rule);
-      margin: var(--xl) 0;
-    }
-
-    /* ─── DECISION ─────────────────────────────────────────── */
-    .cs-decision {
-      margin-bottom: var(--xl);
-    }
-
-    .cs-decision { padding-top: var(--sml); }
-
-    /* ─── OUTCOMES GRID ────────────────────────────────────── */
-    .cs-outcomes-grid {
-      display: flex;
-      flex-direction: column;
-      gap: var(--med);
-    }
-
-    .outcome-row {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: var(--med);
-      align-items: start;
-    }
-
-    @media (max-width: 600px) {
-      .outcome-row {
-        grid-template-columns: 1fr;
-        gap: var(--sml);
-      }
-    }
-
-    .outcome-type {
-      font-size: var(--t-sm);
-      font-weight: 600;
-      color: var(--ink-2);
-      padding-top: 3px;
-    }
-
-    .outcome-text {
-      font-size: var(--t-base);
-      font-weight: 300;
-      line-height: 1.7;
-      color: var(--ink-2);
-    }
-  
-    /* ─── FIGURE ───────────────────────────────────────────── */
-    .cs-figure { margin: var(--med) calc(var(--bleed) * -1) var(--xl); }
-    .cs-figure svg, .cs-figure img { display: block; width: 100%; height: auto; border-radius: var(--radius); }
-    .cs-figure figcaption { font-size: var(--t-sm); font-weight: 400; color: var(--ink-3); margin: var(--base) var(--bleed) 0; }
-    .cs-decision .cs-figure { margin-bottom: var(--med); }
-    .cs-fig-narrow { display: none; }
-    @media (max-width: 480px) { .cs-fig-wide { display: none; } .cs-fig-narrow { display: block; max-width: 300px; margin: 0 auto; } }
-    .cs-figure-zoom { position: relative; display: block; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
-    .cs-figure-zoom-hint { position: absolute; right: var(--sml); bottom: var(--sml); background: var(--ink); color: var(--bg); font-size: var(--t-sm); font-weight: 500; padding: var(--micro) var(--sml); border-radius: var(--radius); }
-    .cs-figure-zoom:hover .cs-figure-zoom-hint, .cs-figure-zoom:focus-visible .cs-figure-zoom-hint { background: var(--ink-2); }
-
-    /* ─── IMAGE PLACEHOLDER ──────────────────────────────── */
-    .cs-ph {
-      aspect-ratio: 16 / 10;
-      border: 1px solid var(--rule);
-      border-radius: var(--radius);
-      display: flex; align-items: center; justify-content: center;
-      padding: var(--med);
-      background-color: #EFEFEC;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 2L22 12L12 22L2 12Z' fill='%23E2E2DF'/%3E%3C/svg%3E");
-      background-size: 24px 24px;
-    }
-    .cs-ph p { max-width: 440px; background: var(--bg); border-radius: var(--radius); padding: var(--sml) var(--base); font-size: var(--t-body); line-height: 1.6; color: var(--ink-2); text-align: center; }
-    .cs-ph-tag { display: block; font-weight: 600; color: var(--ink); margin-bottom: var(--micro); }
-    @media (max-width: 480px) { .cs-ph { aspect-ratio: 4 / 3; padding: var(--base); } }
-
-    /* ─── TL;DR ────────────────────────────────────────────── */
-    .cs-tldr { margin: var(--med) calc(var(--bleed) * -1) 0; padding: var(--base) var(--bleed); background: rgba(24,24,24,0.03); border-radius: var(--radius); }
-    .cs-tldr-label { font-size: var(--t-head); font-weight: 600; line-height: 32px; letter-spacing: -0.8px; color: var(--ink); margin-bottom: var(--sml); }
-    .cs-tldr-item { font-size: var(--t-base); font-weight: 300; line-height: 1.5; color: var(--ink); margin-bottom: 24px; }
-    .cs-tldr-item:last-child { margin-bottom: 0; }
-    .cs-tldr-item strong { font-weight: 600; }
-
-    /* ─── LINKS IN COPY ────────────────────────────────────── */
-    .cs-eyebrow a, .cs-p a, .cs-overview a, .cs-tldr-item a { color: inherit; text-decoration: underline; text-decoration-color: var(--ink-3); text-underline-offset: 3px; }
-    .cs-eyebrow a:hover, .cs-p a:hover, .cs-overview a:hover, .cs-tldr-item a:hover { text-decoration-color: var(--ink); }
-
-    /* footer */
-    .site-footer { padding: 40px var(--pad) 96px; border-top: 1px solid #E0E0DE; }
-    .footer-name { font-size: 32px; font-weight: 600; line-height: 1; letter-spacing: -0.8px; color: #181818; }
-    .footer-links { display: flex; gap: 32px; padding-top: 12px; list-style: none; }
-    .footer-links a { font-size: 13px; line-height: 1.5; color: #181818; text-decoration: underline; text-decoration-color: #616161; text-underline-offset: 3px; border-radius: 3px; padding: 2px 4px; margin: -2px -4px; }
-    .footer-links a:hover { color: #F7F7F5; background-color: #181818; text-decoration: none; }
-    @media (max-width: 480px) { .footer-links { flex-direction: column; gap: 4px; } }
-    /* /footer */
-</style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/site.css" />
 </head>
 <body>
 
@@ -451,36 +92,36 @@
   <desc id="fig-zen-problems-d">Two columns of notes. The first lists the problems the team would face, such as not knowing which data points matter and being unable to show trans-shipment or several pieces of cargo moving. The second lists why they mattered, such as customers asking the operations team for data the platform did not show and a platform too inflexible for journeys that change quickly.</desc>
   <style>#fig-zen-problems text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
   <defs><marker id="fig-zen-problems-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
-  <rect width="1200" height="652" fill="#F7F7F5"/>
+  <rect width="1200" height="652" fill="#F4F4F0"/>
   <text x="32" y="64" font-size="24" font-weight="600" fill="#181818" text-anchor="start">What are the problems we will face?</text>
   <text x="616" y="64" font-size="24" font-weight="600" fill="#181818" text-anchor="start">Why are they a problem for us?</text>
-  <rect x="32" y="96" width="552" height="92" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <rect x="32" y="96" width="552" height="92" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="56" y="136" font-size="20" font-weight="400" fill="#181818" text-anchor="start">We&#x27;re not sure which data points matter most to</text>
   <text x="56" y="162" font-size="20" font-weight="400" fill="#181818" text-anchor="start">our users.</text>
-  <rect x="32" y="204" width="552" height="92" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <rect x="32" y="204" width="552" height="92" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="56" y="244" font-size="20" font-weight="400" fill="#181818" text-anchor="start">Our new proposed data model isn&#x27;t supported by</text>
   <text x="56" y="270" font-size="20" font-weight="400" fill="#181818" text-anchor="start">current UI patterns.</text>
-  <rect x="32" y="312" width="552" height="92" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <rect x="32" y="312" width="552" height="92" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="56" y="352" font-size="20" font-weight="400" fill="#181818" text-anchor="start">Customers want greater visibility of the location</text>
   <text x="56" y="378" font-size="20" font-weight="400" fill="#181818" text-anchor="start">of their goods in the platform.</text>
-  <rect x="32" y="420" width="552" height="92" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <rect x="32" y="420" width="552" height="92" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="56" y="473" font-size="20" font-weight="400" fill="#181818" text-anchor="start">We cannot represent trans-shipment within our UI.</text>
-  <rect x="32" y="528" width="552" height="92" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <rect x="32" y="528" width="552" height="92" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="56" y="568" font-size="20" font-weight="400" fill="#181818" text-anchor="start">We cannot show the movement of multiple pieces of</text>
   <text x="56" y="594" font-size="20" font-weight="400" fill="#181818" text-anchor="start">cargo within our UI.</text>
-  <rect x="616" y="96" width="552" height="92" rx="4" fill="#EAEAE6" stroke="#EAEAE6" stroke-width="1.6"/>
+  <rect x="616" y="96" width="552" height="92" fill="#EAEAE6" stroke="#EAEAE6" stroke-width="1.6"/>
   <text x="640" y="136" font-size="20" font-weight="400" fill="#181818" text-anchor="start">Our customers want to see data we do not present</text>
   <text x="640" y="162" font-size="20" font-weight="400" fill="#181818" text-anchor="start">to them on the platform.</text>
-  <rect x="616" y="204" width="552" height="92" rx="4" fill="#EAEAE6" stroke="#EAEAE6" stroke-width="1.6"/>
+  <rect x="616" y="204" width="552" height="92" fill="#EAEAE6" stroke="#EAEAE6" stroke-width="1.6"/>
   <text x="640" y="244" font-size="20" font-weight="400" fill="#181818" text-anchor="start">If we want to bring more data points and greater</text>
   <text x="640" y="270" font-size="20" font-weight="400" fill="#181818" text-anchor="start">visibility we will need to adjust our current UI.</text>
-  <rect x="616" y="312" width="552" height="92" rx="4" fill="#EAEAE6" stroke="#EAEAE6" stroke-width="1.6"/>
+  <rect x="616" y="312" width="552" height="92" fill="#EAEAE6" stroke="#EAEAE6" stroke-width="1.6"/>
   <text x="640" y="338" font-size="20" font-weight="400" fill="#181818" text-anchor="start">Customers are taking up our operations teams time</text>
   <text x="640" y="365" font-size="20" font-weight="400" fill="#181818" text-anchor="start">with requests that could be handled by the</text>
   <text x="640" y="392" font-size="20" font-weight="400" fill="#181818" text-anchor="start">platform.</text>
-  <rect x="616" y="420" width="552" height="92" rx="4" fill="#EAEAE6" stroke="#EAEAE6" stroke-width="1.6"/>
+  <rect x="616" y="420" width="552" height="92" fill="#EAEAE6" stroke="#EAEAE6" stroke-width="1.6"/>
   <text x="640" y="473" font-size="20" font-weight="400" fill="#181818" text-anchor="start">Information is not shared or stored in one place.</text>
-  <rect x="616" y="528" width="552" height="92" rx="4" fill="#EAEAE6" stroke="#EAEAE6" stroke-width="1.6"/>
+  <rect x="616" y="528" width="552" height="92" fill="#EAEAE6" stroke="#EAEAE6" stroke-width="1.6"/>
   <text x="640" y="568" font-size="20" font-weight="400" fill="#181818" text-anchor="start">We know that journeys can change quickly but our</text>
   <text x="640" y="594" font-size="20" font-weight="400" fill="#181818" text-anchor="start">platform is very inflexible.</text>
 </svg>
@@ -522,7 +163,7 @@
   <desc id="fig-zen-journey-d">Three bookings load bananas and broccoli, apples and carrots at separate stops. At stop D the goods are consolidated into one container that travels by road, sea and road to stop G, where it is unpacked and each good travels on to its own delivery stop.</desc>
   <style>#fig-zen-journey text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
   <defs><marker id="fig-zen-journey-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
-  <rect width="1600" height="640" fill="#F7F7F5"/>
+  <rect width="1600" height="640" fill="#F4F4F0"/>
   <path d="M200,130 H328" fill="none" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-journey-a)"/>
   <text x="265" y="114" font-size="15" font-weight="400" fill="#525252" text-anchor="middle">Road · Bananas</text>
   <path d="M390,130 H608 Q620,130 620,142 V308 Q620,320 632,320 H668" fill="none" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-journey-a)"/>
@@ -545,40 +186,40 @@
   <text x="1357" y="445" font-size="15" font-weight="400" fill="#525252" text-anchor="middle">Road · Carrots, broccoli</text>
   <path d="M1400,510 H1498" fill="none" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-journey-a)"/>
   <text x="1450" y="494" font-size="15" font-weight="400" fill="#525252" text-anchor="middle">Road · Broccoli</text>
-  <rect x="140" y="100" width="60" height="60" rx="4" fill="#181818"/>
+  <rect x="140" y="100" width="60" height="60" fill="#181818"/>
   <text x="170" y="136" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">AA</text>
   <text x="170" y="186" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Load bananas</text>
-  <rect x="330" y="100" width="60" height="60" rx="4" fill="#181818"/>
+  <rect x="330" y="100" width="60" height="60" fill="#181818"/>
   <text x="360" y="136" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">AB</text>
   <text x="360" y="186" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Load broccoli</text>
-  <rect x="140" y="290" width="60" height="60" rx="4" fill="#181818"/>
+  <rect x="140" y="290" width="60" height="60" fill="#181818"/>
   <text x="170" y="326" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">B</text>
   <text x="170" y="376" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Load apples</text>
-  <rect x="140" y="480" width="60" height="60" rx="4" fill="#181818"/>
+  <rect x="140" y="480" width="60" height="60" fill="#181818"/>
   <text x="170" y="516" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">C</text>
   <text x="170" y="566" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Load carrots</text>
-  <rect x="670" y="290" width="60" height="60" rx="4" fill="#181818"/>
+  <rect x="670" y="290" width="60" height="60" fill="#181818"/>
   <text x="700" y="326" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">D</text>
   <text x="700" y="376" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Consolidate into</text>
   <text x="700" y="395" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">one container</text>
-  <rect x="830" y="290" width="60" height="60" rx="4" fill="#181818"/>
+  <rect x="830" y="290" width="60" height="60" fill="#181818"/>
   <text x="860" y="326" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">E</text>
-  <rect x="990" y="290" width="60" height="60" rx="4" fill="#181818"/>
+  <rect x="990" y="290" width="60" height="60" fill="#181818"/>
   <text x="1020" y="326" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">F</text>
-  <rect x="1150" y="290" width="60" height="60" rx="4" fill="#181818"/>
+  <rect x="1150" y="290" width="60" height="60" fill="#181818"/>
   <text x="1180" y="326" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">G</text>
   <text x="1180" y="376" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Unpack the</text>
   <text x="1180" y="395" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">container</text>
-  <rect x="1470" y="100" width="60" height="60" rx="4" fill="#181818"/>
+  <rect x="1470" y="100" width="60" height="60" fill="#181818"/>
   <text x="1500" y="136" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">H</text>
   <text x="1500" y="186" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Unload apples</text>
-  <rect x="1470" y="290" width="60" height="60" rx="4" fill="#181818"/>
+  <rect x="1470" y="290" width="60" height="60" fill="#181818"/>
   <text x="1500" y="326" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">I</text>
   <text x="1500" y="376" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Unload bananas</text>
-  <rect x="1340" y="480" width="60" height="60" rx="4" fill="#181818"/>
+  <rect x="1340" y="480" width="60" height="60" fill="#181818"/>
   <text x="1370" y="516" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">JJ</text>
   <text x="1370" y="566" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Unload carrots</text>
-  <rect x="1500" y="480" width="60" height="60" rx="4" fill="#181818"/>
+  <rect x="1500" y="480" width="60" height="60" fill="#181818"/>
   <text x="1530" y="516" font-size="18" font-weight="600" fill="#FFFFFF" text-anchor="middle">JK</text>
   <text x="1530" y="566" font-size="15" font-weight="400" fill="#181818" text-anchor="middle">Unload broccoli</text>
   <text x="40" y="136" font-size="16" font-weight="600" fill="#525252" text-anchor="start">Booking 1</text>
@@ -608,155 +249,155 @@
     <desc id="fig-zen-concepts-d">Four simplified screens in sequence. Concept one organises the journey by carriage stage with every container listed under each milestone. Concept two puts a shipment checklist first and gives each container its own tab. Concept three uses a container table and one route timeline of stops and legs. Concept four trims that timeline to what comes next and adds a route map on top.</desc>
     <style>#fig-zen-concepts text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
     <defs><marker id="fig-zen-concepts-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
-    <rect width="1600" height="760" fill="#F7F7F5"/>
+    <rect width="1600" height="760" fill="#F4F4F0"/>
     <text x="40" y="44" font-size="16" font-weight="600" fill="#525252" text-anchor="start">Concept 1</text>
     <text x="40" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">Stages first</text>
-    <rect x="40" y="110" width="350" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
-    <rect x="60" y="130" width="150" height="16" rx="3" fill="#181818"/>
-    <rect x="60" y="166" width="120" height="12" rx="3" fill="#525252"/>
-    <rect x="60" y="192" width="170" height="10" rx="3" fill="#181818"/>
+    <rect x="40" y="110" width="350" height="560" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="60" y="130" width="150" height="16" fill="#181818"/>
+    <rect x="60" y="166" width="120" height="12" fill="#525252"/>
+    <rect x="60" y="192" width="170" height="10" fill="#181818"/>
     <circle cx="68" cy="215" r="5" fill="#616161"/>
-    <rect x="60" y="210" width="220" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="320" y="210" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="60" y="210" width="220" height="10" fill="#EAEAE6"/>
+    <rect x="320" y="210" width="50" height="10" fill="#EAEAE6"/>
     <circle cx="68" cy="233" r="5" fill="#616161"/>
-    <rect x="60" y="228" width="220" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="320" y="228" width="50" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="60" y="252" width="170" height="10" rx="3" fill="#181818"/>
+    <rect x="60" y="228" width="220" height="10" fill="#EAEAE6"/>
+    <rect x="320" y="228" width="50" height="10" fill="#EAEAE6"/>
+    <rect x="60" y="252" width="170" height="10" fill="#181818"/>
     <circle cx="68" cy="275" r="5" fill="#616161"/>
-    <rect x="60" y="270" width="220" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="320" y="270" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="60" y="270" width="220" height="10" fill="#EAEAE6"/>
+    <rect x="320" y="270" width="50" height="10" fill="#EAEAE6"/>
     <circle cx="68" cy="293" r="5" fill="#616161"/>
-    <rect x="60" y="288" width="220" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="320" y="288" width="50" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="60" y="322" width="120" height="12" rx="3" fill="#525252"/>
-    <rect x="60" y="348" width="170" height="10" rx="3" fill="#181818"/>
+    <rect x="60" y="288" width="220" height="10" fill="#EAEAE6"/>
+    <rect x="320" y="288" width="50" height="10" fill="#EAEAE6"/>
+    <rect x="60" y="322" width="120" height="12" fill="#525252"/>
+    <rect x="60" y="348" width="170" height="10" fill="#181818"/>
     <circle cx="68" cy="371" r="5" fill="#616161"/>
-    <rect x="60" y="366" width="220" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="320" y="366" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="60" y="366" width="220" height="10" fill="#EAEAE6"/>
+    <rect x="320" y="366" width="50" height="10" fill="#EAEAE6"/>
     <circle cx="68" cy="389" r="5" fill="#616161"/>
-    <rect x="60" y="384" width="220" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="320" y="384" width="50" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="60" y="408" width="170" height="10" rx="3" fill="#181818"/>
+    <rect x="60" y="384" width="220" height="10" fill="#EAEAE6"/>
+    <rect x="320" y="384" width="50" height="10" fill="#EAEAE6"/>
+    <rect x="60" y="408" width="170" height="10" fill="#181818"/>
     <circle cx="68" cy="431" r="5" fill="#616161"/>
-    <rect x="60" y="426" width="220" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="320" y="426" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="60" y="426" width="220" height="10" fill="#EAEAE6"/>
+    <rect x="320" y="426" width="50" height="10" fill="#EAEAE6"/>
     <circle cx="68" cy="449" r="5" fill="#616161"/>
-    <rect x="60" y="444" width="220" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="320" y="444" width="50" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="60" y="478" width="120" height="12" rx="3" fill="#525252"/>
-    <rect x="60" y="504" width="170" height="10" rx="3" fill="#181818"/>
+    <rect x="60" y="444" width="220" height="10" fill="#EAEAE6"/>
+    <rect x="320" y="444" width="50" height="10" fill="#EAEAE6"/>
+    <rect x="60" y="478" width="120" height="12" fill="#525252"/>
+    <rect x="60" y="504" width="170" height="10" fill="#181818"/>
     <circle cx="68" cy="527" r="5" fill="#616161"/>
-    <rect x="60" y="522" width="220" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="320" y="522" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="60" y="522" width="220" height="10" fill="#EAEAE6"/>
+    <rect x="320" y="522" width="50" height="10" fill="#EAEAE6"/>
     <circle cx="68" cy="545" r="5" fill="#616161"/>
-    <rect x="60" y="540" width="220" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="320" y="540" width="50" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="60" y="564" width="170" height="10" rx="3" fill="#181818"/>
+    <rect x="60" y="540" width="220" height="10" fill="#EAEAE6"/>
+    <rect x="320" y="540" width="50" height="10" fill="#EAEAE6"/>
+    <rect x="60" y="564" width="170" height="10" fill="#181818"/>
     <circle cx="68" cy="587" r="5" fill="#616161"/>
-    <rect x="60" y="582" width="220" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="320" y="582" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="60" y="582" width="220" height="10" fill="#EAEAE6"/>
+    <rect x="320" y="582" width="50" height="10" fill="#EAEAE6"/>
     <circle cx="68" cy="605" r="5" fill="#616161"/>
-    <rect x="60" y="600" width="220" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="320" y="600" width="50" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="60" y="600" width="220" height="10" fill="#EAEAE6"/>
+    <rect x="320" y="600" width="50" height="10" fill="#EAEAE6"/>
     <text x="40" y="704" font-size="16" font-weight="400" fill="#525252" text-anchor="start">Journey split into carriage stages, each</text>
     <text x="40" y="726" font-size="16" font-weight="400" fill="#525252" text-anchor="start">milestone lists every container on its</text>
     <text x="40" y="748" font-size="16" font-weight="400" fill="#525252" text-anchor="start">own row.</text>
     <path d="M396,390.0 H422" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-concepts-a)"/>
     <text x="430" y="44" font-size="16" font-weight="600" fill="#525252" text-anchor="start">Concept 2</text>
     <text x="430" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">Containers first</text>
-    <rect x="430" y="110" width="350" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
-    <rect x="450" y="130" width="150" height="16" rx="3" fill="#181818"/>
+    <rect x="430" y="110" width="350" height="560" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="450" y="130" width="150" height="16" fill="#181818"/>
     <circle cx="458" cy="171" r="5" fill="#616161"/>
-    <rect x="474" y="166" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="474" y="166" width="170" height="10" fill="#EAEAE6"/>
     <circle cx="458" cy="193" r="5" fill="#616161"/>
-    <rect x="474" y="188" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="474" y="188" width="170" height="10" fill="#EAEAE6"/>
     <circle cx="458" cy="215" r="5" fill="#616161"/>
-    <rect x="474" y="210" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="474" y="210" width="170" height="10" fill="#EAEAE6"/>
     <circle cx="458" cy="237" r="5" fill="#616161"/>
-    <rect x="474" y="232" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="474" y="232" width="170" height="10" fill="#EAEAE6"/>
     <circle cx="458" cy="259" r="5" fill="#616161"/>
-    <rect x="474" y="254" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="474" y="254" width="170" height="10" fill="#EAEAE6"/>
     <circle cx="458" cy="281" r="5" fill="#616161"/>
-    <rect x="474" y="276" width="170" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="450" y="312" width="88" height="24" rx="3" fill="#181818"/>
-    <rect x="546" y="312" width="88" height="24" rx="3" fill="#EAEAE6"/>
-    <rect x="642" y="312" width="88" height="24" rx="3" fill="#EAEAE6"/>
+    <rect x="474" y="276" width="170" height="10" fill="#EAEAE6"/>
+    <rect x="450" y="312" width="88" height="24" fill="#181818"/>
+    <rect x="546" y="312" width="88" height="24" fill="#EAEAE6"/>
+    <rect x="642" y="312" width="88" height="24" fill="#EAEAE6"/>
     <circle cx="510" cy="361" r="4" fill="#181818"/>
-    <rect x="450" y="356" width="44" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="530" y="356" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="450" y="356" width="44" height="10" fill="#EAEAE6"/>
+    <rect x="530" y="356" width="170" height="10" fill="#EAEAE6"/>
     <circle cx="510" cy="385" r="4" fill="#181818"/>
-    <rect x="450" y="380" width="44" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="530" y="380" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="450" y="380" width="44" height="10" fill="#EAEAE6"/>
+    <rect x="530" y="380" width="170" height="10" fill="#EAEAE6"/>
     <circle cx="510" cy="409" r="4" fill="#181818"/>
-    <rect x="450" y="404" width="44" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="530" y="404" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="450" y="404" width="44" height="10" fill="#EAEAE6"/>
+    <rect x="530" y="404" width="170" height="10" fill="#EAEAE6"/>
     <circle cx="510" cy="433" r="4" fill="#181818"/>
-    <rect x="450" y="428" width="44" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="530" y="428" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="450" y="428" width="44" height="10" fill="#EAEAE6"/>
+    <rect x="530" y="428" width="170" height="10" fill="#EAEAE6"/>
     <circle cx="510" cy="457" r="4" fill="#181818"/>
-    <rect x="450" y="452" width="44" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="530" y="452" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="450" y="452" width="44" height="10" fill="#EAEAE6"/>
+    <rect x="530" y="452" width="170" height="10" fill="#EAEAE6"/>
     <circle cx="510" cy="481" r="4" fill="#181818"/>
-    <rect x="450" y="476" width="44" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="530" y="476" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="450" y="476" width="44" height="10" fill="#EAEAE6"/>
+    <rect x="530" y="476" width="170" height="10" fill="#EAEAE6"/>
     <circle cx="510" cy="505" r="4" fill="#181818"/>
-    <rect x="450" y="500" width="44" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="530" y="500" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="450" y="500" width="44" height="10" fill="#EAEAE6"/>
+    <rect x="530" y="500" width="170" height="10" fill="#EAEAE6"/>
     <circle cx="510" cy="529" r="4" fill="#181818"/>
-    <rect x="450" y="524" width="44" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="530" y="524" width="170" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="450" y="524" width="44" height="10" fill="#EAEAE6"/>
+    <rect x="530" y="524" width="170" height="10" fill="#EAEAE6"/>
     <text x="430" y="704" font-size="16" font-weight="400" fill="#525252" text-anchor="start">A milestone checklist for the shipment,</text>
     <text x="430" y="726" font-size="16" font-weight="400" fill="#525252" text-anchor="start">then one tab per container with its own</text>
     <text x="430" y="748" font-size="16" font-weight="400" fill="#525252" text-anchor="start">timeline.</text>
     <path d="M786,390.0 H812" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-concepts-a)"/>
     <text x="820" y="44" font-size="16" font-weight="600" fill="#525252" text-anchor="start">Concept 3</text>
     <text x="820" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">One route timeline</text>
-    <rect x="820" y="110" width="350" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
-    <rect x="840" y="130" width="150" height="16" rx="3" fill="#181818"/>
-    <rect x="840" y="166" width="310" height="14" rx="3" fill="#EAEAE6"/>
-    <rect x="840" y="186" width="310" height="14" rx="3" fill="#EAEAE6"/>
-    <rect x="840" y="206" width="310" height="14" rx="3" fill="#EAEAE6"/>
-    <rect x="840" y="242" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
-    <rect x="940" y="254" width="90" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="940" y="274" width="140" height="10" rx="3" fill="#181818"/>
-    <rect x="856" y="308" width="278" height="26" rx="3" fill="#EAEAE6"/>
-    <rect x="840" y="342" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
-    <rect x="940" y="354" width="90" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="940" y="374" width="140" height="10" rx="3" fill="#181818"/>
-    <rect x="856" y="408" width="278" height="26" rx="3" fill="#EAEAE6"/>
-    <rect x="840" y="442" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
-    <rect x="940" y="454" width="90" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="940" y="474" width="140" height="10" rx="3" fill="#181818"/>
-    <rect x="856" y="508" width="278" height="26" rx="3" fill="#EAEAE6"/>
-    <rect x="840" y="542" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
-    <rect x="940" y="554" width="90" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="820" y="110" width="350" height="560" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="840" y="130" width="150" height="16" fill="#181818"/>
+    <rect x="840" y="166" width="310" height="14" fill="#EAEAE6"/>
+    <rect x="840" y="186" width="310" height="14" fill="#EAEAE6"/>
+    <rect x="840" y="206" width="310" height="14" fill="#EAEAE6"/>
+    <rect x="840" y="242" width="310" height="58" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+    <rect x="940" y="254" width="90" height="10" fill="#EAEAE6"/>
+    <rect x="940" y="274" width="140" height="10" fill="#181818"/>
+    <rect x="856" y="308" width="278" height="26" fill="#EAEAE6"/>
+    <rect x="840" y="342" width="310" height="58" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+    <rect x="940" y="354" width="90" height="10" fill="#EAEAE6"/>
+    <rect x="940" y="374" width="140" height="10" fill="#181818"/>
+    <rect x="856" y="408" width="278" height="26" fill="#EAEAE6"/>
+    <rect x="840" y="442" width="310" height="58" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+    <rect x="940" y="454" width="90" height="10" fill="#EAEAE6"/>
+    <rect x="940" y="474" width="140" height="10" fill="#181818"/>
+    <rect x="856" y="508" width="278" height="26" fill="#EAEAE6"/>
+    <rect x="840" y="542" width="310" height="58" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+    <rect x="940" y="554" width="90" height="10" fill="#EAEAE6"/>
     <path d="M924,242 V600" stroke="#616161" stroke-width="2"/>
-    <rect x="940" y="574" width="140" height="10" rx="3" fill="#181818"/>
+    <rect x="940" y="574" width="140" height="10" fill="#181818"/>
     <text x="820" y="704" font-size="16" font-weight="400" fill="#525252" text-anchor="start">A container table on top, then one</text>
     <text x="820" y="726" font-size="16" font-weight="400" fill="#525252" text-anchor="start">timeline of stops and transit legs for</text>
     <text x="820" y="748" font-size="16" font-weight="400" fill="#525252" text-anchor="start">the whole route.</text>
     <path d="M1176,390.0 H1202" stroke="#616161" stroke-width="2" marker-end="url(#fig-zen-concepts-a)"/>
     <text x="1210" y="44" font-size="16" font-weight="600" fill="#525252" text-anchor="start">Concept 4</text>
     <text x="1210" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">Map on top</text>
-    <rect x="1210" y="110" width="350" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
-    <rect x="1230" y="130" width="150" height="16" rx="3" fill="#181818"/>
-    <rect x="1230" y="166" width="310" height="90" rx="3" fill="#EAEAE6"/>
+    <rect x="1210" y="110" width="350" height="560" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1230" y="130" width="150" height="16" fill="#181818"/>
+    <rect x="1230" y="166" width="310" height="90" fill="#EAEAE6"/>
     <path d="M1260,236 C1350,176 1430,246 1510,190" stroke="#181818" stroke-width="2.5" fill="none" stroke-dasharray="6 5"/>
-    <rect x="1230" y="276" width="310" height="14" rx="3" fill="#EAEAE6"/>
-    <rect x="1230" y="296" width="310" height="14" rx="3" fill="#EAEAE6"/>
-    <rect x="1230" y="316" width="310" height="14" rx="3" fill="#EAEAE6"/>
-    <rect x="1230" y="352" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
-    <rect x="1330" y="364" width="90" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="1330" y="384" width="140" height="10" rx="3" fill="#181818"/>
-    <rect x="1246" y="418" width="278" height="26" rx="3" fill="#EAEAE6"/>
-    <rect x="1230" y="452" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
-    <rect x="1330" y="464" width="90" height="10" rx="3" fill="#EAEAE6"/>
-    <rect x="1330" y="484" width="140" height="10" rx="3" fill="#181818"/>
-    <rect x="1246" y="518" width="278" height="26" rx="3" fill="#EAEAE6"/>
-    <rect x="1230" y="552" width="310" height="58" rx="3" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
-    <rect x="1330" y="564" width="90" height="10" rx="3" fill="#EAEAE6"/>
+    <rect x="1230" y="276" width="310" height="14" fill="#EAEAE6"/>
+    <rect x="1230" y="296" width="310" height="14" fill="#EAEAE6"/>
+    <rect x="1230" y="316" width="310" height="14" fill="#EAEAE6"/>
+    <rect x="1230" y="352" width="310" height="58" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+    <rect x="1330" y="364" width="90" height="10" fill="#EAEAE6"/>
+    <rect x="1330" y="384" width="140" height="10" fill="#181818"/>
+    <rect x="1246" y="418" width="278" height="26" fill="#EAEAE6"/>
+    <rect x="1230" y="452" width="310" height="58" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+    <rect x="1330" y="464" width="90" height="10" fill="#EAEAE6"/>
+    <rect x="1330" y="484" width="140" height="10" fill="#181818"/>
+    <rect x="1246" y="518" width="278" height="26" fill="#EAEAE6"/>
+    <rect x="1230" y="552" width="310" height="58" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.4"/>
+    <rect x="1330" y="564" width="90" height="10" fill="#EAEAE6"/>
     <path d="M1314,352 V610" stroke="#616161" stroke-width="2"/>
-    <rect x="1330" y="584" width="140" height="10" rx="3" fill="#181818"/>
+    <rect x="1330" y="584" width="140" height="10" fill="#181818"/>
     <text x="1210" y="704" font-size="16" font-weight="400" fill="#525252" text-anchor="start">The same timeline trimmed to what comes</text>
     <text x="1210" y="726" font-size="16" font-weight="400" fill="#525252" text-anchor="start">next, with a route map across the top.</text>
   </svg>
@@ -792,169 +433,169 @@
     <desc id="fig-zen-milestones-d">A timeline of six milestones from cargo ready date to cargo aboard. Under each milestone sits the list of data points it needs, such as location, planned, estimated and completed date and time, delay and reason, and for road legs the vehicle, driver and plate.</desc>
     <style>#fig-zen-milestones text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }</style>
     <defs><marker id="fig-zen-milestones-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 L9 5 L0 9 z" fill="#616161"/></marker></defs>
-    <rect width="1600" height="656" fill="#F7F7F5"/>
+    <rect width="1600" height="656" fill="#F4F4F0"/>
     <path d="M40,170 H1570" stroke="#181818" stroke-width="2.5" marker-end="url(#fig-zen-milestones-a)"/>
-    <circle cx="40" cy="170" r="7" fill="#F7F7F5" stroke="#181818" stroke-width="2.5"/>
-    <rect x="60.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+    <circle cx="40" cy="170" r="7" fill="#F4F4F0" stroke="#181818" stroke-width="2.5"/>
+    <rect x="60.0" y="40" width="210" height="76" fill="#181818"/>
     <text x="165" y="85" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">Cargo ready date</text>
     <path d="M84.0,116 V460" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
     <circle cx="84.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
     <circle cx="84.0" cy="230" r="5" fill="#181818"/>
-    <rect x="102.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="102.0" y="212" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="114" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
     <circle cx="84.0" cy="276" r="5" fill="#181818"/>
-    <rect x="102.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="102.0" y="258" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="114" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Planned date &amp; time</text>
     <circle cx="84.0" cy="322" r="5" fill="#181818"/>
-    <rect x="102.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="102.0" y="304" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="114" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Estimate date &amp; time</text>
     <circle cx="84.0" cy="368" r="5" fill="#181818"/>
-    <rect x="102.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="102.0" y="350" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="114" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Completed date &amp; time</text>
     <circle cx="84.0" cy="414" r="5" fill="#181818"/>
-    <rect x="102.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="102.0" y="396" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="114" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
     <circle cx="84.0" cy="460" r="5" fill="#181818"/>
-    <rect x="102.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="102.0" y="442" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="114" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Purchase order</text>
-    <rect x="308.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+    <rect x="308.0" y="40" width="210" height="76" fill="#181818"/>
     <text x="413" y="73" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">En route to</text>
     <text x="413" y="97" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">pick-up</text>
     <path d="M332.0,116 V598" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
     <circle cx="332.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
     <circle cx="332.0" cy="230" r="5" fill="#181818"/>
-    <rect x="350.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="350.0" y="212" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="362" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
     <circle cx="332.0" cy="276" r="5" fill="#181818"/>
-    <rect x="350.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="350.0" y="258" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="362" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Planned date &amp; time</text>
     <circle cx="332.0" cy="322" r="5" fill="#181818"/>
-    <rect x="350.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="350.0" y="304" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="362" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Estimate date &amp; time</text>
     <circle cx="332.0" cy="368" r="5" fill="#181818"/>
-    <rect x="350.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="350.0" y="350" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="362" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Completed date &amp; time</text>
     <circle cx="332.0" cy="414" r="5" fill="#181818"/>
-    <rect x="350.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="350.0" y="396" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="362" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
     <circle cx="332.0" cy="460" r="5" fill="#181818"/>
-    <rect x="350.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="350.0" y="442" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="362" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Vehicle type</text>
     <circle cx="332.0" cy="506" r="5" fill="#181818"/>
-    <rect x="350.0" y="488" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="350.0" y="488" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="362" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Driver name</text>
     <circle cx="332.0" cy="552" r="5" fill="#181818"/>
-    <rect x="350.0" y="534" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="350.0" y="534" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="362" y="558" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Plate number</text>
     <circle cx="332.0" cy="598" r="5" fill="#181818"/>
-    <rect x="350.0" y="580" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="350.0" y="580" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="362" y="604" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Container number</text>
-    <rect x="556.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+    <rect x="556.0" y="40" width="210" height="76" fill="#181818"/>
     <text x="661" y="85" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">Collection</text>
     <path d="M580.0,116 V506" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
     <circle cx="580.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
     <circle cx="580.0" cy="230" r="5" fill="#181818"/>
-    <rect x="598.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="598.0" y="212" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="610" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
     <circle cx="580.0" cy="276" r="5" fill="#181818"/>
-    <rect x="598.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="598.0" y="258" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="610" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Planned date &amp; time</text>
     <circle cx="580.0" cy="322" r="5" fill="#181818"/>
-    <rect x="598.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="598.0" y="304" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="610" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Estimate date &amp; time</text>
     <circle cx="580.0" cy="368" r="5" fill="#181818"/>
-    <rect x="598.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="598.0" y="350" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="610" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Completed date &amp; time</text>
     <circle cx="580.0" cy="414" r="5" fill="#181818"/>
-    <rect x="598.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="598.0" y="396" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="610" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
     <circle cx="580.0" cy="460" r="5" fill="#181818"/>
-    <rect x="598.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="598.0" y="442" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="610" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Purchase order</text>
     <circle cx="580.0" cy="506" r="5" fill="#181818"/>
-    <rect x="598.0" y="488" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="598.0" y="488" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="610" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Container number</text>
-    <rect x="804.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+    <rect x="804.0" y="40" width="210" height="76" fill="#181818"/>
     <text x="909" y="73" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">In transit to</text>
     <text x="909" y="97" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">port of origin</text>
     <path d="M828.0,116 V552" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
     <circle cx="828.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
     <circle cx="828.0" cy="230" r="5" fill="#181818"/>
-    <rect x="846.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="846.0" y="212" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="858" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
     <circle cx="828.0" cy="276" r="5" fill="#181818"/>
-    <rect x="846.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="846.0" y="258" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="858" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Transit time</text>
     <circle cx="828.0" cy="322" r="5" fill="#181818"/>
-    <rect x="846.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="846.0" y="304" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="858" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
     <circle cx="828.0" cy="368" r="5" fill="#181818"/>
-    <rect x="846.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="846.0" y="350" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="858" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Vehicle type</text>
     <circle cx="828.0" cy="414" r="5" fill="#181818"/>
-    <rect x="846.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="846.0" y="396" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="858" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Driver name</text>
     <circle cx="828.0" cy="460" r="5" fill="#181818"/>
-    <rect x="846.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="846.0" y="442" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="858" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Plate number</text>
     <circle cx="828.0" cy="506" r="5" fill="#181818"/>
-    <rect x="846.0" y="488" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="846.0" y="488" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="858" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Purchase orders</text>
     <circle cx="828.0" cy="552" r="5" fill="#181818"/>
-    <rect x="846.0" y="534" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="846.0" y="534" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="858" y="558" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Container number</text>
-    <rect x="1052.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+    <rect x="1052.0" y="40" width="210" height="76" fill="#181818"/>
     <text x="1157" y="85" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">Gated in</text>
     <path d="M1076.0,116 V552" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
     <circle cx="1076.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
     <circle cx="1076.0" cy="230" r="5" fill="#181818"/>
-    <rect x="1094.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1094.0" y="212" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1106" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
     <circle cx="1076.0" cy="276" r="5" fill="#181818"/>
-    <rect x="1094.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1094.0" y="258" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1106" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Planned date &amp; time</text>
     <circle cx="1076.0" cy="322" r="5" fill="#181818"/>
-    <rect x="1094.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1094.0" y="304" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1106" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Estimate date &amp; time</text>
     <circle cx="1076.0" cy="368" r="5" fill="#181818"/>
-    <rect x="1094.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1094.0" y="350" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1106" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Completed date &amp; time</text>
     <circle cx="1076.0" cy="414" r="5" fill="#181818"/>
-    <rect x="1094.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1094.0" y="396" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1106" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
     <circle cx="1076.0" cy="460" r="5" fill="#181818"/>
-    <rect x="1094.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1094.0" y="442" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1106" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Purchase order</text>
     <circle cx="1076.0" cy="506" r="5" fill="#181818"/>
-    <rect x="1094.0" y="488" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1094.0" y="488" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1106" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Container number</text>
     <circle cx="1076.0" cy="552" r="5" fill="#181818"/>
-    <rect x="1094.0" y="534" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1094.0" y="534" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1106" y="558" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Cut off date &amp; time</text>
-    <rect x="1300.0" y="40" width="210" height="76" rx="4" fill="#181818"/>
+    <rect x="1300.0" y="40" width="210" height="76" fill="#181818"/>
     <text x="1405" y="85" font-size="19" font-weight="600" fill="#FFFFFF" text-anchor="middle">Cargo aboard</text>
     <path d="M1324.0,116 V506" stroke="#616161" stroke-width="1.6" stroke-dasharray="5 5"/>
     <circle cx="1324.0" cy="170" r="11" fill="#FFFFFF" stroke="#181818" stroke-width="3"/>
     <circle cx="1324.0" cy="230" r="5" fill="#181818"/>
-    <rect x="1342.0" y="212" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1342.0" y="212" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1354" y="236" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Location</text>
     <circle cx="1324.0" cy="276" r="5" fill="#181818"/>
-    <rect x="1342.0" y="258" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1342.0" y="258" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1354" y="282" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Planned date &amp; time</text>
     <circle cx="1324.0" cy="322" r="5" fill="#181818"/>
-    <rect x="1342.0" y="304" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1342.0" y="304" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1354" y="328" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Estimate date &amp; time</text>
     <circle cx="1324.0" cy="368" r="5" fill="#181818"/>
-    <rect x="1342.0" y="350" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1342.0" y="350" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1354" y="374" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Completed date &amp; time</text>
     <circle cx="1324.0" cy="414" r="5" fill="#181818"/>
-    <rect x="1342.0" y="396" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1342.0" y="396" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1354" y="420" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Delay &amp; reason</text>
     <circle cx="1324.0" cy="460" r="5" fill="#181818"/>
-    <rect x="1342.0" y="442" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1342.0" y="442" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1354" y="466" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Purchase order</text>
     <circle cx="1324.0" cy="506" r="5" fill="#181818"/>
-    <rect x="1342.0" y="488" width="198" height="36" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1342.0" y="488" width="198" height="36" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1354" y="512" font-size="15" font-weight="400" fill="#181818" text-anchor="start">Container number</text>
   </svg>
   <span class="cs-figure-zoom-hint">Open full size</span></a>

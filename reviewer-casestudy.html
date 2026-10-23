@@ -14,367 +14,8 @@
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:    #F7F7F5;
-      --ink:   #181818;
-      --ink-2: #525252;
-      --ink-3: #616161;
-      --rule:  #E0E0DE;
-      --f:     'Inter', system-ui, sans-serif;
-
-      /* spacing */
-      --micro: 4px;
-      --sml:   12px;
-      --base:  20px;
-      --med:   32px;
-      --xl:    64px;
-      --hero:  96px;
-
-      /* type */
-      --t-sm:    12px;
-      --t-body:  13px;
-      --t-base:  16px;
-      --t-md:    18px;
-      --t-title: clamp(36px, 5vw, 52px);
-      --t-head:  24px;
-      --radius:  4px;
-
-      --pad: 300px;
-      --content: 680px;
-
-      /* callouts and figures break the text column by this much each side */
-      --bleed: 40px;
-    }
-
-    @media (max-width: 1140px) { :root { --pad: 80px; } }
-    @media (max-width: 720px)  { :root { --pad: 40px; } }
-    @media (max-width: 480px)  { :root { --pad: 24px; --bleed: 16px; } }
-
-    html, body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--f);
-      max-width: 1440px;
-      width: 100%;
-      margin: 0 auto;
-      -webkit-font-smoothing: antialiased;
-      font-feature-settings: 'ss01' 1, 'cv05' 1;
-    }
-
-    /* ─── BACK NAV ─────────────────────────────────────────── */
-    .cs-nav {
-      padding: var(--med) var(--pad);
-    }
-
-    .cs-back {
-      font-size: var(--t-body);
-      font-weight: 400;
-      color: var(--ink-3);
-      text-decoration: none;
-      transition: color 0.15s ease, background-color 0.15s ease;
-      border-radius: 3px;
-      padding: 2px 5px;
-      margin: -2px -5px;
-    }
-
-    .cs-back:hover {
-      color: var(--bg);
-      background-color: var(--ink);
-    }
-
-    .cs-back:active {
-      color: var(--bg);
-      background-color: var(--ink-2);
-    }
-
-    /* ─── HEADER ───────────────────────────────────────────── */
-    .cs-header {
-      padding: var(--xl) var(--pad) var(--med);
-      max-width: calc(var(--content) + var(--pad) * 2);
-    }
-
-    .cs-eyebrow {
-      font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-3);
-      margin-bottom: var(--base);
-    }
-
-    .cs-title {
-      font-size: var(--t-title);
-      font-weight: 700;
-      line-height: 1.05;
-      letter-spacing: -0.035em;
-      color: var(--ink);
-      margin-bottom: var(--med);
-    }
-
-    .cs-overview {
-      font-size: var(--t-base);
-      font-weight: 300;
-      line-height: 1.75;
-      color: var(--ink-2);
-    }
-
-    .cs-overview strong {
-      font-weight: 500;
-      color: var(--ink);
-    }
-
-    /* ─── METADATA ─────────────────────────────────────────── */
-    .cs-meta {
-      padding: var(--med) var(--pad);
-      display: grid;
-      grid-template-columns: repeat(4, auto);
-      gap: var(--xl);
-      justify-content: start;
-      border-top: 1px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
-      margin-bottom: var(--xl);
-    }
-
-    @media (max-width: 720px) {
-      .cs-meta {
-        grid-template-columns: 1fr 1fr;
-        gap: var(--med);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .cs-meta {
-        grid-template-columns: 1fr;
-        gap: var(--base);
-      }
-    }
-
-    .meta-item {}
-
-    .meta-label {
-      font-size: var(--t-sm);
-      font-weight: 600;
-      color: var(--ink-2);
-      margin-bottom: var(--micro);
-    }
-
-    .meta-value {
-      font-size: var(--t-body);
-      font-weight: 400;
-      color: var(--ink);
-      line-height: 1.5;
-    }
-
-    /* ─── BODY ─────────────────────────────────────────────── */
-    .cs-body {
-      padding: 0 var(--pad) var(--hero);
-      max-width: calc(var(--content) + var(--pad) * 2);
-    }
-
-    .cs-section {
-      margin-bottom: var(--xl);
-    }
-
-    .cs-section-label {
-      font-size: var(--t-head);
-      font-weight: 600;
-      line-height: 1.25;
-      color: var(--ink);
-      margin-bottom: var(--med);
-    }
-
-    .cs-header .cs-section-label { margin-top: var(--xl); }
-
-    .cs-h2 {
-      font-size: var(--t-md);
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-      margin-bottom: var(--base);
-    }
-
-    .cs-h3 {
-      font-size: var(--t-base);
-      font-weight: 500;
-      color: var(--ink);
-      margin-bottom: var(--sml);
-    }
-
-    .cs-p {
-      font-size: var(--t-base);
-      font-weight: 300;
-      line-height: 1.75;
-      color: var(--ink-2);
-      margin-bottom: var(--base);
-    }
-
-    .cs-p:last-child { margin-bottom: 0; }
-
-    .cs-p strong {
-      font-weight: 500;
-      color: var(--ink);
-    }
-
-    .cs-list {
-      list-style: none;
-      margin-bottom: var(--base);
-    }
-
-    .cs-list li {
-      font-size: var(--t-base);
-      font-weight: 300;
-      line-height: 1.75;
-      color: var(--ink-2);
-      padding: 3px 0 3px 16px;
-      position: relative;
-    }
-
-    .cs-list li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 13px;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: var(--ink-3);
-    }
-
-    /* ─── NOTE ─────────────────────────────────────────────── */
-    .cs-note {
-      padding: var(--base);
-      border-left: 2px solid var(--rule);
-      margin: 0 calc(var(--bleed) * -1) var(--xl);
-    }
-
-    .cs-note p {
-      font-size: var(--t-body);
-      font-weight: 300;
-      line-height: 1.7;
-      color: var(--ink-3);
-      font-style: italic;
-    }
-
-    /* ─── OUTCOME CALLOUT ──────────────────────────────────── */
-    .cs-outcome {
-      margin: var(--base) calc(var(--bleed) * -1) var(--med);
-      padding: var(--base) var(--bleed);
-      background: rgba(24,24,24,0.03);
-      border-radius: var(--radius);
-    }
-
-    .cs-outcome .cs-outcome-label {
-      font-size: var(--t-body);
-      font-weight: 600;
-      line-height: 1.65;
-      color: var(--ink-2);
-      margin-bottom: var(--micro);
-    }
-
-    .cs-outcome p {
-      font-size: var(--t-body);
-      font-weight: 400;
-      line-height: 1.65;
-      color: var(--ink-2);
-    }
-
-    /* ─── DIVIDER ───────────────────────────────────────────── */
-    .cs-divider {
-      border: none;
-      border-top: 1px solid var(--rule);
-      margin: var(--xl) 0;
-    }
-
-    /* ─── DECISION ─────────────────────────────────────────── */
-    .cs-decision {
-      margin-bottom: var(--xl);
-    }
-
-    .cs-decision { padding-top: var(--sml); }
-
-    /* ─── OUTCOMES GRID ────────────────────────────────────── */
-    .cs-outcomes-grid {
-      display: flex;
-      flex-direction: column;
-      gap: var(--med);
-    }
-
-    .outcome-row {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: var(--med);
-      align-items: start;
-    }
-
-    @media (max-width: 600px) {
-      .outcome-row {
-        grid-template-columns: 1fr;
-        gap: var(--sml);
-      }
-    }
-
-    .outcome-type {
-      font-size: var(--t-sm);
-      font-weight: 600;
-      color: var(--ink-2);
-      padding-top: 3px;
-    }
-
-    .outcome-text {
-      font-size: var(--t-base);
-      font-weight: 300;
-      line-height: 1.7;
-      color: var(--ink-2);
-    }
-  
-    /* ─── FIGURE ───────────────────────────────────────────── */
-    .cs-figure { margin: var(--med) calc(var(--bleed) * -1) var(--xl); }
-    .cs-figure svg, .cs-figure img { display: block; width: 100%; height: auto; border-radius: var(--radius); }
-    .cs-figure figcaption { font-size: var(--t-sm); font-weight: 400; color: var(--ink-3); margin: var(--base) var(--bleed) 0; }
-    .cs-decision .cs-figure { margin-bottom: var(--med); }
-    .cs-fig-narrow { display: none; }
-    @media (max-width: 480px) { .cs-fig-wide { display: none; } .cs-fig-narrow { display: block; max-width: 300px; margin: 0 auto; } }
-    .cs-figure-zoom { position: relative; display: block; border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
-    .cs-figure-zoom-hint { position: absolute; right: var(--sml); bottom: var(--sml); background: var(--ink); color: var(--bg); font-size: var(--t-sm); font-weight: 500; padding: var(--micro) var(--sml); border-radius: var(--radius); }
-    .cs-figure-zoom:hover .cs-figure-zoom-hint, .cs-figure-zoom:focus-visible .cs-figure-zoom-hint { background: var(--ink-2); }
-
-    /* ─── IMAGE PLACEHOLDER ──────────────────────────────── */
-    .cs-ph {
-      aspect-ratio: 16 / 10;
-      border: 1px solid var(--rule);
-      border-radius: var(--radius);
-      display: flex; align-items: center; justify-content: center;
-      padding: var(--med);
-      background-color: #EFEFEC;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M12 2L22 12L12 22L2 12Z' fill='%23E2E2DF'/%3E%3C/svg%3E");
-      background-size: 24px 24px;
-    }
-    .cs-ph p { max-width: 440px; background: var(--bg); border-radius: var(--radius); padding: var(--sml) var(--base); font-size: var(--t-body); line-height: 1.6; color: var(--ink-2); text-align: center; }
-    .cs-ph-tag { display: block; font-weight: 600; color: var(--ink); margin-bottom: var(--micro); }
-    @media (max-width: 480px) { .cs-ph { aspect-ratio: 4 / 3; padding: var(--base); } }
-
-    /* ─── TL;DR ────────────────────────────────────────────── */
-    .cs-tldr { margin: var(--med) calc(var(--bleed) * -1) 0; padding: var(--base) var(--bleed); background: rgba(24,24,24,0.03); border-radius: var(--radius); }
-    .cs-tldr-label { font-size: var(--t-head); font-weight: 600; line-height: 32px; letter-spacing: -0.8px; color: var(--ink); margin-bottom: var(--sml); }
-    .cs-tldr-item { font-size: var(--t-base); font-weight: 300; line-height: 1.5; color: var(--ink); margin-bottom: 24px; }
-    .cs-tldr-item:last-child { margin-bottom: 0; }
-    .cs-tldr-item strong { font-weight: 600; }
-
-    /* ─── LINKS IN COPY ────────────────────────────────────── */
-    .cs-eyebrow a, .cs-p a, .cs-overview a, .cs-tldr-item a { color: inherit; text-decoration: underline; text-decoration-color: var(--ink-3); text-underline-offset: 3px; }
-    .cs-eyebrow a:hover, .cs-p a:hover, .cs-overview a:hover, .cs-tldr-item a:hover { text-decoration-color: var(--ink); }
-
-    /* footer */
-    .site-footer { padding: 40px var(--pad) 96px; border-top: 1px solid #E0E0DE; }
-    .footer-name { font-size: 32px; font-weight: 600; line-height: 1; letter-spacing: -0.8px; color: #181818; }
-    .footer-links { display: flex; gap: 32px; padding-top: 12px; list-style: none; }
-    .footer-links a { font-size: 13px; line-height: 1.5; color: #181818; text-decoration: underline; text-decoration-color: #616161; text-underline-offset: 3px; border-radius: 3px; padding: 2px 4px; margin: -2px -4px; }
-    .footer-links a:hover { color: #F7F7F5; background-color: #181818; text-decoration: none; }
-    @media (max-width: 480px) { .footer-links { flex-direction: column; gap: 4px; } }
-    /* /footer */
-</style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/site.css" />
 </head>
 <body>
 
@@ -436,9 +77,9 @@
   <title id="fig-rev-review-t">One design review on one pull request</title>
   <desc id="fig-rev-review-d">A design review summary scores five UX promises for one pull request, two passing and three with findings. Below it, on the changed line of code that adds a destructive menu item, the reviewer posts a blocker explaining that deleting a row has no confirmation or undo and pointing to the confirmation pattern the feature already uses.</desc>
   <style>#fig-rev-review text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; } #fig-rev-review .mono { font-family: "SF Mono", SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace; }</style>
-  <rect width="1200" height="914" fill="#F7F7F5"/>
+  <rect width="1200" height="914" fill="#F4F4F0"/>
   <text x="60" y="44" font-size="15" font-weight="600" fill="#525252" text-anchor="start">One review on one pull request</text>
-  <rect x="60" y="70" width="1080" height="420" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <rect x="60" y="70" width="1080" height="420" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <circle cx="108" cy="106" r="12" fill="#181818"/>
   <text x="130" y="112" font-size="15" font-weight="600" fill="#181818" text-anchor="start">Review bot</text>
   <text x="216" y="112" font-size="15" font-weight="400" fill="#616161" text-anchor="start">left a comment</text>
@@ -467,7 +108,7 @@
   <text x="206" y="447" font-size="16" font-weight="400" fill="#525252" text-anchor="start">Consistency</text>
   <text x="346" y="447" font-size="16" font-weight="400" fill="#616161" text-anchor="start">pass</text>
   <text x="436" y="447" font-size="16" font-weight="400" fill="#181818" text-anchor="start">Design system components are used throughout.</text>
-  <rect x="120" y="530" width="1020" height="160" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <rect x="120" y="530" width="1020" height="160" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="140" y="556" font-size="14" font-weight="400" fill="#525252" text-anchor="start" class="mono">…/features/items/ItemsTable.tsx</text>
   <rect x="121" y="570" width="1018" height="30" fill="#EAEAE6"/>
   <text x="164" y="590" font-size="14" font-weight="400" fill="#616161" text-anchor="end" class="mono">245</text>
@@ -486,7 +127,7 @@
   <text x="182" y="680" font-size="14" font-weight="600" fill="#181818" text-anchor="start" class="mono">+</text>
   <text x="202" y="680" font-size="14" font-weight="400" fill="#181818" text-anchor="start" class="mono">  variant=&quot;destructive&quot;</text>
   <path d="M90,530 V874" stroke="#E0E0DE" stroke-width="2"/>
-  <rect x="120" y="706" width="1020" height="168" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <rect x="120" y="706" width="1020" height="168" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <circle cx="168" cy="740" r="12" fill="#181818"/>
   <text x="190" y="746" font-size="15" font-weight="600" fill="#181818" text-anchor="start">Review bot</text>
   <text x="276" y="746" font-size="15" font-weight="400" fill="#616161" text-anchor="start">on the changed line</text>
@@ -553,7 +194,7 @@
     </style>
   
     <!-- ground -->
-    <rect width="1200" height="646" fill="#F7F7F5"/>
+    <rect width="1200" height="646" fill="#F4F4F0"/>
   
     <!-- where this is happening: the engineer's own workflow -->
     <text x="88" y="46" class="sans eyebrow ter">AUTOMATED DESIGN REVIEW · FRONT END PULL REQUEST</text>
@@ -572,7 +213,7 @@
     <text x="136" y="240" class="mono code ink">return &lt;List&gt;{items.map(renderRow)}&lt;/List&gt;</text>
   
     <!-- ZONE 2: the posted review comment -->
-    <rect x="88" y="282" width="1024" height="340" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1" rx="2"/>
+    <rect x="88" y="282" width="1024" height="340" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1"/>
   
     <text x="136" y="322" class="sans head ink">Design review<tspan class="ter" dx="14">·</tspan><tspan class="headsec sec" dx="14">Consider</tspan></text>
   
@@ -606,26 +247,26 @@
     <title id="fig-rev-backtest-t">Backtest findings sorted three ways</title>
     <desc id="fig-rev-backtest-d">Ten squares, one per backtest finding. Two are useful, the one real bug and one other. Four are fair questions that still cost attention. Four were wrong or correct but not worth a comment. Precision was about 20 percent before rules were scoped to new code.</desc>
     <style>#fig-rev-backtest text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; } #fig-rev-backtest .mono { font-family: "SF Mono", SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace; }</style>
-    <rect width="1200" height="460" fill="#F7F7F5"/>
+    <rect width="1200" height="460" fill="#F4F4F0"/>
     <text x="60" y="60" font-size="56" font-weight="700" fill="#181818" text-anchor="start">About 20%</text>
     <text x="60" y="96" font-size="18" font-weight="400" fill="#525252" text-anchor="start">precision across the ten backtest findings, before rules were scoped to new code</text>
-    <rect x="60" y="140" width="76" height="76" rx="4" fill="#181818"><title>Useful</title></rect>
-    <rect x="144" y="140" width="76" height="76" rx="4" fill="#181818"><title>Useful</title></rect>
-    <rect x="252" y="140" width="76" height="76" rx="4" fill="#EAEAE6"><title>A fair question</title></rect>
-    <rect x="336" y="140" width="76" height="76" rx="4" fill="#EAEAE6"><title>A fair question</title></rect>
-    <rect x="420" y="140" width="76" height="76" rx="4" fill="#EAEAE6"><title>A fair question</title></rect>
-    <rect x="504" y="140" width="76" height="76" rx="4" fill="#EAEAE6"><title>A fair question</title></rect>
-    <rect x="612" y="140" width="76" height="76" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"><title>Wrong, or correct but not worth a comment</title></rect>
-    <rect x="696" y="140" width="76" height="76" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"><title>Wrong, or correct but not worth a comment</title></rect>
-    <rect x="780" y="140" width="76" height="76" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"><title>Wrong, or correct but not worth a comment</title></rect>
-    <rect x="864" y="140" width="76" height="76" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"><title>Wrong, or correct but not worth a comment</title></rect>
-    <rect x="60" y="249" width="20" height="20" rx="4" fill="#181818"><title>Useful</title></rect>
+    <rect x="60" y="140" width="76" height="76" fill="#181818"><title>Useful</title></rect>
+    <rect x="144" y="140" width="76" height="76" fill="#181818"><title>Useful</title></rect>
+    <rect x="252" y="140" width="76" height="76" fill="#EAEAE6"><title>A fair question</title></rect>
+    <rect x="336" y="140" width="76" height="76" fill="#EAEAE6"><title>A fair question</title></rect>
+    <rect x="420" y="140" width="76" height="76" fill="#EAEAE6"><title>A fair question</title></rect>
+    <rect x="504" y="140" width="76" height="76" fill="#EAEAE6"><title>A fair question</title></rect>
+    <rect x="612" y="140" width="76" height="76" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"><title>Wrong, or correct but not worth a comment</title></rect>
+    <rect x="696" y="140" width="76" height="76" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"><title>Wrong, or correct but not worth a comment</title></rect>
+    <rect x="780" y="140" width="76" height="76" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"><title>Wrong, or correct but not worth a comment</title></rect>
+    <rect x="864" y="140" width="76" height="76" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"><title>Wrong, or correct but not worth a comment</title></rect>
+    <rect x="60" y="249" width="20" height="20" fill="#181818"><title>Useful</title></rect>
     <text x="96" y="266" font-size="17" font-weight="600" fill="#181818" text-anchor="start">2  Useful</text>
     <text x="560" y="266" font-size="16" font-weight="400" fill="#525252" text-anchor="start">The one real bug and one Consider.</text>
-    <rect x="60" y="285" width="20" height="20" rx="4" fill="#EAEAE6"><title>A fair question</title></rect>
+    <rect x="60" y="285" width="20" height="20" fill="#EAEAE6"><title>A fair question</title></rect>
     <text x="96" y="302" font-size="17" font-weight="600" fill="#181818" text-anchor="start">4  A fair question</text>
     <text x="560" y="302" font-size="16" font-weight="400" fill="#525252" text-anchor="start">Asks that were not wrong but still cost a reader&#x27;s attention.</text>
-    <rect x="60" y="321" width="20" height="20" rx="4" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"><title>Wrong, or correct but not worth a comment</title></rect>
+    <rect x="60" y="321" width="20" height="20" fill="#FFFFFF" stroke="#616161" stroke-width="1.6"><title>Wrong, or correct but not worth a comment</title></rect>
     <text x="96" y="338" font-size="17" font-weight="600" fill="#181818" text-anchor="start">4  Wrong, or correct but not worth a comment</text>
     <text x="560" y="338" font-size="16" font-weight="400" fill="#525252" text-anchor="start">The remaining Considers.</text>
     <text x="60" y="434" font-size="15" font-weight="400" fill="#616161" text-anchor="start">Read-only backtest against eight already-merged pull requests, about seven thousand lines of diff.</text>
@@ -646,10 +287,10 @@
     <title id="fig-rev-versions-t">Three versions of the review comment</title>
     <desc id="fig-rev-versions-d">Three review comments side by side. The first is a formal design review scoring five UX promises. The second is the same review with a name, the design goblin, and a playful voice. The third is the team&#x27;s AI code review bot after the merge, with no name or voice, where the finding still ends with the design rule it came from.</desc>
     <style>#fig-rev-versions text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; } #fig-rev-versions .mono { font-family: "SF Mono", SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace; }</style>
-    <rect width="1600" height="760" fill="#F7F7F5"/>
+    <rect width="1600" height="760" fill="#F4F4F0"/>
     <text x="40" y="44" font-size="15" font-weight="600" fill="#525252" text-anchor="start">Version 1</text>
     <text x="40" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">My reviewer</text>
-    <rect x="40" y="110" width="490" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="40" y="110" width="490" height="560" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <circle cx="80" cy="146" r="12" fill="#181818"/>
     <text x="102" y="152" font-size="15" font-weight="600" fill="#181818" text-anchor="start">Review bot</text>
     <text x="188" y="152" font-size="15" font-weight="400" fill="#616161" text-anchor="start">left a comment</text>
@@ -679,7 +320,7 @@
     <path d="M534,390 h17" stroke="#616161" stroke-width="2"/><path d="M549,384 l7,6 l-7,6" stroke="#616161" stroke-width="2" fill="none"/>
     <text x="555" y="44" font-size="15" font-weight="600" fill="#525252" text-anchor="start">Version 2</text>
     <text x="555" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">The design goblin</text>
-    <rect x="555" y="110" width="490" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="555" y="110" width="490" height="560" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <circle cx="595" cy="146" r="12" fill="#181818"/>
     <text x="617" y="152" font-size="15" font-weight="600" fill="#181818" text-anchor="start">Review bot</text>
     <text x="703" y="152" font-size="15" font-weight="400" fill="#616161" text-anchor="start">left a comment</text>
@@ -708,14 +349,14 @@
     <path d="M1049,390 h17" stroke="#616161" stroke-width="2"/><path d="M1064,384 l7,6 l-7,6" stroke="#616161" stroke-width="2" fill="none"/>
     <text x="1070" y="44" font-size="15" font-weight="600" fill="#525252" text-anchor="start">Version 3</text>
     <text x="1070" y="76" font-size="22" font-weight="600" fill="#181818" text-anchor="start">The team&#x27;s bot, after the merge</text>
-    <rect x="1070" y="110" width="490" height="560" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1070" y="110" width="490" height="560" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <circle cx="1110" cy="146" r="12" fill="#181818"/>
     <text x="1132" y="152" font-size="15" font-weight="600" fill="#181818" text-anchor="start">Review bot</text>
     <text x="1218" y="152" font-size="15" font-weight="400" fill="#616161" text-anchor="start">left a comment</text>
     <line x1="1070" y1="172" x2="1560" y2="172" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1098" y="214" font-size="21" font-weight="700" fill="#181818" text-anchor="start">Code review (AI)</text>
     <text x="1098" y="252" font-size="16" font-weight="600" fill="#181818" text-anchor="start">Findings  0 blocker · 1 consider · 0 nit</text>
-    <rect x="1098" y="292" width="434" height="70" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+    <rect x="1098" y="292" width="434" height="70" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
     <text x="1118" y="318" font-size="14" font-weight="400" fill="#525252" text-anchor="start" class="mono">…/features/new/Provider.tsx</text>
     <rect x="1099" y="332" width="432" height="30" fill="#EAEAE6"/>
     <text x="1142" y="352" font-size="14" font-weight="400" fill="#616161" text-anchor="end" class="mono">138</text>
@@ -753,9 +394,9 @@
   <title id="fig-rev-label-tag-t">A pull request label beside a rule tag</title>
   <desc id="fig-rev-label-tag-d">On the left, the reviewer adds a single design review pass label to the whole pull request. On the right, one finding ends with the name of the design rule that produced it.</desc>
   <style>#fig-rev-label-tag text { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; } #fig-rev-label-tag .mono { font-family: "SF Mono", SFMono-Regular, "JetBrains Mono", Menlo, Consolas, monospace; }</style>
-  <rect width="1200" height="360" fill="#F7F7F5"/>
+  <rect width="1200" height="360" fill="#F4F4F0"/>
   <text x="60" y="48" font-size="22" font-weight="600" fill="#181818" text-anchor="start">What a label records</text>
-  <rect x="60" y="76" width="520" height="150" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <rect x="60" y="76" width="520" height="150" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <circle cx="100" cy="150" r="12" fill="#181818"/>
   <text x="124" y="144" font-size="16" font-weight="400" fill="#525252" text-anchor="start">Review bot added</text>
   <rect x="124" y="158" width="170" height="28" rx="14" fill="#181818"/>
@@ -766,7 +407,7 @@
   <text x="60" y="272" font-size="17" font-weight="400" fill="#525252" text-anchor="start">One label for the whole pull request, set by what the</text>
   <text x="60" y="297" font-size="17" font-weight="400" fill="#525252" text-anchor="start">reviewer chose to say.</text>
   <text x="620" y="48" font-size="22" font-weight="600" fill="#181818" text-anchor="start">What a rule tag records</text>
-  <rect x="620" y="76" width="520" height="150" rx="4" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
+  <rect x="620" y="76" width="520" height="150" fill="#FFFFFF" stroke="#E0E0DE" stroke-width="1.6"/>
   <text x="656" y="124" font-size="16" font-weight="600" fill="#181818" text-anchor="start">consider · The radio group lost its accessible name</text>
   <text x="656" y="154" font-size="15" font-weight="400" fill="#525252" text-anchor="start">The replaced element carried the label, the new one drops it.</text>
   <rect x="656" y="176" width="3" height="32" fill="#181818"/>
