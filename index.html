@@ -16,273 +16,8 @@
   <title>Adam Males — Product Designer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,300;1,14..32,400&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:    #F7F7F5;
-      --ink:   #181818;
-      --ink-2: #525252;
-      --ink-3: #616161;
-      --f:     'Inter', system-ui, sans-serif;
-
-      /* spacing */
-      --micro: 4px;
-      --sml:   12px;
-      --base:  20px;
-      --med:   32px;
-      --xl:    64px;
-      --hero:  96px;
-
-      /* type */
-      --t-sm:   12px;
-      --t-body: 13px;
-      --t-base: 16px;
-      --t-md:   18px;
-      --t-name: clamp(48px, 8vw, 80px);
-
-      --pad: 300px;
-    }
-
-    @media (max-width: 1140px) { :root { --pad: 80px; } }
-    @media (max-width: 720px)  { :root { --pad: 40px; } }
-    @media (max-width: 480px)  { :root { --pad: 24px; } }
-
-    html, body {
-      background: var(--bg);
-      color: var(--ink);
-      font-family: var(--f);
-      max-width: 1440px;
-      width: 100%;
-      margin: 0 auto;
-      -webkit-font-smoothing: antialiased;
-      font-feature-settings: 'ss01' 1, 'cv05' 1;
-    }
-
-    /* ─── HERO ─────────────────────────────────────────────── */
-    .hero {
-      padding: var(--hero) var(--pad) var(--xl);
-      display: flex;
-      flex-direction: column;
-      gap: var(--med);
-    }
-
-    .hero-name {
-      font-size: var(--t-name);
-      font-weight: 700;
-      line-height: 0.92;
-      letter-spacing: -0.04em;
-      color: var(--ink);
-    }
-
-    .hero-intro {
-      display: flex;
-      flex-direction: column;
-      gap: var(--base);
-      max-width: 480px;
-    }
-
-    .hero-statement {
-      font-size: var(--t-base);
-      font-weight: 300;
-      line-height: 1.7;
-      color: var(--ink-2);
-    }
-
-    .hero-statement strong {
-      font-weight: 500;
-      color: var(--ink);
-    }
-
-    .hero-statement a {
-      color: var(--ink);
-      text-decoration: underline;
-      text-decoration-color: var(--ink-3);
-      text-underline-offset: 3px;
-    }
-
-    .hero-statement a:hover {
-      color: var(--bg);
-      background-color: var(--ink);
-      text-decoration: none;
-      border-radius: 3px;
-      padding: 2px 4px;
-      margin: -2px -4px;
-    }
-
-    @media (min-width: 1141px) {
-      .hero-intro { max-width: 700px; }
-    }
-
-    /* ─── SECTION LABEL ─────────────────────────────────────── */
-    .sec-label {
-      padding: var(--sml) var(--pad);
-    }
-
-    .sec-name {
-      font-size: var(--t-sm);
-      font-weight: 600;
-      color: var(--ink);
-    }
-
-    /* ─── WORK LIST ─────────────────────────────────────────── */
-    .work-list {
-      padding: var(--base) var(--pad) var(--xl);
-      display: flex;
-      flex-direction: column;
-      gap: var(--med);
-      list-style: none;
-    }
-
-    @media (min-width: 721px) {
-      .work-list {
-        padding-right: 300px;
-      }
-    }
-
-    .work-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: var(--med);
-    }
-
-
-    .work-title {
-      font-size: var(--t-md);
-      font-weight: 500;
-      color: var(--ink);
-      letter-spacing: -0.015em;
-      text-decoration: none;
-      transition: color 0.15s ease, background-color 0.15s ease;
-      border-radius: 3px;
-      padding: 2px 5px;
-      margin: -2px -5px;
-    }
-
-    a.work-title:hover {
-      color: var(--bg);
-      background-color: var(--ink);
-    }
-
-    a.work-title:active {
-      color: var(--bg);
-      background-color: var(--ink-2);
-    }
-
-    span.work-title::after {
-      content: ' (coming soon)';
-      font-size: var(--t-body);
-      color: var(--ink-3);
-      font-weight: 300;
-    }
-
-    /* Phones stack the meta under the title 4px away. A coming soon title
-       truncates so its label still fits on the same line. */
-    @media (max-width: 480px) {
-      .work-item { flex-direction: column; align-items: flex-start; gap: var(--micro); }
-      .work-main { width: 100%; }
-      span.work-title { display: flex; align-items: baseline; }
-      span.work-title::after { flex: none; padding-left: 0.3em; content: '(coming soon)'; }
-      .work-title-text { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    }
-
-    .work-item--soon .work-title,
-    .work-item--soon .work-company,
-    .work-item--soon .work-year {
-      color: var(--ink-3);
-      cursor: default;
-    }
-
-    .work-main {
-      display: flex;
-      flex-direction: column;
-      gap: var(--micro);
-    }
-
-    .work-meta {
-      display: flex;
-      align-items: center;
-      gap: var(--sml);
-      flex-shrink: 0;
-    }
-
-    .work-company {
-      font-size: var(--t-base);
-      font-weight: 300;
-      color: var(--ink);
-    }
-
-    .work-year {
-      font-size: var(--t-base);
-      font-weight: 300;
-      color: var(--ink-2);
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* ─── TESTIMONIALS ──────────────────────────────────────── */
-    .testimonials {
-      padding: var(--base) var(--pad) var(--xl);
-      display: flex;
-      flex-direction: column;
-      gap: var(--med);
-    }
-
-    .testimonial-quote {
-      font-size: var(--t-md);
-      font-weight: 500;
-      color: var(--ink);
-      letter-spacing: -0.015em;
-      margin-bottom: var(--micro);
-    }
-
-    .testimonial-attr {
-      font-size: var(--t-sm);
-      font-weight: 400;
-      color: var(--ink-2);
-    }
-
-    /* ─── WRITING ───────────────────────────────────────────── */
-    .writing-list {
-      padding: var(--base) var(--pad) var(--hero);
-      display: flex;
-      flex-direction: column;
-      gap: var(--med);
-      list-style: none;
-    }
-
-    .writing-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: var(--med);
-      text-decoration: none;
-    }
-
-    .writing-title {
-      font-size: var(--t-md);
-      font-weight: 500;
-      color: var(--ink);
-      letter-spacing: -0.015em;
-    }
-
-    .writing-year {
-      font-size: var(--t-base);
-      font-weight: 300;
-      color: var(--ink-2);
-      font-variant-numeric: tabular-nums;
-      flex-shrink: 0;
-    }
-    /* footer */
-    .site-footer { padding: 40px var(--pad) 96px; border-top: 1px solid #E0E0DE; }
-    .footer-name { font-size: 32px; font-weight: 600; line-height: 1; letter-spacing: -0.8px; color: #181818; }
-    .footer-links { display: flex; gap: 32px; padding-top: 12px; list-style: none; }
-    .footer-links a { font-size: 13px; line-height: 1.5; color: #181818; text-decoration: underline; text-decoration-color: #616161; text-underline-offset: 3px; border-radius: 3px; padding: 2px 4px; margin: -2px -4px; }
-    .footer-links a:hover { color: #F7F7F5; background-color: #181818; text-decoration: none; }
-    @media (max-width: 480px) { .footer-links { flex-direction: column; gap: 4px; } }
-    /* /footer */
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/site.css" />
 </head>
 <body>
 
@@ -297,51 +32,51 @@
   </section>
 
   <!-- WORK -->
-  <div class="sec-label"><span class="sec-name">Selected work</span></div>
+  <div class="list-head"><h2 class="sec-name">Selected work.</h2></div>
 
   <ul class="work-list">
-    <li class="work-item">
-      <div class="work-main"><a class="work-title" href="reviewer-casestudy.html">AI UX review agent</a></div>
-      <div class="work-meta"><span class="work-company">Algolia</span><span class="work-year">2026</span></div>
-    </li>
-    <li class="work-item">
-      <div class="work-main"><a class="work-title" href="diagnostics-casestudy.html">Search diagnostics and debugger tool</a></div>
-      <div class="work-meta"><span class="work-company">Algolia</span><span class="work-year">2026</span></div>
-    </li>
-    <li class="work-item">
-      <div class="work-main"><a class="work-title" href="askai-casestudy.html">AI documentation search</a></div>
-      <div class="work-meta"><span class="work-company">Algolia</span><span class="work-year">2025</span></div>
-    </li>
-    <li class="work-item">
-      <div class="work-main"><a class="work-title" href="leadership-casestudy.html">Leading and growing designers</a></div>
-      <div class="work-meta"><span class="work-company">Matillion</span><span class="work-year">2025</span></div>
-    </li>
-    <li class="work-item">
-      <div class="work-main"><a class="work-title" href="zencargo-journey.html">Centralised cargo model for supply chain</a></div>
-      <div class="work-meta"><span class="work-company">Zencargo</span><span class="work-year">2019</span></div>
-    </li>
+    <li><a class="work-row" href="reviewer-casestudy.html">
+      <span class="work-main"><span class="work-title">AI UX review agent</span><span class="work-company">Algolia</span></span>
+      <span class="work-year">2026</span>
+    </a></li>
+    <li><a class="work-row" href="diagnostics-casestudy.html">
+      <span class="work-main"><span class="work-title">Search diagnostics and debugger tool</span><span class="work-company">Algolia</span></span>
+      <span class="work-year">2026</span>
+    </a></li>
+    <li><a class="work-row" href="askai-casestudy.html">
+      <span class="work-main"><span class="work-title">AI documentation search</span><span class="work-company">Algolia</span></span>
+      <span class="work-year">2025</span>
+    </a></li>
+    <li><a class="work-row" href="leadership-casestudy.html">
+      <span class="work-main"><span class="work-title">Leading and growing designers</span><span class="work-company">Matillion</span></span>
+      <span class="work-year">2025</span>
+    </a></li>
+    <li><a class="work-row" href="zencargo-journey.html">
+      <span class="work-main"><span class="work-title">Centralised cargo model for supply chain</span><span class="work-company">Zencargo</span></span>
+      <span class="work-year">2019</span>
+    </a></li>
   </ul>
 
   <!-- BUILDS -->
-  <div class="sec-label"><span class="sec-name">Selected builds</span></div>
+  <div class="list-head"><h2 class="sec-name">Selected builds.</h2></div>
 
   <ul class="work-list">
-    <li class="work-item work-item--soon">
-      <div class="work-main"><span class="work-title"><span class="work-title-text">A daily curated list, shared with friends</span></span></div>
-      <div class="work-meta"><span class="work-year">2026</span></div>
-    </li>
-    <li class="work-item work-item--soon">
-      <div class="work-main"><span class="work-title"><span class="work-title-text">Split household chores fairly</span></span></div>
-      <div class="work-meta"><span class="work-year">2026</span></div>
-    </li>
-    <li class="work-item work-item--soon">
-      <div class="work-main"><span class="work-title"><span class="work-title-text">Dog friendly walks with sights and beers</span></span></div>
-      <div class="work-meta"><span class="work-year">2026</span></div>
-    </li>
-    <li class="work-item work-item--soon">
-      <div class="work-main"><span class="work-title"><span class="work-title-text">A Yorkshire takeaway decider</span></span></div>
-      <div class="work-meta"><span class="work-year">2026</span></div>
-    </li>
+    <li><a class="work-row" href="dailytop-build.html">
+      <span class="work-main"><span class="work-title">A daily curated list, shared with friends</span><span class="work-company">Daily Top</span></span>
+      <span class="work-year">2026</span>
+    </a></li>
+    <li><div class="work-row work-row--soon">
+      <span class="work-main"><span class="work-title">Split household chores fairly</span><span class="work-company">HomeBase</span></span>
+      <span class="work-year">2026</span>
+    </div></li>
+    <li><a class="work-row" href="bridges-build.html">
+      <span class="work-main"><span class="work-title">Dog friendly walks with sights and beers</span><span class="work-company">Bridges, Barks and Breweries</span></span>
+      <span class="work-year">2026</span>
+    </a></li>
+    <li><a class="work-row" href="tea-build.html">
+      <span class="work-main"><span class="work-title">A Yorkshire takeaway decider</span><span class="work-company">What’s for thi tea</span></span>
+      <span class="work-year">2026</span>
+    </a></li>
   </ul>
 
 <!-- footer -->
