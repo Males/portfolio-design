@@ -82,10 +82,10 @@ h2 + .group { margin-top: 0; }
 
 /* index list: heavy rule above, hairlines between, row inverts on hover */
 .work-list { list-style: none; padding-top: 0; padding-bottom: 0; }
-.work-list > li { border-bottom: 1px solid var(--hair); }
+.work-list > li { border-bottom: 1px solid var(--hair); margin: 0 -12px; }
 .work-list > li:first-child { border-top: 2px solid var(--line); }
-.work-row { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 20px 0; text-decoration: none; }
-a.work-row:hover { background: var(--ink); color: var(--bg); padding-left: 12px; padding-right: 12px; margin: 0 -12px; }
+.work-row { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 20px 12px; text-decoration: none; }
+a.work-row:hover { background: var(--ink); color: var(--bg); }
 .work-main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .work-title { font-size: 22px; line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; }
 .work-company { font-size: 16px; line-height: 1.5; color: var(--ink-2); }
